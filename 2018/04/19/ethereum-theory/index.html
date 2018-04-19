@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>ethereum-theory | 致良知</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+    <meta name="author" content="Lucus Gu">
+  
+  
+    <meta name="description" content="区块链核心理论
+账本-信任+密码学=加密货币（视频地址）
+区块链入门教程
+比特币入门教程
+
+账本（Ledger）
+账本记录如：
+A pays B ￥40
+C pays A ￥60
+……
+
+
+记录可伪造，所以需要加签名
+非对称加密：公钥（pk）和私钥（sk）
+用户帐号：Acc(pk)=Account
+签名：Sign(Message,sk)=Signature，将签名放到账本记录上
+签名验证：Veri">
+  
+  <meta name="description" content="区块链核心理论 账本-信任+密码学=加密货币（视频地址） 区块链入门教程 比特币入门教程  账本（Ledger） 账本记录如： A pays B ￥40 C pays A ￥60 ……   记录可伪造，所以需要加签名 非对称加密：公钥（pk）和私钥（sk） 用户帐号：Acc(pk)=Account 签名：Sign(Message,sk)=Signature，将签名放到账本记录上 签名验证：Veri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ethereum-theory">
+<meta property="og:url" content="https://mybestcool.github.io/2018/04/19/ethereum-theory/index.html">
+<meta property="og:site_name" content="致良知">
+<meta property="og:description" content="区块链核心理论 账本-信任+密码学=加密货币（视频地址） 区块链入门教程 比特币入门教程  账本（Ledger） 账本记录如： A pays B ￥40 C pays A ￥60 ……   记录可伪造，所以需要加签名 非对称加密：公钥（pk）和私钥（sk） 用户帐号：Acc(pk)=Account 签名：Sign(Message,sk)=Signature，将签名放到账本记录上 签名验证：Veri">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://lilymoana.github.io/asset/eth_price.png">
+<meta property="og:image" content="https://lilymoana.github.io/asset/eth_transationset.png">
+<meta property="og:image" content="https://lilymoana.github.io/asset/eth_blockheaders.png">
+<meta property="og:updated_time" content="2018-04-19T14:12:48.374Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ethereum-theory">
+<meta name="twitter:description" content="区块链核心理论 账本-信任+密码学=加密货币（视频地址） 区块链入门教程 比特币入门教程  账本（Ledger） 账本记录如： A pays B ￥40 C pays A ￥60 ……   记录可伪造，所以需要加签名 非对称加密：公钥（pk）和私钥（sk） 用户帐号：Acc(pk)=Account 签名：Sign(Message,sk)=Signature，将签名放到账本记录上 签名验证：Veri">
+<meta name="twitter:image" content="https://lilymoana.github.io/asset/eth_price.png">
+  
+    <link rel="alternate" href="/atom.xml" title="致良知" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+<body>
+  <div class="wrapper">
+    <header id="header">
+  <div class="title">
+    <h1><a href="/">致良知</a></h1>
+    <p><a href="/">知行合一</a></p>
+  </div>
+  <nav class="nav">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+        <li><a href="/atom.xml">RSS</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <a href="/2018/04/19/ethereum-theory/">
+  <time datetime="2018-04-19T14:12:27.000Z">
+    2018-04-19
+  </time>
+</a>
+    
+    
+  
+    <h1 class="title">ethereum-theory</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <h2 id="区块链核心理论"><a href="#区块链核心理论" class="headerlink" title="区块链核心理论"></a>区块链核心理论</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=bBC-nXj3Ng4" target="_blank" rel="noopener">账本-信任+密码学=加密货币（视频地址）</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2017/12/blockchain-tutorial.html" target="_blank" rel="noopener">区块链入门教程</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2018/01/bitcoin-tutorial.html" target="_blank" rel="noopener">比特币入门教程</a></li>
+</ul>
+<h3 id="账本（Ledger）"><a href="#账本（Ledger）" class="headerlink" title="账本（Ledger）"></a>账本（Ledger）</h3><ol>
+<li>账本记录如：<ul>
+<li>A pays B ￥40</li>
+<li>C pays A ￥60</li>
+<li>……</li>
+</ul>
+</li>
+<li>记录可伪造，所以需要加签名<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html" target="_blank" rel="noopener">非对称加密</a>：公钥（pk）和私钥（sk）</li>
+<li>用户帐号：Acc(pk)=Account</li>
+<li>签名：Sign(Message,sk)=Signature，将签名放到账本记录上</li>
+<li>签名验证：Verify(Message,Signature,pk) = T/F，公钥解密签名，得到的Message HASH值并与账本记录Message做HASH比较。</li>
+<li>签名使用AES-256</li>
+</ul>
+</li>
+<li>记录可复制<ul>
+<li>给每条记录添加一个唯一编号</li>
+</ul>
+</li>
+<li>不足扣则不记录</li>
+<li>最终账本记录如下：<ul>
+<li><ol>
+<li>A pays B ￥40 (A’s Signature)</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>C pays A ￥60 (C’s Signature)</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="去中心化"><a href="#去中心化" class="headerlink" title="去中心化"></a>去中心化</h3><ol>
+<li>P2P 网络</li>
+<li>工作量证明机制（PoW,Proof of Work）<ol>
+<li>算法：SHA256(Message,RandomValue)=HashValue,改变Message的一小部份，则HashValue完全不一样，它具有散列性和不可预测性，且无法逆向。HashValue长度256位。</li>
+<li>工作量：当RandomValue不同时，HashValue完全不一样，而区块链协议要求算出的区块的HashValue前30位为0（即尝试10E次），且随着时间，这个值会变大，则更加难易计算。 </li>
+<li>P2P网络中的所有节点信任这个算法，这算法即共识算法。那么这个按此算法产生的区块整个网络都认可。</li>
+<li>区块创建者会得到一笔奖励，起初是50，后续逐渐减半减少，减少到0为止。以BTC举例<ul>
+<li>09.01 - 12.11     50BTC</li>
+<li>12.11 - 16.07     25BTC</li>
+<li>16.07 - 20.02     12.5BTC</li>
+<li>20.02 - 23.09     6.25BTC      </li>
+</ul>
+</li>
+<li>区块产生时间：<ul>
+<li>BTC：10min</li>
+<li>ETH：15sec</li>
+<li>XRP：3.5sec</li>
+<li>LTC：2.5min</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>账本一旦写入不能被修改。<ol>
+<li>所有区块使用默克尔树连接在一起，新的区块在后面，则导致整个区块不能修改。</li>
+</ol>
+</li>
+<li>当有两个或者多个节点创建出区块时，都添加到上一区块上，导致区块分叉。分叉后以区块链长的分支为准，同时取消掉其他分支。</li>
+<li>伪造账单，会导致区块链分叉。但如果算力小于整个网络的50%，那么最终会被正确的区块链取消。</li>
+</ol>
+<h2 id="以太坊核心概念"><a href="#以太坊核心概念" class="headerlink" title="以太坊核心概念"></a>以太坊核心概念</h2><ul>
+<li><a href="http://me.tryblockchain.org/getting-up-to-speed-on-ethereum.html" target="_blank" rel="noopener">以太坊开发入门</a></li>
+<li><a href="https://www.youtube.com/watch?v=66SaEDzlmP4" target="_blank" rel="noopener">V神演讲-25分钟理解以太坊</a></li>
+<li><a href="https://ethfans.org/posts/Ethereum-in-25-minites-vision-2017-1" target="_blank" rel="noopener">对应中文翻译-上</a></li>
+<li><a href="https://ethfans.org/posts/25-minutes-in-Ethereum-vision-2017-2" target="_blank" rel="noopener">对应中文翻译-下</a></li>
+<li>以太坊HASH算法：<a href="https://ethereum.stackexchange.com/questions/550/which-cryptographic-hash-function-does-ethereum-use" target="_blank" rel="noopener">KECCAK-256</a></li>
+<li>分叉协议：GHOST协议(GHOST protocol)=(Greedy Heaviest Observed Subtree)<h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h3></li>
+</ul>
+<ol>
+<li>一个合约是一个帐号，它成为消息的目标，那么合约就会被调用。调用者可以是外部帐号，也可以是其他合约帐号。</li>
+<li>合约代码运行在EVM上，并分布到整个网络每个节点</li>
+<li>合约代码一旦发布，不可变，且永久存在</li>
+<li>合约代码过程中状态的存储，是不可变的</li>
+<li>智能合约开发语言：<ol>
+<li><a href="https://solidity.readthedocs.io/en/latest/" target="_blank" rel="noopener">Solidity</a>,类JS语言，其开发的合约可以用<a href="https://ethereum.github.io/browser-solidity/" target="_blank" rel="noopener">Remix IDE</a>快速验证。官方推荐。</li>
+<li>LLL，类Lisp语言，与<a href="https://github.com/ethereum/solidity" target="_blank" rel="noopener">Solidity</a>同一仓库</li>
+<li><a href="https://github.com/ethereum/serpent/tree/develop" target="_blank" rel="noopener">Serpent</a>，类Python语言</li>
+</ol>
+</li>
+<li><a href="https://github.com/ConsenSys/smart-contract-best-practices" target="_blank" rel="noopener">智能合约最佳实践</a><h3 id="DApp"><a href="#DApp" class="headerlink" title="DApp"></a>DApp</h3></li>
+<li>定义：相当于C/S或B/S结构中的S端，一部分放在以太坊上，由运行于以太坊网络上一个或多个智能合约的组成；另一部分可以是我们现在意义上的服务端。</li>
+<li>DApp并不把所有的状态都存储在区块链上，也不把所有的计算都放在区块链上，不然话费的Gas量太大。只把大家需要信任的东西放到区块链上。<h3 id="DApp客户端"><a href="#DApp客户端" class="headerlink" title="DApp客户端"></a>DApp客户端</h3></li>
+<li>定义：相当于C/S或B/S结构中的C端或者B端。区别在于它们可能与区块链交互，也有可能与我们自己服务端交互。目前大多数的客户端用JS编写，因为可以运行在浏览器中。当然也可以用其他语言来编写。nodejs中有meteor工具来辅助开发。<h3 id="DApp浏览器"><a href="#DApp浏览器" class="headerlink" title="DApp浏览器"></a>DApp浏览器</h3></li>
+<li>用来让DApp客户端（常常使用JS与以太坊的智能合约进行交互）的使用更加容易。</li>
+<li>主要目的：<ol>
+<li>提供到一个以太坊节点的连接（或者连接到一个本地节点或者远程节点），和一个方便的切换不同节点（甚至是不同的网络）。</li>
+<li>提供一个帐户（或者一个钱包）来方便用户与DApp交互。</li>
+</ol>
+</li>
+<li>目前有哪些浏览器<ol>
+<li><a href="https://github.com/ethereum/mist" target="_blank" rel="noopener">Mist</a>是以太坊官方的DApp浏览器。一个漂亮的界面来与以太坊节点交互，与智能合约发、收交易。</li>
+<li><a href="https://status.im/" target="_blank" rel="noopener">Status</a>是一个手机上可以使用的DApp浏览器.</li>
+<li><a href="https://metamask.io/" target="_blank" rel="noopener">MetaMask</a>是一个Google浏览器扩展，把Chrome变成了一个DApp浏览器。它的核心特性是注入以太坊提供的js客户端库web3，到每一个界面，来让DApp连接到MetaMask提供的以太坊节点服务。不过这个Chrome扩展，可以允许你管理你的钱包，以及连接到不同的以太坊网络（译者注：包括本地的开发网络）。</li>
+<li><a href="https://parity.io/parity.html" target="_blank" rel="noopener">Parity</a>是一个以太坊客户端（也是一个全节点的实现），集成到了Web浏览器，并使之成为一个DApp浏览器<h3 id="GAS"><a href="#GAS" class="headerlink" title="GAS"></a>GAS</h3></li>
+</ol>
+</li>
+<li>定义：以太坊上每一次计算和存储所需要的费用，这个费用用gas来支付。它是用来衡量在一个具体计算中要求的费用单位。gas price就是你愿意在每个gas上花费Ether的数量，以“gwei”进行衡量。“Wei”是Ether的最小单位，1Ether=10^18Wei，1gwei=1,000,000,000 Wei。gas limit代表用户愿意花费在gas上费用的最大值。<br><img src="https://lilymoana.github.io/asset/eth_price.png" alt="image"></li>
+<li>作用：<ol>
+<li>防止死循环（因为以太坊的智能合约是图灵完备的）</li>
+<li>防止以太坊超负荷</li>
+<li>Gas限制是比特币上区块大小限制的对应物.目前的Gas上限是6.7百万gwei<h3 id="账户（对应以太坊白皮书）"><a href="#账户（对应以太坊白皮书）" class="headerlink" title="账户（对应以太坊白皮书）"></a>账户（对应以太坊白皮书）</h3></li>
+</ol>
+</li>
+<li>账户分类：<ol>
+<li>外部账户：被用户（私钥）控制的账户</li>
+<li>合约账户：是由运行在区块链自身上的代码（合约）来控制的，即被整个区块链控制。</li>
+</ol>
+</li>
+<li>账户状态：<ul>
+<li>State consists of key value mapping addressed to account objects</li>
+<li>Every account objest contains 4 pieces of data:<ul>
+<li>Nonce:如果账户是一个外部拥有账户，nonce代表从此账户地址发送的交易序号。如果账户是一个合约账户，nonce代表此账户创建的合约序号</li>
+<li>Balance:此地址拥有Wei的数量。1Ether=10^18Wei</li>
+<li>Code hash(code = empty string for private key-controlled accounts ):此账户EVM代码的hash值。对于合约账户，就是被Hash的代码并作为codeHash保存。对于外部拥有账户，codeHash域是一个空字符串的Hash值</li>
+<li>Storage trie root:Merkle Patricia树的根节点Hash值。Merkle树会将此账户存储内容的Hash值进行编码，默认是空值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>账户之间的关系</li>
+</ol>
+<ul>
+<li>消息由外部帐号发起，合约账户不能成为消息的发起者<br><img src="https://lilymoana.github.io/asset/eth_transationset.png" alt="image"></li>
+</ul>
+<h3 id="Coin和Token"><a href="#Coin和Token" class="headerlink" title="Coin和Token"></a>Coin和Token</h3><ol>
+<li>Coin，是区块链的原生货币，有自己的区块链，如BTC、LTC</li>
+<li>Token，特定的资产或者某种效力，通常以现有的一个区块链为基础。大多数的以太坊的ERC20/ERC23代币都是协议代币</li>
+<li>两者都是Cryptocurrencies</li>
+</ol>
+<h3 id="网络，节点，区块"><a href="#网络，节点，区块" class="headerlink" title="网络，节点，区块"></a>网络，节点，区块</h3><ol>
+<li>网络<ol>
+<li>Mainnet-以太坊主网，通常是所有客户端的默认网络。</li>
+<li>Ropsten - 以太坊使用工作量证明的主测试网络。这个网络，因为低的计算量，容易遭到DDOS攻击，分片，或者其它问题。垃圾邮件攻击后被暂时放弃，最近才恢复使用。</li>
+<li>Kovan-parity客户端组成的测试网络，使用授权证明来提升对垃圾邮件攻击的抗扰度，并且持续4秒的阻塞时间。</li>
+<li>Rinkeby-geth客户端组成的测试网络，使用集团共识，尽管计算量低，但是对恶意行为者更有弹性。</li>
+</ol>
+</li>
+<li>节点<ol>
+<li>定义：为区块链网络中的一台电脑（简单理解的话，再详细点是指那个区块链进程）存放了整个区块链的数据。节点分成全节点（有完整的数据）和轻节点。可以通过geth来运行一个全节点（官方的节点，go语言），或者parity来运行一个轻节点。</li>
+</ol>
+</li>
+<li>区块<ol>
+<li>区块包含：<ol>
+<li>区块头<ul>
+<li>parentHash：父区块头的Hash值（这也是使得区块变成区块链的原因）</li>
+<li>ommerHash：当前区块ommers列表的Hash值</li>
+<li>beneficiary：接收挖此区块费用的账户地址</li>
+<li>stateRoot：状态树根节点的Hash值</li>
+<li>transactionsRoot：包含此区块所有交易的Merkle树的根节点Hash值</li>
+<li>receiptsRoot：包含此区块所有交易收据的Merkle树的根节点Hash值</li>
+<li>logsBloom：由日志信息组成的一个Bloom过滤器 (一种数据结构)</li>
+<li>difficulty： 此区块的难度级别</li>
+<li>number：当前区块的计数（创世纪块的区块序号为0，对于每个后续区块，区块序号都增加1）</li>
+<li>gasLimit：每个区块的当前gas limit</li>
+<li>gasUsed： 此区块中交易所用的总gas量</li>
+<li>timestamp：此区块成立时的unix的时间戳</li>
+<li>extraData：与此区块相关的附加数据</li>
+<li>mixHash：一个Hash值，当与nonce组合时，证明此区块已经执行了足够的计算</li>
+<li>nonce：一个Hash值，当与mixHash组合时，证明此区块已经执行了足够的计算<br><img src="https://lilymoana.github.io/asset/eth_blockheaders.png" alt="image"></li>
+</ul>
+</li>
+<li>关于包含在此区块中的交易集信息</li>
+<li>与当前区块的ommers相关的一些列其他区块头<h3 id="开发工具和开发库"><a href="#开发工具和开发库" class="headerlink" title="开发工具和开发库"></a>开发工具和开发库</h3></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>发布框架<ol>
+<li><a href="http://truffleframework.com/docs/getting_started" target="_blank" rel="noopener">Truffle框架</a> &amp; <a href="https://blog.zeppelin.solutions/the-hitchhikers-guide-to-smart-contracts-in-ethereum-848f08001f05" target="_blank" rel="noopener">Truffle教程</a></li>
+<li><a href="https://github.com/iurimatias/embark-framework" target="_blank" rel="noopener">Embark框架</a></li>
+</ol>
+</li>
+<li>去中心化的智能合约包管理资源库<ol>
+<li><a href="https://www.ethpm.com/registry" target="_blank" rel="noopener">ETHP</a> &amp; <a href="https://github.com/ethereum/EIPs/issues/190" target="_blank" rel="noopener">使用教程</a></li>
+</ol>
+</li>
+<li>反编译智能合约/Disassembly<ol>
+<li>可以通过<a href="https://github.com/comaeio/porosity" target="_blank" rel="noopener">prosity</a>来反编译以太坊智能合约的字节码，可以使用<a href="https://github.com/Arachnid/evmdis" target="_blank" rel="noopener">evmdis</a>来Disassembly。</li>
+</ol>
+</li>
+<li><a href="https://github.com/ethereum/go-ethereum/wiki/Whisper-Overview" target="_blank" rel="noopener">Whisper</a>是一个集成进以太坊的消息系统。它允许DApp发布小量的信息来进行非实时的消息通信。使用ssh协议。<a href="https://github.com/ethereum/meteor-dapp-whisper-chat-client" target="_blank" rel="noopener">一个使用Whisper协议实现一个聊天客户端的例子</a></li>
+<li><a href="https://openzeppelin.org/" target="_blank" rel="noopener">Open Zeppelin</a>是一系列经过审查的，最佳的智能合约实践，你可以继承并应用于你自己的DApp中。<a href="https://github.com/OpenZeppelin/zeppelin-solidity" target="_blank" rel="noopener">github学习资源</a><h3 id="应用项目"><a href="#应用项目" class="headerlink" title="应用项目"></a>应用项目</h3></li>
+<li><a href="https://github.com/slockit/DAO/" target="_blank" rel="noopener">去中心自动化组织</a></li>
+<li><a href="https://aragon.one/" target="_blank" rel="noopener">Aragon</a>设计一个根据智能合约逻辑运作的公司，重点是创建一个可以接受投资，处理会计，支付雇员，分配股权，正如我们现在知道的完成每天的公司的业务。他们也实现了漂亮的DApp客户端来让他们的协议使用起来更为简单。</li>
+<li><a href="https://ipfs.io/" target="_blank" rel="noopener">IPFS</a>（星际文件系统）是一个协议，用来分发文件。</li>
+<li><a href="https://filecoin.io/" target="_blank" rel="noopener">FileCoin</a>是Protocol Lab为创建一个去中心化的基于IPFS的存储市场的努力结果，也就是向整个网络提供存储资源的激励层</li>
+<li><a href="https://swap.tech/" target="_blank" rel="noopener">Swarm</a>是一个去中心化的存储网络，集成于以太坊生态系统</li>
+<li><a href="https://augur.net/" target="_blank" rel="noopener">Augur</a>是一个去中心化的预测市场，让大家对于某个现实世界的事件进行对赌</li>
+<li><a href="https://gnosis.pm/" target="_blank" rel="noopener">Gnosis</a>与Augur有类似的理念，也是一个去中心化的预测市场</li>
+<li><a href="https://golem.network/" target="_blank" rel="noopener">Golem</a>是一个分布式的算力市场</li>
+<li>0xProject创建了一个交换代币的协议，以及一个DApp来实现这个协议。<br>10.<a href="https://district0x.io/" target="_blank" rel="noopener">district0x</a>是一个更高层级的去中心化的市场和社区。 </li>
+<li><a href="https://www.uport.me/" target="_blank" rel="noopener">uPort</a>在解决去中心化的身份识别问题。<h3 id="一些公司"><a href="#一些公司" class="headerlink" title="一些公司"></a>一些公司</h3></li>
+<li>ConsenSys（有点像共识Consensus，但作为一个公司名称;它很聪明，巧妙的把u改成了s，但我一般念为“con-SEn-SIS”，避免读错）是一个“风险投资和产品工作室”。他们是一个（其实非常大）伞形组织，它赞助了一大堆项目和核心组件的开发。值得一提的是，它们资助了Truffle，Infura，MetaMask，Gnosis和uPort。</li>
+<li>Zeppelin Solutions在上面我们有提到过，他也审查智能合约代码，提供咨询服务。他们的<a href="https://blog.zeppelin.solutions/" target="_blank" rel="noopener">博客</a>质量相当高。</li>
+<li>Protocol Labs是一群让人印象深刻的人，致力于IPFS，FileCoin，lip2p以及IPLD等其它项目的开发。</li>
+</ol>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+</div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2018 <a href="/">Lucus Gu</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>
