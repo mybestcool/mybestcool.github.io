@@ -38,7 +38,7 @@ C pays A ￥60
 <meta property="og:image" content="https://lilymoana.github.io/asset/eth_price.png">
 <meta property="og:image" content="https://lilymoana.github.io/asset/eth_transationset.png">
 <meta property="og:image" content="https://lilymoana.github.io/asset/eth_blockheaders.png">
-<meta property="og:updated_time" content="2018-04-19T14:12:48.374Z">
+<meta property="og:updated_time" content="2018-04-19T14:18:30.423Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ethereum-theory">
 <meta name="twitter:description" content="区块链核心理论 账本-信任+密码学=加密货币（视频地址） 区块链入门教程 比特币入门教程  账本（Ledger） 账本记录如： A pays B ￥40 C pays A ￥60 ……   记录可伪造，所以需要加签名 非对称加密：公钥（pk）和私钥（sk） 用户帐号：Acc(pk)=Account 签名：Sign(Message,sk)=Signature，将签名放到账本记录上 签名验证：Veri">
@@ -167,9 +167,9 @@ C pays A ￥60
 <li><a href="https://ethfans.org/posts/Ethereum-in-25-minites-vision-2017-1" target="_blank" rel="noopener">对应中文翻译-上</a></li>
 <li><a href="https://ethfans.org/posts/25-minutes-in-Ethereum-vision-2017-2" target="_blank" rel="noopener">对应中文翻译-下</a></li>
 <li>以太坊HASH算法：<a href="https://ethereum.stackexchange.com/questions/550/which-cryptographic-hash-function-does-ethereum-use" target="_blank" rel="noopener">KECCAK-256</a></li>
-<li>分叉协议：GHOST协议(GHOST protocol)=(Greedy Heaviest Observed Subtree)<h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h3></li>
+<li>分叉协议：GHOST协议(GHOST protocol)=(Greedy Heaviest Observed Subtree)</li>
 </ul>
-<ol>
+<h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h3><ol>
 <li>一个合约是一个帐号，它成为消息的目标，那么合约就会被调用。调用者可以是外部帐号，也可以是其他合约帐号。</li>
 <li>合约代码运行在EVM上，并分布到整个网络每个节点</li>
 <li>合约代码一旦发布，不可变，且永久存在</li>
@@ -180,10 +180,16 @@ C pays A ￥60
 <li><a href="https://github.com/ethereum/serpent/tree/develop" target="_blank" rel="noopener">Serpent</a>，类Python语言</li>
 </ol>
 </li>
-<li><a href="https://github.com/ConsenSys/smart-contract-best-practices" target="_blank" rel="noopener">智能合约最佳实践</a><h3 id="DApp"><a href="#DApp" class="headerlink" title="DApp"></a>DApp</h3></li>
+<li><a href="https://github.com/ConsenSys/smart-contract-best-practices" target="_blank" rel="noopener">智能合约最佳实践</a></li>
+</ol>
+<h3 id="DApp"><a href="#DApp" class="headerlink" title="DApp"></a>DApp</h3><ol>
 <li>定义：相当于C/S或B/S结构中的S端，一部分放在以太坊上，由运行于以太坊网络上一个或多个智能合约的组成；另一部分可以是我们现在意义上的服务端。</li>
-<li>DApp并不把所有的状态都存储在区块链上，也不把所有的计算都放在区块链上，不然话费的Gas量太大。只把大家需要信任的东西放到区块链上。<h3 id="DApp客户端"><a href="#DApp客户端" class="headerlink" title="DApp客户端"></a>DApp客户端</h3></li>
-<li>定义：相当于C/S或B/S结构中的C端或者B端。区别在于它们可能与区块链交互，也有可能与我们自己服务端交互。目前大多数的客户端用JS编写，因为可以运行在浏览器中。当然也可以用其他语言来编写。nodejs中有meteor工具来辅助开发。<h3 id="DApp浏览器"><a href="#DApp浏览器" class="headerlink" title="DApp浏览器"></a>DApp浏览器</h3></li>
+<li>DApp并不把所有的状态都存储在区块链上，也不把所有的计算都放在区块链上，不然话费的Gas量太大。只把大家需要信任的东西放到区块链上。</li>
+</ol>
+<h3 id="DApp客户端"><a href="#DApp客户端" class="headerlink" title="DApp客户端"></a>DApp客户端</h3><ol>
+<li>定义：相当于C/S或B/S结构中的C端或者B端。区别在于它们可能与区块链交互，也有可能与我们自己服务端交互。目前大多数的客户端用JS编写，因为可以运行在浏览器中。当然也可以用其他语言来编写。nodejs中有meteor工具来辅助开发。</li>
+</ol>
+<h3 id="DApp浏览器"><a href="#DApp浏览器" class="headerlink" title="DApp浏览器"></a>DApp浏览器</h3><ol>
 <li>用来让DApp客户端（常常使用JS与以太坊的智能合约进行交互）的使用更加容易。</li>
 <li>主要目的：<ol>
 <li>提供到一个以太坊节点的连接（或者连接到一个本地节点或者远程节点），和一个方便的切换不同节点（甚至是不同的网络）。</li>
@@ -194,16 +200,20 @@ C pays A ￥60
 <li><a href="https://github.com/ethereum/mist" target="_blank" rel="noopener">Mist</a>是以太坊官方的DApp浏览器。一个漂亮的界面来与以太坊节点交互，与智能合约发、收交易。</li>
 <li><a href="https://status.im/" target="_blank" rel="noopener">Status</a>是一个手机上可以使用的DApp浏览器.</li>
 <li><a href="https://metamask.io/" target="_blank" rel="noopener">MetaMask</a>是一个Google浏览器扩展，把Chrome变成了一个DApp浏览器。它的核心特性是注入以太坊提供的js客户端库web3，到每一个界面，来让DApp连接到MetaMask提供的以太坊节点服务。不过这个Chrome扩展，可以允许你管理你的钱包，以及连接到不同的以太坊网络（译者注：包括本地的开发网络）。</li>
-<li><a href="https://parity.io/parity.html" target="_blank" rel="noopener">Parity</a>是一个以太坊客户端（也是一个全节点的实现），集成到了Web浏览器，并使之成为一个DApp浏览器<h3 id="GAS"><a href="#GAS" class="headerlink" title="GAS"></a>GAS</h3></li>
+<li><a href="https://parity.io/parity.html" target="_blank" rel="noopener">Parity</a>是一个以太坊客户端（也是一个全节点的实现），集成到了Web浏览器，并使之成为一个DApp浏览器</li>
 </ol>
 </li>
+</ol>
+<h3 id="GAS"><a href="#GAS" class="headerlink" title="GAS"></a>GAS</h3><ol>
 <li>定义：以太坊上每一次计算和存储所需要的费用，这个费用用gas来支付。它是用来衡量在一个具体计算中要求的费用单位。gas price就是你愿意在每个gas上花费Ether的数量，以“gwei”进行衡量。“Wei”是Ether的最小单位，1Ether=10^18Wei，1gwei=1,000,000,000 Wei。gas limit代表用户愿意花费在gas上费用的最大值。<br><img src="https://lilymoana.github.io/asset/eth_price.png" alt="image"></li>
 <li>作用：<ol>
 <li>防止死循环（因为以太坊的智能合约是图灵完备的）</li>
 <li>防止以太坊超负荷</li>
-<li>Gas限制是比特币上区块大小限制的对应物.目前的Gas上限是6.7百万gwei<h3 id="账户（对应以太坊白皮书）"><a href="#账户（对应以太坊白皮书）" class="headerlink" title="账户（对应以太坊白皮书）"></a>账户（对应以太坊白皮书）</h3></li>
+<li>Gas限制是比特币上区块大小限制的对应物.目前的Gas上限是6.7百万gwei</li>
 </ol>
 </li>
+</ol>
+<h3 id="账户（对应以太坊白皮书）"><a href="#账户（对应以太坊白皮书）" class="headerlink" title="账户（对应以太坊白皮书）"></a>账户（对应以太坊白皮书）</h3><ol>
 <li>账户分类：<ol>
 <li>外部账户：被用户（私钥）控制的账户</li>
 <li>合约账户：是由运行在区块链自身上的代码（合约）来控制的，即被整个区块链控制。</li>
@@ -263,11 +273,13 @@ C pays A ￥60
 </ul>
 </li>
 <li>关于包含在此区块中的交易集信息</li>
-<li>与当前区块的ommers相关的一些列其他区块头<h3 id="开发工具和开发库"><a href="#开发工具和开发库" class="headerlink" title="开发工具和开发库"></a>开发工具和开发库</h3></li>
+<li>与当前区块的ommers相关的一些列其他区块头</li>
 </ol>
 </li>
 </ol>
 </li>
+</ol>
+<h3 id="开发工具和开发库"><a href="#开发工具和开发库" class="headerlink" title="开发工具和开发库"></a>开发工具和开发库</h3><ol>
 <li>发布框架<ol>
 <li><a href="http://truffleframework.com/docs/getting_started" target="_blank" rel="noopener">Truffle框架</a> &amp; <a href="https://blog.zeppelin.solutions/the-hitchhikers-guide-to-smart-contracts-in-ethereum-848f08001f05" target="_blank" rel="noopener">Truffle教程</a></li>
 <li><a href="https://github.com/iurimatias/embark-framework" target="_blank" rel="noopener">Embark框架</a></li>
@@ -282,7 +294,9 @@ C pays A ￥60
 </ol>
 </li>
 <li><a href="https://github.com/ethereum/go-ethereum/wiki/Whisper-Overview" target="_blank" rel="noopener">Whisper</a>是一个集成进以太坊的消息系统。它允许DApp发布小量的信息来进行非实时的消息通信。使用ssh协议。<a href="https://github.com/ethereum/meteor-dapp-whisper-chat-client" target="_blank" rel="noopener">一个使用Whisper协议实现一个聊天客户端的例子</a></li>
-<li><a href="https://openzeppelin.org/" target="_blank" rel="noopener">Open Zeppelin</a>是一系列经过审查的，最佳的智能合约实践，你可以继承并应用于你自己的DApp中。<a href="https://github.com/OpenZeppelin/zeppelin-solidity" target="_blank" rel="noopener">github学习资源</a><h3 id="应用项目"><a href="#应用项目" class="headerlink" title="应用项目"></a>应用项目</h3></li>
+<li><a href="https://openzeppelin.org/" target="_blank" rel="noopener">Open Zeppelin</a>是一系列经过审查的，最佳的智能合约实践，你可以继承并应用于你自己的DApp中。<a href="https://github.com/OpenZeppelin/zeppelin-solidity" target="_blank" rel="noopener">github学习资源</a></li>
+</ol>
+<h3 id="应用项目"><a href="#应用项目" class="headerlink" title="应用项目"></a>应用项目</h3><ol>
 <li><a href="https://github.com/slockit/DAO/" target="_blank" rel="noopener">去中心自动化组织</a></li>
 <li><a href="https://aragon.one/" target="_blank" rel="noopener">Aragon</a>设计一个根据智能合约逻辑运作的公司，重点是创建一个可以接受投资，处理会计，支付雇员，分配股权，正如我们现在知道的完成每天的公司的业务。他们也实现了漂亮的DApp客户端来让他们的协议使用起来更为简单。</li>
 <li><a href="https://ipfs.io/" target="_blank" rel="noopener">IPFS</a>（星际文件系统）是一个协议，用来分发文件。</li>
@@ -292,7 +306,9 @@ C pays A ￥60
 <li><a href="https://gnosis.pm/" target="_blank" rel="noopener">Gnosis</a>与Augur有类似的理念，也是一个去中心化的预测市场</li>
 <li><a href="https://golem.network/" target="_blank" rel="noopener">Golem</a>是一个分布式的算力市场</li>
 <li>0xProject创建了一个交换代币的协议，以及一个DApp来实现这个协议。<br>10.<a href="https://district0x.io/" target="_blank" rel="noopener">district0x</a>是一个更高层级的去中心化的市场和社区。 </li>
-<li><a href="https://www.uport.me/" target="_blank" rel="noopener">uPort</a>在解决去中心化的身份识别问题。<h3 id="一些公司"><a href="#一些公司" class="headerlink" title="一些公司"></a>一些公司</h3></li>
+<li><a href="https://www.uport.me/" target="_blank" rel="noopener">uPort</a>在解决去中心化的身份识别问题。</li>
+</ol>
+<h3 id="一些公司"><a href="#一些公司" class="headerlink" title="一些公司"></a>一些公司</h3><ol>
 <li>ConsenSys（有点像共识Consensus，但作为一个公司名称;它很聪明，巧妙的把u改成了s，但我一般念为“con-SEn-SIS”，避免读错）是一个“风险投资和产品工作室”。他们是一个（其实非常大）伞形组织，它赞助了一大堆项目和核心组件的开发。值得一提的是，它们资助了Truffle，Infura，MetaMask，Gnosis和uPort。</li>
 <li>Zeppelin Solutions在上面我们有提到过，他也审查智能合约代码，提供咨询服务。他们的<a href="https://blog.zeppelin.solutions/" target="_blank" rel="noopener">博客</a>质量相当高。</li>
 <li>Protocol Labs是一群让人印象深刻的人，致力于IPFS，FileCoin，lip2p以及IPLD等其它项目的开发。</li>
