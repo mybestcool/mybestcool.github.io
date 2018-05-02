@@ -111,39 +111,48 @@
 </li>
 </ul>
 </li>
+<li><p>编译boost</p>
+<ul>
+<li>下载<a href="https://sourceforge.net/projects/boost/files/boost/1.57.0/" target="_blank" rel="noopener">1.57版本</a></li>
+<li>打开vs2013 x64 本机工具命令提示，输入<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\dependencies\boost_1_57_0</span><br><span class="line">.\bootstrap.bat</span><br><span class="line">b2 stage --address-model=64 --toolset=msvc-12.0 --threading=muti --link=static</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 </li>
-</ol>
-<pre><code>- 编译boost
-    - 下载[1.57版本](https://sourceforge.net/projects/boost/files/boost/1.57.0/)
-    - 打开vs2013 x64 本机工具命令提示，输入
-    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\dependencies\boost_1_57_0</span><br><span class="line">.\bootstrap.bat</span><br><span class="line">b2 stage --address-model=64 --toolset=msvc-12.0 --threading=muti --link=static</span><br></pre></td></tr></table></figure>
-
-
-- 编译bitshares
-    - 下载源码，切换到最新版本。打开vs2013 x64 本机工具命令提示，输入
-    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\bitshares</span><br><span class="line">git clone https://github.com/bitshares/bitshares-core</span><br><span class="line">cd bitshares-core</span><br><span class="line">git submodule update --init --recursive</span><br><span class="line">rem git checkout 2.0.180425 </span><br><span class="line">rem 注释掉这句，这个版本缺少一个文件</span><br></pre></td></tr></table></figure>
-
-    - 重启系统，确保以上的PATH都生效
-    - 设置环境脚本setenv_x64.bat，放到bitshares-core目录
-    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">set GRA_ROOT=D:\_workdir\source\bitshares\bitshares-core</span><br><span class="line">set OPENSSL_ROOT=D:\_workdir\source\dependencies</span><br><span class="line">set OPENSSL_ROOT_DIR=%OPENSSL_ROOT%</span><br><span class="line">set OPENSSL_INCLUDE_DIR=%OPENSSL_ROOT%\include</span><br><span class="line">set BOOST_ROOT=D:\_workdir\source\dependencies\boost_1_57_0</span><br><span class="line">set PATH=%BOOST_ROOT%\stage\lib;%PATH%</span><br></pre></td></tr></table></figure>
-
-    - 为了兼容windows版本，进行相应修改，见[以下内容](#2)
-    - 打开vs2013 x64 本机工具命令提示，输入
-    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\bitshares\bitshares-core</span><br><span class="line">setenv_x64.bat</span><br><span class="line">cmake-gui</span><br></pre></td></tr></table></figure>
-
-    - 配置cmake工程，
-        - 设置source目录为：D:\_workdir\source\bitshares\bitshares-core
-        - 设置输出目录为：D:\_workdir\source\bitshares\bitshares-core\x64
-        - 点击Configure，在弹出框中，
-            - 第一个下拉框 Specify the generator for this project 选 Visual Studio 12 2013 Win64
-            - 第二个输入框 Optional toolset to use (argument to -T) 留空
-            - 下面的单选框，选 Use default native compilers
-        - 点 Finish ，然后等一会， Generate 按钮会亮起
-        - 点 Generate ，然后等一会， Open Project 按钮会亮起
-        - 点 Open Project ，会打开 Visual Studio
-    - 开始编译，有可能遇到bigobj问题，再进行相应修改
-</code></pre><ol start="2">
+<li><p>编译bitshares</p>
+<ul>
+<li><p>下载源码，切换到最新版本。打开vs2013 x64 本机工具命令提示，输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\bitshares</span><br><span class="line">git clone https://github.com/bitshares/bitshares-core</span><br><span class="line">cd bitshares-core</span><br><span class="line">git submodule update --init --recursive</span><br><span class="line">rem git checkout 2.0.180425 </span><br><span class="line">rem 注释掉这句，这个版本缺少一个文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启系统，确保以上的PATH都生效</p>
+</li>
+<li><p>设置环境脚本setenv_x64.bat，放到bitshares-core目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">set GRA_ROOT=D:\_workdir\source\bitshares\bitshares-core</span><br><span class="line">set OPENSSL_ROOT=D:\_workdir\source\dependencies</span><br><span class="line">set OPENSSL_ROOT_DIR=%OPENSSL_ROOT%</span><br><span class="line">set OPENSSL_INCLUDE_DIR=%OPENSSL_ROOT%\include</span><br><span class="line">set BOOST_ROOT=D:\_workdir\source\dependencies\boost_1_57_0</span><br><span class="line">set PATH=%BOOST_ROOT%\stage\lib;%PATH%</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为了兼容windows版本，进行相应修改，见<a href="#2">以下内容</a></p>
+</li>
+<li><p>打开vs2013 x64 本机工具命令提示，输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\bitshares\bitshares-core</span><br><span class="line">setenv_x64.bat</span><br><span class="line">cmake-gui</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置cmake工程，</p>
+<ul>
+<li>设置source目录为：D:_workdir\source\bitshares\bitshares-core</li>
+<li>设置输出目录为：D:_workdir\source\bitshares\bitshares-core\x64</li>
+<li>点击Configure，在弹出框中，<ul>
+<li>第一个下拉框 Specify the generator for this project 选 Visual Studio 12 2013 Win64</li>
+<li>第二个输入框 Optional toolset to use (argument to -T) 留空</li>
+<li>下面的单选框，选 Use default native compilers</li>
+</ul>
+</li>
+<li>点 Finish ，然后等一会， Generate 按钮会亮起</li>
+<li>点 Generate ，然后等一会， Open Project 按钮会亮起</li>
+<li>点 Open Project ，会打开 Visual Studio</li>
+</ul>
+</li>
+<li>开始编译，有可能遇到bigobj问题，再进行相应修改</li>
+</ul>
+</li>
+</ul>
+</li>
 <li><p>为兼容windows版本，需对bitshares源码进行以下相关修改</p>
 <ul>
 <li><p>bitshares源码修改</p>
