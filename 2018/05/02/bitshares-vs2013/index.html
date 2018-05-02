@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>bitshares vs2013 x64位 编译 | 致良知</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+    <meta name="author" content="Lucus Gu">
+  
+  
+    <meta name="description" content="windows编译bitshares
+
+前提：安装好vs2013-update5、cmake、git工具、doxygen工具（非必须）,环境变量PATH有对应的EXE
+目录结构
+12345678910111213- D:\_workdir\source	- bitshares		- bitshares-core	- dependencies		- boost_1_57_0		- source">
+  
+  <meta name="description" content="windows编译bitshares  前提：安装好vs2013-update5、cmake、git工具、doxygen工具（非必须）,环境变量PATH有对应的EXE 目录结构 12345678910111213- D:\_workdir\source	- bitshares		- bitshares-core	- dependencies		- boost_1_57_0		- source">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bitshares vs2013 x64位 编译">
+<meta property="og:url" content="https://mybestcool.github.io/2018/05/02/bitshares-vs2013/index.html">
+<meta property="og:site_name" content="致良知">
+<meta property="og:description" content="windows编译bitshares  前提：安装好vs2013-update5、cmake、git工具、doxygen工具（非必须）,环境变量PATH有对应的EXE 目录结构 12345678910111213- D:\_workdir\source	- bitshares		- bitshares-core	- dependencies		- boost_1_57_0		- source">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-02T12:15:11.362Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="bitshares vs2013 x64位 编译">
+<meta name="twitter:description" content="windows编译bitshares  前提：安装好vs2013-update5、cmake、git工具、doxygen工具（非必须）,环境变量PATH有对应的EXE 目录结构 12345678910111213- D:\_workdir\source	- bitshares		- bitshares-core	- dependencies		- boost_1_57_0		- source">
+  
+    <link rel="alternate" href="/atom.xml" title="致良知" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+<body>
+  <div class="wrapper">
+    <header id="header">
+  <div class="title">
+    <h1><a href="/">致良知</a></h1>
+    <p><a href="/">知行合一</a></p>
+  </div>
+  <nav class="nav">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+        <li><a href="/atom.xml">RSS</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <a href="/2018/05/02/bitshares-vs2013/">
+  <time datetime="2018-05-02T12:02:49.000Z">
+    2018-05-02
+  </time>
+</a>
+    
+    
+  
+    <h1 class="title">bitshares vs2013 x64位 编译</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <ol>
+<li><p>windows编译bitshares</p>
+<ul>
+<li>前提：安装好vs2013-update5、cmake、git工具、<a href="http://www.stack.nl/~dimitri/doxygen/download.html" target="_blank" rel="noopener">doxygen工具</a>（非必须）,环境变量PATH有对应的EXE</li>
+<li><p>目录结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- D:\_workdir\source</span><br><span class="line">	- bitshares</span><br><span class="line">		- bitshares-core</span><br><span class="line">	- dependencies</span><br><span class="line">		- boost_1_57_0</span><br><span class="line">		- source</span><br><span class="line">			- openssl-1.0.1u</span><br><span class="line">			- zlib-1.2.11</span><br><span class="line">			- curl-7.59.0</span><br><span class="line">		- bin</span><br><span class="line">		- include</span><br><span class="line">		- lib</span><br><span class="line">		- ssl</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译openssl</p>
+<ul>
+<li>下载安装<a href="https://www.activestate.com/activeperl/downloads" target="_blank" rel="noopener">activePerl</a>，注意环境变量PATH</li>
+<li>下载安装<a href="https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/win64/" target="_blank" rel="noopener">nasm</a>，注意环境变量PATH</li>
+<li>下载<a href="https://www.openssl.org/source/old/1.0.1/" target="_blank" rel="noopener">openssl源码，版本最好选择1.0.1，切勿选择大于1.0.2的版本</a></li>
+<li>打开vs2013 x64 本机工具命令提示，输入<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\dependencies\source\openssl-1.0.1u</span><br><span class="line">perl Configure VC-WIN64A --prefix=D:\_workdir\source\dependencies</span><br><span class="line">ms\do_win64a</span><br><span class="line">nmake -f ms\nt.mak</span><br><span class="line">nmake -f ms\nt.mak install</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>编译zlib</p>
+<ul>
+<li>下载<a href="http://zlib.net/" target="_blank" rel="noopener">zlib源码，选择的是1.2.11版本</a></li>
+<li>打开“contrib\vstudio\vc12\zlibvc.sln”，选择release和x64进行编译</li>
+<li>编译成功后把“contrib\vstudio\vc12\x64\ZlibStatRelease\zlibstat.lib”复制到“dependencies\lib\zlib.lib”，把“D:_workdir\source\dependencies\source\zlib-1.2.11”的头文件“zlib.h、zconf.h”复制到“dependencies\include”目录</li>
+</ul>
+</li>
+<li><p>编译curl</p>
+<ul>
+<li>下载<a href="">curl源码，选择的是7.59.0版本</a></li>
+<li><p>打开vs2013 x64 本机工具命令提示，输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\dependencies\source\curl-7.59.0\winbuild</span><br><span class="line">nmake /f Makefile.vc mode=static VC=12 WITH_DEVEL=D:\_workdir\source\dependencies WITH_SSL=static WITH_ZLIB=static MACHINE=x64</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译成功后把“dependencies\source\curl-7.59.0\builds\libcurl-vc12-x64-release-static-ssl-static-zlib-static-ipv6-sspi”的所有目录copy到“dependencies”下，libcurl.lib更名为curl.lib</p>
+</li>
+<li><p>修改curl.h头文件，在第109行加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define CURL_STATICLIB</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code>- 编译boost
+    - 下载[1.57版本](https://sourceforge.net/projects/boost/files/boost/1.57.0/)
+    - 打开vs2013 x64 本机工具命令提示，输入
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\dependencies\boost_1_57_0</span><br><span class="line">.\bootstrap.bat</span><br><span class="line">b2 stage --address-model=64 --toolset=msvc-12.0 --threading=muti --link=static</span><br></pre></td></tr></table></figure>
+
+
+- 编译bitshares
+    - 下载源码，切换到最新版本。打开vs2013 x64 本机工具命令提示，输入
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\bitshares</span><br><span class="line">git clone https://github.com/bitshares/bitshares-core</span><br><span class="line">cd bitshares-core</span><br><span class="line">git submodule update --init --recursive</span><br><span class="line">rem git checkout 2.0.180425 </span><br><span class="line">rem 注释掉这句，这个版本缺少一个文件</span><br></pre></td></tr></table></figure>
+
+    - 重启系统，确保以上的PATH都生效
+    - 设置环境脚本setenv_x64.bat，放到bitshares-core目录
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line"></span><br><span class="line">set GRA_ROOT=D:\_workdir\source\bitshares\bitshares-core</span><br><span class="line">set OPENSSL_ROOT=D:\_workdir\source\dependencies</span><br><span class="line">set OPENSSL_ROOT_DIR=%OPENSSL_ROOT%</span><br><span class="line">set OPENSSL_INCLUDE_DIR=%OPENSSL_ROOT%\include</span><br><span class="line">set BOOST_ROOT=D:\_workdir\source\dependencies\boost_1_57_0</span><br><span class="line">set PATH=%BOOST_ROOT%\stage\lib;%PATH%</span><br></pre></td></tr></table></figure>
+
+    - 为了兼容windows版本，进行相应修改，见[以下内容](#2)
+    - 打开vs2013 x64 本机工具命令提示，输入
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd D:\_workdir\source\bitshares\bitshares-core</span><br><span class="line">setenv_x64.bat</span><br><span class="line">cmake-gui</span><br></pre></td></tr></table></figure>
+
+    - 配置cmake工程，
+        - 设置source目录为：D:\_workdir\source\bitshares\bitshares-core
+        - 设置输出目录为：D:\_workdir\source\bitshares\bitshares-core\x64
+        - 点击Configure，在弹出框中，
+            - 第一个下拉框 Specify the generator for this project 选 Visual Studio 12 2013 Win64
+            - 第二个输入框 Optional toolset to use (argument to -T) 留空
+            - 下面的单选框，选 Use default native compilers
+        - 点 Finish ，然后等一会， Generate 按钮会亮起
+        - 点 Generate ，然后等一会， Open Project 按钮会亮起
+        - 点 Open Project ，会打开 Visual Studio
+    - 开始编译，有可能遇到bigobj问题，再进行相应修改
+</code></pre><ol start="2">
+<li><p>为兼容windows版本，需对bitshares源码进行以下相关修改</p>
+<ul>
+<li><p>bitshares源码修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/CMakeLists.txt b/CMakeLists.txt</span><br><span class="line">index 5e91e80b..e11f4c20 100644</span><br><span class="line">--- a/CMakeLists.txt</span><br><span class="line">+++ b/CMakeLists.txt</span><br><span class="line">@@ -2,6 +2,10 @@</span><br><span class="line">project( BitShares )</span><br><span class="line">cmake_minimum_required( VERSION 2.8.12 )</span><br><span class="line"></span><br><span class="line">+if(POLICY CMP0054)</span><br><span class="line">+  cmake_policy(SET CMP0054 NEW)</span><br><span class="line">+endif()</span><br><span class="line">+</span><br><span class="line">set( BLOCKCHAIN_NAME &quot;BitShares&quot; )</span><br><span class="line"></span><br><span class="line">set( CLI_CLIENT_EXECUTABLE_NAME graphene_client )</span><br><span class="line">diff --git a/libraries/chain/include/graphene/chain/protocol/fee_schedule.hpp b/libraries/chain/include/graphene/chain/protocol/fee_schedule.hpp</span><br><span class="line">index 2d381308..0d18e8b8 100644</span><br><span class="line">--- a/libraries/chain/include/graphene/chain/protocol/fee_schedule.hpp</span><br><span class="line">+++ b/libraries/chain/include/graphene/chain/protocol/fee_schedule.hpp</span><br><span class="line">@@ -54,7 +54,7 @@ namespace graphene &#123; namespace chain &#123;</span><br><span class="line">		FC_ASSERT( itr != parameters.end() );</span><br><span class="line">		return itr-&gt;get&lt;account_create_operation::fee_parameters_type&gt;();</span><br><span class="line">	&#125;</span><br><span class="line">-      typename account_create_operation::fee_parameters_type&amp; get(flat_set&lt;fee_parameters&gt;&amp; parameters)const</span><br><span class="line">+      account_create_operation::fee_parameters_type&amp; get(flat_set&lt;fee_parameters&gt;&amp; parameters)const</span><br><span class="line">	&#123;</span><br><span class="line">		auto itr = parameters.find( account_create_operation::fee_parameters_type() );</span><br><span class="line">		FC_ASSERT( itr != parameters.end() );</span><br><span class="line">diff --git a/tests/cli/main.cpp b/tests/cli/main.cpp</span><br><span class="line">index b78bb835..a8a11023 100644</span><br><span class="line">--- a/tests/cli/main.cpp</span><br><span class="line">+++ b/tests/cli/main.cpp</span><br><span class="line">@@ -38,8 +38,12 @@</span><br><span class="line">#include &lt;fc/rpc/websocket_api.hpp&gt;</span><br><span class="line">#include &lt;fc/rpc/cli.hpp&gt;</span><br><span class="line"></span><br><span class="line">+#if defined _WINDOWS_ || defined WIN32</span><br><span class="line">+#include &quot;winsock2.h&quot;</span><br><span class="line">+#else</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;netinet/ip.h&gt;</span><br><span class="line">+#endif</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;boost/filesystem/path.hpp&gt;</span><br><span class="line">@@ -109,9 +113,14 @@ int get_available_port()</span><br><span class="line">	sin.sin_family = AF_INET;</span><br><span class="line">	sin.sin_port = 0;</span><br><span class="line">	sin.sin_addr.s_addr = htonl(INADDR_LOOPBACK);</span><br><span class="line">-   if (bind(socket_fd, (struct sockaddr*)&amp;sin, sizeof(struct sockaddr_in)) == -1)</span><br><span class="line">+   if (::bind(socket_fd, (struct sockaddr*)&amp;sin, sizeof(struct sockaddr_in)) == -1)</span><br><span class="line">	return -1;</span><br><span class="line">+</span><br><span class="line">+#if defined _WINDOWS_  || defined WIN32</span><br><span class="line">+   int len = sizeof(sin);</span><br><span class="line">+#else</span><br><span class="line">	socklen_t len = sizeof(sin);</span><br><span class="line">+#endif</span><br><span class="line">	if (getsockname(socket_fd, (struct sockaddr *)&amp;sin, &amp;len) == -1)</span><br><span class="line">	return -1;</span><br><span class="line">	return sin.sin_port;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fc 源码修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/CMakeLists.txt b/CMakeLists.txt</span><br><span class="line">index c5ed733..4c957fe 100644                                                     </span><br><span class="line">--- a/CMakeLists.txt                                                              </span><br><span class="line">+++ b/CMakeLists.txt                                                              </span><br><span class="line">@@ -4,6 +4,10 @@                                                                  </span><br><span class="line">PROJECT( fc )                              </span><br><span class="line">CMAKE_MINIMUM_REQUIRED( VERSION 2.8.12 )     </span><br><span class="line">										</span><br><span class="line">+if(POLICY CMP0054)                       </span><br><span class="line">+  cmake_policy(SET CMP0054 NEW)     </span><br><span class="line">+endif()                                       </span><br><span class="line">+ </span><br><span class="line">MESSAGE(STATUS &quot;Configuring project fc located in: $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&quot;)</span><br><span class="line">SET( CMAKE_AUTOMOC OFF )        </span><br><span class="line">						</span><br><span class="line">diff --git a/src/asio.cpp b/src/asio.cpp</span><br><span class="line">index 1313ed7..f22da17 100644</span><br><span class="line">--- a/src/asio.cpp</span><br><span class="line">+++ b/src/asio.cpp</span><br><span class="line">@@ -106,11 +106,11 @@ namespace fc &#123;</span><br><span class="line">				&#123;</span><br><span class="line">				fc::thread::current().set_name(&quot;asio&quot;);</span><br><span class="line"></span><br><span class="line">-                 BOOST_SCOPE_EXIT(void)</span><br><span class="line">-                 &#123;</span><br><span class="line">-                   fc::thread::cleanup();</span><br><span class="line">-                 &#125;</span><br><span class="line">-                 BOOST_SCOPE_EXIT_END</span><br><span class="line">+                                //BOOST_SCOPE_EXIT(void)</span><br><span class="line">+                                //&#123;</span><br><span class="line">+                                       // fc::thread::cleanup();</span><br><span class="line">+                                //&#125;</span><br><span class="line">+                                //BOOST_SCOPE_EXIT_END</span><br><span class="line">				</span><br><span class="line">				while (!io-&gt;stopped())</span><br><span class="line">				&#123;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>以下cpp文件添加“/bigobj”编译属性，可能不同机器不一样，最终按编译提示来处理</p>
+<ul>
+<li>项目app_test<ul>
+<li>bitshares-core\tests\app\main.cpp</li>
+</ul>
+</li>
+<li>项目chain_bench<ul>
+<li>bitshares-core\tests\common\database_fixture.cpp</li>
+</ul>
+</li>
+<li>项目chain_test<ul>
+<li>bitshares-core\tests\common\database_fixture.cpp</li>
+</ul>
+</li>
+<li>项目cli_test<ul>
+<li>bitshares-core\tests\cli\main.cpp</li>
+</ul>
+</li>
+<li>项目cli_wallet<ul>
+<li>bitshares-core\programs\cli_wallet\main.cpp</li>
+</ul>
+</li>
+<li>项目performance_test<ul>
+<li>bitshares-core\tests\common\database_fixture.cpp</li>
+</ul>
+</li>
+<li>项目witness_node<ul>
+<li>bitshares-core\programs\witness_node\main.cpp</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+</div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2018 <a href="/">Lucus Gu</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>
