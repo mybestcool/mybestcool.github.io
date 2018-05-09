@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>BTS UI钱包搭建以及接入到私有链 | 致良知</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+    <meta name="author" content="Lucus Gu">
+  
+  
+    <meta name="description" content="BTS UI钱包搭建以及接入到私有链参考地址
+参考文章-比特股钱包定制
+参考文章-官方帮助MD
+
+安装环境
+系统ubuntu16.04
+检查是否已经安装nvm，没有则
+
+1curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.2/install.sh | bash
+
+安装node
+
+12nvm install v6nvm u">
+  
+  <meta name="description" content="BTS UI钱包搭建以及接入到私有链参考地址 参考文章-比特股钱包定制 参考文章-官方帮助MD  安装环境 系统ubuntu16.04 检查是否已经安装nvm，没有则  1curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.2/install.sh | bash  安装node  12nvm install v6nvm u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BTS UI钱包搭建以及接入到私有链">
+<meta property="og:url" content="https://mybestcool.github.io/2018/05/09/bitshares-install-uiwallet/index.html">
+<meta property="og:site_name" content="致良知">
+<meta property="og:description" content="BTS UI钱包搭建以及接入到私有链参考地址 参考文章-比特股钱包定制 参考文章-官方帮助MD  安装环境 系统ubuntu16.04 检查是否已经安装nvm，没有则  1curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.2/install.sh | bash  安装node  12nvm install v6nvm u">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-09T13:34:34.961Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BTS UI钱包搭建以及接入到私有链">
+<meta name="twitter:description" content="BTS UI钱包搭建以及接入到私有链参考地址 参考文章-比特股钱包定制 参考文章-官方帮助MD  安装环境 系统ubuntu16.04 检查是否已经安装nvm，没有则  1curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.2/install.sh | bash  安装node  12nvm install v6nvm u">
+  
+    <link rel="alternate" href="/atom.xml" title="致良知" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+<body>
+  <div class="wrapper">
+    <header id="header">
+  <div class="title">
+    <h1><a href="/">致良知</a></h1>
+    <p><a href="/">知行合一</a></p>
+  </div>
+  <nav class="nav">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+        <li><a href="/atom.xml">RSS</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <a href="/2018/05/09/bitshares-install-uiwallet/">
+  <time datetime="2018-05-09T07:55:40.000Z">
+    2018-05-09
+  </time>
+</a>
+    
+    
+  
+    <h1 class="title">BTS UI钱包搭建以及接入到私有链</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <h1 id="BTS-UI钱包搭建以及接入到私有链"><a href="#BTS-UI钱包搭建以及接入到私有链" class="headerlink" title="BTS UI钱包搭建以及接入到私有链"></a>BTS UI钱包搭建以及接入到私有链</h1><h2 id="参考地址"><a href="#参考地址" class="headerlink" title="参考地址"></a>参考地址</h2><ul>
+<li>参考文章-<a href="https://steemit.com/bitshares/@cm-steem/bitshares-ui-customization-guide" target="_blank" rel="noopener">比特股钱包定制</a></li>
+<li>参考文章-<a href="https://github.com/bitshares/bitshares-ui/blob/staging/README_zh.md" target="_blank" rel="noopener">官方帮助MD</a></li>
+</ul>
+<h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><ul>
+<li>系统ubuntu16.04</li>
+<li>检查是否已经安装nvm，没有则</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.2/install.sh | bash</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装node</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvm install v6</span><br><span class="line">nvm use v6</span><br></pre></td></tr></table></figure>
+<p>本地切换只针对当前命令行窗口有效，新打开命令行，需要重新切换v6</p>
+<h2 id="源码下载和安裝"><a href="#源码下载和安裝" class="headerlink" title="源码下载和安裝"></a>源码下载和安裝</h2><ul>
+<li>下载和安装依赖</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/bitshares/bitshares-ui.git</span><br><span class="line"><span class="built_in">cd</span> bitshares-ui</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>安装中如果遇到问题</p>
+<p>  先安装cnpm</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<p>然后用cnpm安装所有的包。如果只有”electron”和”electron-builder”无法下载，可暂时删除依赖。</p>
+<ul>
+<li>启动服务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p>成功的话，会看到以下提示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack: Compiled succeedfully.</span><br></pre></td></tr></table></figure>
+<p>浏览器中输入以下命令查看运行情况</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080</span><br></pre></td></tr></table></figure>
+<h2 id="配置和源码修改"><a href="#配置和源码修改" class="headerlink" title="配置和源码修改"></a>配置和源码修改</h2><ul>
+<li>替换掉所有的货币名，搜索所有代码替换，包括js和node_modules/bitsharesjs-ws</li>
+<li>修改node_modules/bitsharesjs-ws的chainid，路径node_modules/bitsharesjs-ws/es/src/ChainConfig.js和node_modules/bitsharesjs-ws/cjs/src/ChainConfig.js</li>
+<li>修改链的地址和水龙头地址，路径app\api\apiConfig.js</li>
+<li>修改交易对等，路径app\stores\SettingsStore.js</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> topMarkets = &#123;</span><br><span class="line">    markets_4018d784: [ <span class="comment">// BTS MAIN NET</span></span><br><span class="line">        <span class="string">"OPEN.MKR"</span>, <span class="string">"BTS"</span>, <span class="string">"OPEN.ETH"</span>, <span class="string">"ICOO"</span>, <span class="string">"BTC"</span>, <span class="string">"OPEN.LISK"</span>, <span class="string">"BKT"</span>,</span><br><span class="line">        <span class="string">"OPEN.STEEM"</span>, <span class="string">"OPEN.GAME"</span>, <span class="string">"OCT"</span>, <span class="string">"USD"</span>, <span class="string">"CNY"</span>, <span class="string">"BTSR"</span>, <span class="string">"OBITS"</span>,</span><br><span class="line">        <span class="string">"OPEN.DGD"</span>, <span class="string">"EUR"</span>, <span class="string">"GOLD"</span>, <span class="string">"SILVER"</span>, <span class="string">"IOU.CNY"</span>, <span class="string">"OPEN.DASH"</span>,</span><br><span class="line">        <span class="string">"OPEN.USDT"</span>, <span class="string">"OPEN.EURT"</span>, <span class="string">"OPEN.BTC"</span>, <span class="string">"CADASTRAL"</span>, <span class="string">"BLOCKPAY"</span>, <span class="string">"BTWTY"</span>,</span><br><span class="line">        <span class="string">"OPEN.INCNT"</span>, <span class="string">"KAPITAL"</span>, <span class="string">"OPEN.MAID"</span>, <span class="string">"OPEN.SBD"</span>, <span class="string">"OPEN.GRC"</span>, <span class="string">"YOURASSET"</span>,</span><br><span class="line">        <span class="string">"YOYOW"</span>, <span class="string">"HERO"</span>, <span class="string">"RUBLE"</span></span><br><span class="line">    ],</span><br><span class="line">    markets_39f5e2ed: [ <span class="comment">// TESTNET</span></span><br><span class="line">        <span class="string">"PEG.FAKEUSD"</span>, <span class="string">"YOURASSET"</span>, <span class="string">"BTWTY"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bases = &#123;</span><br><span class="line">    markets_4018d784: [ <span class="comment">// BTS MAIN NET</span></span><br><span class="line">        <span class="string">"USD"</span>, <span class="string">"OPEN.BTC"</span>, <span class="string">"CNY"</span>, <span class="string">"BTS"</span>, <span class="string">"BTC"</span>, <span class="string">"YOURASSET"</span></span><br><span class="line">    ],</span><br><span class="line">    markets_39f5e2ed: [ <span class="comment">// TESTNET</span></span><br><span class="line">        <span class="string">"TEST"</span>, <span class="string">"YOURASSET"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">        <span class="keyword">let</span> defaults = &#123;</span><br><span class="line">            unit: [</span><br><span class="line">                CORE_ASSET,</span><br><span class="line">                <span class="string">"USD"</span>,</span><br><span class="line">                <span class="string">"CNY"</span>,</span><br><span class="line">                <span class="string">"BTC"</span>,</span><br><span class="line">                <span class="string">"EUR"</span>,</span><br><span class="line">                <span class="string">"YOURASSET"</span></span><br><span class="line">            ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="水龙头服务搭建"><a href="#水龙头服务搭建" class="headerlink" title="水龙头服务搭建"></a>水龙头服务搭建</h2><ul>
+<li>参考<a href="https://steemit.com/bitshares/@baidang/66din5" target="_blank" rel="noopener">搭建比特股的水龙头注册服务</a>，写的很详细，最后总结了一些问题的处理办法</li>
+</ul>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+</div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2018 <a href="/">Lucus Gu</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>
