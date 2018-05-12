@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>bitshares-witness节点结构之入口 | 致良知</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+    <meta name="author" content="Lucus Gu">
+  
+  
+    <meta name="description" content="入口分成三个部分
+main函数入口
+
+主循环入口
+
+网络消息入口
+
+
+main函数入口
+成员结构
+
+12345678910111213141516171819202122232425262728293031323334353637383940main    1. app:application                                     - 应用        1. m">
+  
+  <meta name="description" content="入口分成三个部分 main函数入口  主循环入口  网络消息入口   main函数入口 成员结构  12345678910111213141516171819202122232425262728293031323334353637383940main    1. app:application                                     - 应用        1. m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bitshares-witness节点结构之入口">
+<meta property="og:url" content="https://mybestcool.github.io/2018/05/11/bitshares-witness-structure-entrance/index.html">
+<meta property="og:site_name" content="致良知">
+<meta property="og:description" content="入口分成三个部分 main函数入口  主循环入口  网络消息入口   main函数入口 成员结构  12345678910111213141516171819202122232425262728293031323334353637383940main    1. app:application                                     - 应用        1. m">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-12T04:06:05.372Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="bitshares-witness节点结构之入口">
+<meta name="twitter:description" content="入口分成三个部分 main函数入口  主循环入口  网络消息入口   main函数入口 成员结构  12345678910111213141516171819202122232425262728293031323334353637383940main    1. app:application                                     - 应用        1. m">
+  
+    <link rel="alternate" href="/atom.xml" title="致良知" type="application/atom+xml">
+  
+  
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+<body>
+  <div class="wrapper">
+    <header id="header">
+  <div class="title">
+    <h1><a href="/">致良知</a></h1>
+    <p><a href="/">知行合一</a></p>
+  </div>
+  <nav class="nav">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+      
+        <li><a href="/atom.xml">RSS</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <a href="/2018/05/11/bitshares-witness-structure-entrance/">
+  <time datetime="2018-05-11T06:18:28.000Z">
+    2018-05-11
+  </time>
+</a>
+    
+    
+  
+    <h1 class="title">bitshares-witness节点结构之入口</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <h2 id="入口分成三个部分"><a href="#入口分成三个部分" class="headerlink" title="入口分成三个部分"></a>入口分成三个部分</h2><ul>
+<li><p>main函数入口</p>
+</li>
+<li><p>主循环入口</p>
+</li>
+<li><p>网络消息入口</p>
+</li>
+</ul>
+<h2 id="main函数入口"><a href="#main函数入口" class="headerlink" title="main函数入口"></a>main函数入口</h2><ul>
+<li>成员结构</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">main</span><br><span class="line">    1. app:application                                     - 应用</span><br><span class="line">        1. map&lt;string, app::abstract_plugin&gt;                   - 所有插件， 分激活的和能够支持的</span><br><span class="line">            1. witness_plugin::witness_plugin                      - 见证人</span><br><span class="line">                1. witness private_keys                                - 见证人私钥</span><br><span class="line">                2. witness ids                                         - 见证人ids</span><br><span class="line">                3. witness block schedule                              - 区块产生调度器</span><br><span class="line">            2. debug_witness_plugin::debug_witness_plugin          - 见证人调试,监听区块链事件</span><br><span class="line">            3. account_history::account_history_plugin             - 账号历史事件，监听区块链事件，并记录到object_database中</span><br><span class="line">            4. elasticsearch::elasticsearch_plugin                 - ES插件</span><br><span class="line">            5. market_history::market_history_plugin               - 市场历史</span><br><span class="line">            6. delayed_node::delayed_node_plugin                   - 延时节点</span><br><span class="line">            7. snapshot_plugin::snapshot_plugin                    - 快照</span><br><span class="line">            8. es_objects::es_objects_plugin                       - ES对象</span><br><span class="line">            9. grouped_orders::grouped_orders_plugin               - 命令组</span><br><span class="line">        2. chain::database                                     - 区块链</span><br><span class="line">            1. object_database                                     - 对象索引管理，chain::database继承自object_database</span><br><span class="line">                1. index[256][256]                                     - 对象索引</span><br><span class="line">                    1. index = primary_index&lt;witness_index&gt;                - 以下为举例</span><br><span class="line">                        1. witness_index = generic_index&lt;witness_object, witness_multi_index_type&gt;;</span><br><span class="line">                            1. witness_object = multi_index_container&lt;witness_object, </span><br><span class="line">                                    indexed_by&lt;</span><br><span class="line">                                        ordered_unique&lt; tag&lt;by_id&gt;,member&lt;object, object_id_type, &amp;object::id&gt;&gt;,</span><br><span class="line">                                        ordered_unique&lt; tag&lt;by_account&gt;,member&lt;witness_object, account_id_type, &amp;witness_object::witness_account&gt;&gt;,</span><br><span class="line">                                        ordered_unique&lt; tag&lt;by_vote_id&gt;,member&lt;witness_object, vote_id_type, &amp;witness_object::vote_id&gt;&gt;</span><br><span class="line">                                    &gt; &gt;;</span><br><span class="line">            2. block_database                                      - 区块数据库</span><br><span class="line">                1. _blocks                                              - 实际区块数据</span><br><span class="line">                2. _block_num_to_pos                                    - 区块索引数据</span><br><span class="line">        3. net::node                                           - p2p节点</span><br><span class="line">        4. websocket_server                                    - ws连接，api再连接里面</span><br><span class="line">        5. websocket_tls_server                                - wss连接，api再连接里面</span><br><span class="line">            1. websocket_connection_ptr</span><br><span class="line">                1. websocket_api_connection</span><br><span class="line">                    1. app::login_api</span><br><span class="line">        6. api_access                                          - api接口控制</span><br><span class="line">    2. bpo::variables_map                                  - 配置</span><br><span class="line">        1. bpo::options_description                            - 入口配置:argc,argv</span><br><span class="line">        2. bpo::options_description                            - 文件配置:data/config.ini</span><br><span class="line">    3. <span class="built_in">exit</span> signal                                         - 退出信号</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动顺序</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">main</span><br><span class="line">    1. app:register_plugin&lt;&gt;*9                - 注册9个插件</span><br><span class="line">    2. app_options:<span class="built_in">read</span>                       - 读取入口函数配置参数</span><br><span class="line">    3. cfg_options:<span class="built_in">read</span>                       - 读取配置文件参数</span><br><span class="line">    4. app:initialize                         - 初始化</span><br><span class="line">    5. app:initialize_plugins                 - 初始化插件</span><br><span class="line">    6. app:startup                            - 启动</span><br><span class="line">        1. chain::database:open                 - 启动区块链</span><br><span class="line">            1. db version check                     - 链版本检查</span><br><span class="line">            2. object_database:open                 - 对象数据读取，对应本地的object_database目录</span><br><span class="line">            3. block_database::open                 - 区块数据读取，对应本地的database目录</span><br><span class="line">            4. init_genesis                         - 初始化创世数据</span><br><span class="line">            5. reindex                              - 索引检查</span><br><span class="line">        2. <span class="built_in">set</span> allowed_apis                     - ws/wss等api权限设置</span><br><span class="line">        3. reset_p2p_node                       - 启动p2p网络</span><br><span class="line">        4. reset_websocket_server               - 启动ws网络</span><br><span class="line">        5. reset_websocket_tls_server           - 启动wss网络</span><br><span class="line">    7. app:startup_plugins                    - 启动插件</span><br><span class="line">        1. witness_plugin::plugin_startup       - 启动witness插件</span><br><span class="line">            1. dschedule_production_loop            - 启动区块产生的循环</span><br><span class="line">                1. witness_plugin::maybe_produce_block  - 根据条件来确认是否产生区块</span><br><span class="line">    8. <span class="built_in">wait</span> <span class="built_in">exit</span> signal                       - 等待退出信息，如ctrl+c</span><br><span class="line">    9. app:shutdown_plugins                   - 关闭所有插件</span><br><span class="line">    10. app:shutdown                          - 关闭</span><br></pre></td></tr></table></figure>
+<h2 id="主循环入口"><a href="#主循环入口" class="headerlink" title="主循环入口"></a>主循环入口</h2><ul>
+<li><p>见证人插件，内部循环会调用函数，条件是node为见证人节点、时序轮到自己等</p>
+<ul>
+<li>witness_plugin::maybe_produce_block</li>
+</ul>
+</li>
+<li><p>Delay节点插件，定时从见证人节点获取已经落地的数据</p>
+<ul>
+<li>delayed_node_plugin::mainloop</li>
+</ul>
+</li>
+</ul>
+<h2 id="网络消息入口"><a href="#网络消息入口" class="headerlink" title="网络消息入口"></a>网络消息入口</h2><ul>
+<li><p>p2p网络消息接收点</p>
+<ul>
+<li>有20多个协议，但业务主要用到trx_message_type，其下面有47个操作类型，如transfer_operation,limit_order_create_operation,limit_order_cancel_operation等</li>
+<li>application下的application_impl::handle_transaction 为trx_message_type类消息的接受点</li>
+<li>此消息的处理在witness_plugin::maybe_produce_block中</li>
+</ul>
+</li>
+<li><p>ws/wss, http/https网络消息接收点</p>
+<ul>
+<li>login_api                         - websocket_api_connection 注册 login_api和database_api 接口<ul>
+<li>block_api</li>
+<li><strong>database_api</strong>                - 默认</li>
+<li><strong>network_broadcast_api</strong>       - 默认</li>
+<li>network_node_api</li>
+<li><strong>history_api</strong>                 - 默认</li>
+<li><strong>crypto_api</strong>                  - 默认</li>
+<li>asset_api</li>
+<li><strong>orders_api</strong>                  - 默认</li>
+<li>graphene::debug_witness::debug_api</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+</div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2018 <a href="/">Lucus Gu</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>
