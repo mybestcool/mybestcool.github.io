@@ -4,8 +4,38 @@
 
     
   <url>
+    <loc>https://mybestcool.github.io/2018/06/15/problem-about-docker/</loc>
+    <lastmod>2018-06-15T05:34:50.574Z</lastmod>
+    <data>
+        <display>
+        <title>最近遇到的关于docker的问题</title>
+        <pubTime>2018-06-15T05:29:52.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://mybestcool.github.io/2018/06/06/typescript-learning/</loc>
+    <lastmod>2018-06-06T08:49:34.863Z</lastmod>
+    <data>
+        <display>
+        <title>typescript_learning</title>
+        <pubTime>2018-06-06T08:49:07.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://mybestcool.github.io/2018/05/19/docker-build-devubuntu/</loc>
-    <lastmod>2018-06-04T13:10:56.490Z</lastmod>
+    <lastmod>2018-06-04T13:10:56.000Z</lastmod>
     <data>
         <display>
         <title>在docker中构建ubuntu开发环境</title>
@@ -20,7 +50,7 @@
     
   <url>
     <loc>https://mybestcool.github.io/2018/06/04/ipfs-dev-config/</loc>
-    <lastmod>2018-06-04T11:06:40.425Z</lastmod>
+    <lastmod>2018-06-04T11:06:40.000Z</lastmod>
     <data>
         <display>
         <title>Ubuntu命令行设置ipfs开发环境</title>
@@ -35,7 +65,7 @@
     
   <url>
     <loc>https://mybestcool.github.io/2018/05/11/bitshares-witness-structure-entrance/</loc>
-    <lastmod>2018-05-12T04:06:05.372Z</lastmod>
+    <lastmod>2018-05-12T04:06:05.000Z</lastmod>
     <data>
         <display>
         <title>bitshares-witness节点结构之入口</title>
@@ -50,7 +80,7 @@
     
   <url>
     <loc>https://mybestcool.github.io/2018/05/09/bitshares-reflect/</loc>
-    <lastmod>2018-05-09T13:56:30.531Z</lastmod>
+    <lastmod>2018-05-09T13:56:30.000Z</lastmod>
     <data>
         <display>
         <title>bitshares反射解析</title>
@@ -65,7 +95,7 @@
     
   <url>
     <loc>https://mybestcool.github.io/2018/05/03/coder-tools/</loc>
-    <lastmod>2018-05-09T13:47:28.322Z</lastmod>
+    <lastmod>2018-05-09T13:47:28.000Z</lastmod>
     <data>
         <display>
         <title>重装系统备忘</title>
@@ -80,7 +110,7 @@
     
   <url>
     <loc>https://mybestcool.github.io/2018/05/09/bitshares-install-uiwallet/</loc>
-    <lastmod>2018-05-09T13:39:56.505Z</lastmod>
+    <lastmod>2018-05-09T13:39:56.000Z</lastmod>
     <data>
         <display>
         <title>BTS UI钱包搭建以及接入到私有链</title>
@@ -95,7 +125,7 @@
     
   <url>
     <loc>https://mybestcool.github.io/2018/04/27/bitshares-deploy/</loc>
-    <lastmod>2018-05-03T06:54:38.512Z</lastmod>
+    <lastmod>2018-05-03T06:54:38.000Z</lastmod>
     <data>
         <display>
         <title>比特股环境部署-私链</title>
@@ -110,7 +140,7 @@
     
   <url>
     <loc>https://mybestcool.github.io/2018/05/02/bitshares-vs2013/</loc>
-    <lastmod>2018-05-02T12:28:33.778Z</lastmod>
+    <lastmod>2018-05-02T12:28:33.000Z</lastmod>
     <data>
         <display>
         <title>bitshares vs2013 x64位 编译</title>
