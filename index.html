@@ -239,6 +239,194 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/06/19/across-the-chain-tech/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/19/across-the-chain-tech/" itemprop="url">区块链跨链技术</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-19T10:18:45+08:00">
+                2018-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/19/across-the-chain-tech/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/19/across-the-chain-tech/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>无法跨链的区块链就如网站没有浏览器，互联网没有搜索引擎。</p>
+<p>跨链技术是实现区块链价值互联的关键，它是把区块链从分散的孤岛中拯救出来的良药，是区块链向外拓展和连接的桥梁。</p>
+<h2 id="要素"><a href="#要素" class="headerlink" title="要素"></a>要素</h2><p>基础的跨链满足以下5个步骤：</p>
+<ol>
+<li>在A链的用户A向在B链的用户B发起兑换请求</li>
+<li>跨链协议锁定A链币</li>
+<li>跨链协议锁定等值数量的B链币</li>
+<li>将B链币发到用户B的钱包地址，同时拿走锁定的用户A的链币</li>
+<li>在A链上用户A的币被转走，同时在B链上用户B得到等值的币</li>
+</ol>
+<p>根据这5个步骤，需要区块链5项能力</p>
+<ol>
+<li>便携式资产（portable assets）：资产可以多条链之间来回转移和使用</li>
+<li>满足原子性交换（atomic swap）：跨链资产兑换是安全的而且同步发生的。（不同链上的两位用户可以发起两笔传输交易，要么在两个账本上一起执行，要么两个账本都不执行，即原子性）</li>
+<li>带有跨链互通性，具备他链信息和事件的读取和验证能力（Cross-chain oracle issues）：在某些情况下，一个链（如A链）的智能合约执行机制可能是依赖另一个链（B链）的条件触发，所以A链要能获得B链的所有相关条件状态，即c具备他链信息和事件的读取和验证能力。</li>
+<li>资产留置权（Asset encumbrance）：在某些情况下，相关联的两个链资产同时需要被锁定，如抵押品或者法院强制执行的扣押等。</li>
+<li>跨链执行合约（General cross-chain contracts）：例如根据链A的股权证明在链B上分发股息等。</li>
+</ol>
+<h2 id="跨链技术主要有以下几种"><a href="#跨链技术主要有以下几种" class="headerlink" title="跨链技术主要有以下几种"></a>跨链技术主要有以下几种</h2><ul>
+<li>公证人机制(notary schemes)</li>
+<li>侧链/中继(sidechains/relays)</li>
+<li>哈希锁定(hash-locking)</li>
+<li>分布式私钥控制(distributed private key control)</li>
+<li>公证人机制+侧链混合技术(notary schemes + sidechains mixing technology)</li>
+</ul>
+<p><img src="https://pic3.zhimg.com/80/v2-e75746efecaeb37fa548fe44ff11f5b2_hd.jpg" alt="img"></p>
+<h2 id="公证技术：如瑞波Interledger协议-★★★"><a href="#公证技术：如瑞波Interledger协议-★★★" class="headerlink" title="公证技术：如瑞波Interledger协议 ★★★"></a>公证技术：如瑞波Interledger协议 ★★★</h2><p>在2012年，ILP由瑞波实验室提出，解决不同账本之间的协同。流程如下</p>
+<ol>
+<li>Alice是拥有A链的账户，Bob是拥有B链的货币，Cot是拥有A、B链的货币；Alice将向Bob进行一笔交易（如转账）</li>
+<li>Alice通过其他通讯手段，得到Bob提供的一个“共享密码”以及Bob在ILP网络中的对应唯一地址（如bob.ripple.rHCvhtqhXuBvWt5g79gyXfpG8VcrvUm9E9）</li>
+<li>Alice向Cot询价，Cot根据Alice的转账金额和市场行情算出总的交易额（包括交易费）</li>
+<li>Alice根据ILP规定生成ILP包，指定目标目标地址为Cot，同时给予ILP包的私有内容和“共享密码”生成一个“条件原像”，对“条件原像”HASH生成交易托管所需要的“条件”</li>
+<li>Alice在A链上发起一个托管交易（转账），托管条件为4所生成的条件，设置超时时间</li>
+<li>Cot在A链上检查到一笔涉及自己的托管交易，同时收到Alice的ILP包；计算和校对需要交易的额度后，将ILP包目标地址修正为Bob，并在B链上发起一个托管操作，设定交易条件为Alice的交易条件，设定超时时间，超时时间小于5.的时间，然后将ILP包发送给Bob</li>
+<li>Bob收到ILP包，用“公共密码”解出“条件原像”，用HASH校对“条件”；同时检测到B链上的托管交易，校对金额后，转入“条件原像”，确认收到交易的金额</li>
+<li>Cot在B链检测到涉及自己的托管交易被确定，分析交易数据，得到“条件原像”；把“条件原像”输入到A链上，并确认交易，收到交易的金额和手续费</li>
+<li>Alice在A链上检测到涉及自己的托管交易被确定，此次交易完成</li>
+</ol>
+<p><img src="https://pic4.zhimg.com/80/v2-1fdc73d2f73bd13ee7a3002e5f209667_hd.jpg" alt="img"></p>
+<h2 id="侧链技术：BTC-Relay-★★"><a href="#侧链技术：BTC-Relay-★★" class="headerlink" title="侧链技术：BTC Relay ★★"></a>侧链技术：BTC Relay ★★</h2><p>BTC Relay 是在以太坊基金会支持下诞生并成长起来的，属于早期的侧链技术。它在以太坊上建立一个bitcoin轻钱包，用于操作bitcoin，并给以太坊智能合约提供操作bitcoin的接口，这样用合约就能完成BTC和ETH的交易。是非常简单的一种跨链技术。但它的交易费用特别高。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-3122a815cbd4cee9a31c002d466760da_hd.jpg" alt="img"></p>
+<h2 id="中继技术：Polkadot-★★★★★-其他如Cosmos，tendermint团队开发"><a href="#中继技术：Polkadot-★★★★★-其他如Cosmos，tendermint团队开发" class="headerlink" title="中继技术：Polkadot ★★★★★ (其他如Cosmos，tendermint团队开发)"></a>中继技术：Polkadot ★★★★★ (其他如Cosmos，tendermint团队开发)</h2><p>Polkadot（Parity公司开发）将区块链共识分成两个部分：有效性和一致性。有效性的概念是比如我有10个比特币，我转给A是有效的，我转给B也可以是有效的。但一致性的概念就是我只能转给其中某一个人，即使我发出了两笔有效的交易，最终网络会共识出一条最长链来达成一致，另一个交易会被丢弃。更加概括性地讲就是有效性负责运算，一致性负责投票，一个是强CPU依赖的，一个是强出块权依赖的。</p>
+<p>Polkadot 结构中核心有两个部分：中继链和平行链，中继链负责一致性，平行链负责有效性。中继链采用POS共识算法，将主要借鉴Honeybarger，还有Tendermint。平行链由很多固定身份的收集人管理，以收集交易手续费为激励，为中继链提供自己的块头和跨链交易相关的证明数据，这部分数据在Polkadot里称为平行链的候选块，将来由中继链的验证人随机选定。由于平行链也不一定真有一条链，所以这里的块也是泛指。中继链会分成两类，第一类是类似以太坊和比特币这样有自身共识系统的区块链，他们有自身的POW矿工来维持链的运转，他们不能直接作为平行链参与到Polkadot网络中来，而是需要新成立一些收集人组建转接桥系统，将以太坊区块的数据整理为中继链所需的格式，这个转接桥系统才是Polkadot的平行链。第二类是还没有出现的过的区块链系统，他们将来的出块人就是收集人，他们链区块的决定权是由中继链的验证人决定的，这类系统可能才真正是Polkadot所设想的未来链。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-82a57e53e49dc2b6cef370d054cd42cc_hd.jpg" alt="img"></p>
+<h2 id="哈希锁定技术：Lighting-network-★★"><a href="#哈希锁定技术：Lighting-network-★★" class="headerlink" title="哈希锁定技术：Lighting network ★★"></a>哈希锁定技术：Lighting network ★★</h2><p>闪电网络基本原理：Alice在A链与Bob在B链进行一笔交易</p>
+<ol>
+<li>Alice在A链用密码H=HASH(S)锁定一笔资产，并设定时限，时限到来前，如果有人能交出S，这笔资产就转给他，否则这笔资产归还给Alice</li>
+<li>Alice将H发给Bob</li>
+<li>Bob在B链上用H锁定一笔资产，设定时限，小于1.的时限，时限到来前，如果有人能交出S，这笔资产就转给他，否则这笔资产归还给Bob</li>
+<li>Alice在B链上交出S，得到Bob锁定的资产，同时B得到了S</li>
+<li>Bob在A链上交出S，得到Alice锁定的资产</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/9076397-c921f29e7739af40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/381" alt="img"></p>
+<h2 id="分布式私钥控制技术：FUSION-★★★-其他如国内开发的WanChain"><a href="#分布式私钥控制技术：FUSION-★★★-其他如国内开发的WanChain" class="headerlink" title="分布式私钥控制技术：FUSION ★★★ (其他如国内开发的WanChain)"></a>分布式私钥控制技术：FUSION ★★★ (其他如国内开发的WanChain)</h2><p>Fusion在原链上设立锁定帐号，作为原链上的公证人，用户向fusion发起lock-in请求，然后将原链上的通证交给锁定账户，fusion上的智能合约验证请求，确认原链上的交易后，在fusion链上创造等值原链通证的标记符号，交给用户，之后用户可以在fusion上交易其他链通证的标记符号，提现时，用户在fusion上发起lock-out请求，验证节点将提现的标记符号锁定，用对应链上的锁定账户向用户发起转账，确认转账后销毁fusion上的标记符号。</p>
+<p>采用锁定账户作为公证人，不可避免的是锁定账户的密钥控制问题，fusion中采用的是所谓分布式密钥存储的安全方案，本质上就是秘密共享技术，具体可以参考Shamir的(k,n)门限秘密共享方案，简单的理解就类似多重签名技术，由n个验证节点分别持有一部分密钥，每个节点只能知道自己的密钥，然后锁定账户的任何操作都至少要有k个验证节点的密钥，因此只要且必须要有至少k个验证节点通过，锁定帐号才能将锁定的原链资产提现给用户。相较于中心化的交易所，n个验证节点事实上构成了一个多中心的结构，避免了单个中心被攻击的危害，同时不需要设计完全去中心化结构的技术难点。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/9076397-d49b302a951eb099.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/550" alt="img"></p>
+<h2 id="混合技术：Ether-Universe-★★★★"><a href="#混合技术：Ether-Universe-★★★★" class="headerlink" title="混合技术：Ether Universe ★★★★"></a>混合技术：Ether Universe ★★★★</h2><p>以太宇宙分为主链和不同区块链上的子链，主链是整个生态体系中的最重要部分，其承载了整个平台交互逻辑，记录了所有交互信息，链上产生的代币用于支付每次跨链服务所消耗的 gas。子链则用于辅助主链来对其他区块链进行双向锚定。</p>
+<p><img src="https://static.leiphone.com/uploads/new/article/740_740/201804/5ac475830d6fc.png?imageMogr2/format/jpg/quality/90" alt="img"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/06/15/problem-about-docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2050,327 +2238,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/04/27/bitshares-deploy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lucus Gu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="知行合一">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/27/bitshares-deploy/" itemprop="url">比特股环境部署-私链</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-27T15:25:23+08:00">
-                2018-04-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/27/bitshares-deploy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/27/bitshares-deploy/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="获取可执行文件"><a href="#获取可执行文件" class="headerlink" title="获取可执行文件"></a><strong>获取可执行文件</strong></h2><ul>
-<li>windows<ul>
-<li>从<a href="https://github.com/bitshares/bitshares-core/releases" target="_blank" rel="noopener">github</a>下载可执行文件即可</li>
-</ul>
-</li>
-<li>其他系统<ul>
-<li>从<a href="https://github.com/bitshares/bitshares-core" target="_blank" rel="noopener">github</a>下载源码，根据其<a href="https://github.com/bitshares/bitshares-core/wiki" target="_blank" rel="noopener">wiki</a>的要求进行编译</li>
-</ul>
-</li>
-</ul>
-<h2 id="执行文件结构简介"><a href="#执行文件结构简介" class="headerlink" title="执行文件结构简介"></a><strong>执行文件结构简介</strong></h2><p><img src="https://steemitimages.com/DQmYMJGg6USuGY3DmMkbZT6rGwWcnBDKqLCUk7jxoec45kX/1.png" alt="image"></p>
-<ul>
-<li>witness_node<ul>
-<li>通过 P2P 方式连接到 BTS 网络，从网络接收最新区块，向网络广播本地签署的交易包</li>
-<li>通过 websocket + http rpc 的方式提供 API 供其他程序调用</li>
-</ul>
-</li>
-<li>delayed_node<ul>
-<li>通过 websocket 方式连接到 witness_node ，只包含不可回退的区块</li>
-<li>通常情况下最新区块比 witness_node 落后一分钟，异常时可能会落后很多，但可保证不可回退</li>
-<li>通过 websocket + http rpc 的方式提供 API 供其他程序调用，API清单与 witness_node 相同，但无法使用交易广播功能</li>
-</ul>
-</li>
-<li>cli_wallet<ul>
-<li>通过 websocket 方式连接到 witness_node 和 delayed_node 其中之一</li>
-<li>管理钱包文件，钱包文件里包含经过加密的用户私钥，一个钱包文件可以包含多个私钥</li>
-<li>提供交易签名功能，签名后通过 witness_node 向外广播</li>
-<li>通过 http rpc 的方式提供 API 供其他程序调用</li>
-<li>推荐交易所使用一个连接到 delayed_node 的 cli_wallet 来监测用户充值，使用另一个连接到 witness_node 的 cli_wallet 来处理用户提现请求</li>
-</ul>
-</li>
-</ul>
-<h2 id="私有链部署"><a href="#私有链部署" class="headerlink" title="私有链部署"></a><strong>私有链部署</strong></h2><h3 id="witness-node-部署"><a href="#witness-node-部署" class="headerlink" title="witness_node 部署"></a><strong>witness_node 部署</strong></h3><ol>
-<li>生成创世块的json<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./witness_node --create-genesis-json &quot;my-genesis.json&quot;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>工作目录下会生成一个文件：my-genesis.json</p>
-<ol start="2">
-<li>启动见证人节点<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">witness_node -d data --genesis-json my-genesis.json --seed-nodes &quot;[]&quot;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ul>
-<li>工作目录下会生成一个目录：data，结构为blockchain目录、logs目录、p2p目录、config.ini配置文件。</li>
-<li>退出程序尽量不要强制关闭，按ctrl-c，等其优雅退出。数据损坏有可能需要重建索引（启动的时候使用–replay-blockchain参与）</li>
-</ul>
-<ol start="3">
-<li>配置config.ini，以下参数也可作为见证人节点的启动参数<ul>
-<li>–rpc-endpoint rpc监听端口，配置成”127.0.0.1:8090”（配置文件中不带引号）</li>
-<li>–enable-stale-production 让本节点无视区块链数据的时间，无论如何都生成区块数据，配置成”true”</li>
-<li>–witness-id（启动参数时可写作-w） 本节点控制的witness列表，(1.6.0-9)是默认的withness</li>
-<li>–seed-nodes 要连接的peer列表(测试环境务必传此参数，不传的话会走代码里hardcode的正式网的peer列表，会导致测试节点去跟正式网络同步数据)(没有种子节点，一般用户等一年也不一定能连上网络。见证人对网络连接的要求更高，所以，必须与完整数据的种子节点相连，否则数据不完整的钱包会制造分叉)。配置成”[]”</li>
-<li>–genesis-json 创世块的数据文件,配置成”my-genesis.json”</li>
-<li>–track-account 参数的意思是我们只关心特别指定的账户的历史交易信息，其他账户的历史交易信息我不需要。这样就可以大大节省内存开支。</li>
-</ul>
-</li>
-<li>再次启动见证人节点<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">witness_node -d data</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>参数-d data 与 –data-dir data是一样的</p>
-<h3 id="delayed-node-部署"><a href="#delayed-node-部署" class="headerlink" title="delayed_node 部署"></a><strong>delayed_node 部署</strong></h3><ol>
-<li>与 witness_node 雷同</li>
-</ol>
-<h3 id="cli-wallet-部署"><a href="#cli-wallet-部署" class="headerlink" title="cli_wallet 部署"></a><strong>cli_wallet 部署</strong></h3><ol>
-<li>启动钱包节点<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./cli_wallet --chain-id=&quot;97f304dce6fe30cccbdef37cd7899d349297a78ba483375adc3982016ef40c63&quot; -s ws://127.0.0.1:8090 -w my-wallet.json</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ul>
-<li>-s 或 –server-rpc-endpoint witness_node的地址和端口 </li>
-<li>–chain-id 指的是服务的chain-id，可以不带此参数执行一次命令，程序的报错信息会显示这个id；witness_node启动成功后也会打印出这个id</li>
-<li>-w 或 –wallet-file 指的是钱包文件</li>
-</ul>
-<ol start="2">
-<li>cli_wallet 钱包命令</li>
-</ol>
-<ul>
-<li><p>创建钱包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new &gt;&gt;&gt; set_password 1111</span><br><span class="line">set_password 1111</span><br><span class="line">null</span><br><span class="line">locked &gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解锁钱包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">locked &gt;&gt;&gt; unlock 1111</span><br><span class="line">unlock 1111</span><br><span class="line">null</span><br><span class="line">unlocked &gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>钱包导入用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; import_key nathan 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<blockquote>
-<p>nathan是在创世文件中定义的帐户名称，5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3是对应的私钥，在data目录下的config.ini中可以查到</p>
-<ul>
-<li>导入余额<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; import_balance nathan [&quot;5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3&quot;] true</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>导入的余额在创世文件中有配置，在initial_balances中，其中owner是指帐号nathan的地址。一个帐号包含三块内容，如nathan帐号{“private_key”:”5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3”,”public_key”:”BTS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV”,”address”:”BTSFAbAx7yuxt725qSZvfwWqkdCwp9ZnUama”}，而这三个由一组brain_priv_key（16个有序的英文单词）生成。</p>
-<ul>
-<li>查看账户信息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; get_account nathan</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</blockquote>
-<ul>
-<li><p>查看账户余额</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; list_account_balances nathan</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>升级会员</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; upgrade_account nathan true</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<blockquote>
-<p>由于已知的缓存问题，您需要在这个阶段重新启动CLI，否则它将不知道nathan已经升级了。按Ctrl-C命令停止钱包，然后再次使用相同的命令之前启动它。</p>
-</blockquote>
-<blockquote>
-<p>然后用get_account nathan查看，看到”membership_expiration_date”已经从”1970-01-01T00:00:00” 变成了 “1969-12-31T23:59:59”，意味着升级成功了。</p>
-<ul>
-<li>创建帐号<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">locked &gt;&gt;&gt; suggest_brain_key</span><br><span class="line">suggest_brain_key</span><br><span class="line">&#123;</span><br><span class="line">  &quot;brain_priv_key&quot;: &quot;BECURSE VALGOID DEFROCK GODKIN SWITHER WORTH SUIFORM DAKER IPSEAND UPPERER PSALM UNCAST DOTTILY BEFRIZ SCUT BRONC&quot;,</span><br><span class="line">  &quot;wif_priv_key&quot;: &quot;5KZmzKmP8869Tw26nBTtYzGM4vW55mH9R9ZTeK9wPiTeX495rbn&quot;,</span><br><span class="line">  &quot;pub_key&quot;: &quot;BTS7KuKh66CdWb1pTRg414ocVXGDQLnrRtJDd4srevt6MRmQPd8Gg&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>首先生成新账户的信息。 通过使用suggest_brain_key命令来完成它<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; create_account_with_brain_key &quot;BECURSE VALGOID DEFROCK GODKIN SWITHER WORTH SUIFORM DAKER IPSEAND UPPERER PSALM UNCAST DOTTILY BEFRIZ SCUT BRONC&quot; alpha nathan nathan true</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<blockquote>
-<p>创建帐号的创建者有两个条件，1.必须是终生会员身份（LTM）；2.有足够的余额提供注册费用</p>
-<ul>
-<li>转账<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; transfer nathan alpha 2000000000 BTS &quot;here is some cash&quot; true</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</blockquote>
-<ol start="3">
-<li>其他钱包<ul>
-<li>网页钱包<ul>
-<li>官方钱包:<a href="https://wallet.bitshares.org" target="_blank" rel="noopener">https://wallet.bitshares.org</a></li>
-<li>Transwiser支持钱包： <a href="https://bts.transwiser.com" target="_blank" rel="noopener">https://bts.transwiser.com</a></li>
-<li>DACPLAY支持钱包：<a href="https://bitshares.dacplay.org" target="_blank" rel="noopener">https://bitshares.dacplay.org</a></li>
-<li>比特帝国支持钱包：<a href="https://bit.btsabc.org" target="_blank" rel="noopener">https://bit.btsabc.org</a></li>
-<li>OpenLedger支持钱包：<a href="https://bitshares.openledger.info" target="_blank" rel="noopener">https://bitshares.openledger.info</a></li>
-</ul>
-</li>
-<li>客户端钱包<ul>
-<li>官方钱包:<a href="https://bitshares.org/download/" target="_blank" rel="noopener">https://bitshares.org/download/</a></li>
-</ul>
-</li>
-<li>命令行钱包<ul>
-<li>witness_node</li>
-<li>curl:curl -d ‘{“jsonrpc”: “2.0”, “method”: “info”, “params”: [], “id”: 1}’ <a href="http://localhost:8090" target="_blank" rel="noopener">http://localhost:8090</a> <a href="http://127.0.0.1:8093/rpc" target="_blank" rel="noopener">http://127.0.0.1:8093/rpc</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="添加新的witness-node"><a href="#添加新的witness-node" class="headerlink" title="添加新的witness_node"></a><strong>添加新的witness_node</strong></h3><ol>
-<li>使用get_dev_key创建见证人帐号<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">programs/genesis_util/get_dev_key BTS w1</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>运行以上命令会生成一对秘钥对和地址</p>
-<blockquote>
-<p>[{“private_key”:”5JjzogP6V1TciYQHthBLPnmj5cyrYLfwfoDeY6rpG4mcNUd7hDq”,”public_key”:”BTS6WqFcNmb8DA8SG2HJDL23TzSKk67HrCf6qTeqXhbCcohi11epm”,”address”:”BTSMZq4SyNoFGraCNuV5ZjbJHMvcYBLSV3rM”},</p>
-</blockquote>
-<blockquote>
-<p>如果要修改创世文件的密钥对，修改以下字段initial_accounts、initial_balances、initial_witness_candidates（见证人）、initial_committee_candidates（委员会）</p>
-</blockquote>
-<ol start="2">
-<li>使用cli_wallet创建见证人帐号</li>
-</ol>
-<p>使用cli_wallet创建一个帐号w2，保证其有一定余额，并将其升级成终生会员。记录公钥私钥。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">locked &gt;&gt;&gt; suggest_brain_key</span><br><span class="line">unlocked &gt;&gt;&gt; create_account_with_brain_key &quot;BECURSE VALGOID DEFROCK GODKIN SWITHER WORTH SUIFORM DAKER IPSEAND UPPERER PSALM UNCAST DOTTILY BEFRIZ SCUT BRONC&quot; w2 nathan nathan true</span><br><span class="line">unlocked &gt;&gt;&gt; transfer nathan w2 2000000000 BTS &quot;here is some cash&quot; true</span><br><span class="line">unlocked &gt;&gt;&gt; upgrade_account nathan true</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>详细见 cli_wallet 命令</p>
-</blockquote>
-<ol start="3">
-<li>成为见证人-配置创世文件（对应1）</li>
-</ol>
-<p>修改创世文件的对应的字段，如initial_accounts、initial_balances、initial_witness_candidates（见证人）、initial_committee_candidates（委员会）</p>
-<ol start="4">
-<li>成为见证人-admin帐号使用客户端申请（对应2）<br>在cli_wallet客户端中，创建witness对象，参考<a href="https://github.com/cryptonomex/graphene/wiki/CLI-Wallet-Cookbook" target="_blank" rel="noopener">wiki</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; create_witness w2 &quot;http://url-to-proposal&quot; true //url-to-proposal可为空</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>在cli_wallet客户端中，用admin帐号投票<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; vote_for_witness admin w2 true true</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>投票成功之后，等待下次maintenance（通常是第二天0点）就可以看到我们的witness已经进入列表了，使用以下命令查询witness列表（get_global_properties）</p>
-</blockquote>
-<ol start="4">
-<li>配置和启动<ul>
-<li>把公钥和私钥配置到data/config.ini文件中（private-key = [PublicKey, WIF private key]）</li>
-<li>将witness-id加入config.ini(witness-id = “1.6.12”)</li>
-<li>重启witness节点,注意seed-nodes的配置</li>
-</ul>
-</li>
-</ol>
-<h3 id="网页钱包部署"><a href="#网页钱包部署" class="headerlink" title="网页钱包部署"></a>网页钱包部署</h3><ol>
-<li><a href="https://www.jianshu.com/p/72396c43c906" target="_blank" rel="noopener">Web钱包搭建</a></li>
-<li><a href="https://www.jianshu.com/p/a89b3835d4e8" target="_blank" rel="noopener">水龙头服务搭建</a></li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2421,7 +2288,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
