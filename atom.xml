@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mybestcool.github.io/"/>
-  <updated>2018-06-30T04:48:24.482Z</updated>
+  <updated>2018-07-13T02:21:04.044Z</updated>
   <id>https://mybestcool.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>微博爬虫技术方案</title>
+    <link href="https://mybestcool.github.io/2018/07/13/crawler-weibo/"/>
+    <id>https://mybestcool.github.io/2018/07/13/crawler-weibo/</id>
+    <published>2018-07-13T01:48:57.000Z</published>
+    <updated>2018-07-13T02:21:04.044Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul><li>目的：实现爬取相关微博的评论、转发、点赞等信息</li><li>方案：<ul><li>在网上搜索了一遍后，相对觉得python比较好用。现存的解决方案多，实现爬虫开发速度快，且开源项目也多，但大多数都是娱乐性质的</li><li>又找了一遍后，觉得<a href="https://github.com/SpiderClub/weibospider" target="_blank" rel="noopener">WeiboSpider</a>这个项目相对可以商业化，就基于这个项目来实现吧</li><li>WeiboSpider使用到的工具：python3.5、mysql、redis</li></ul></li></ul><h2 id="技术架构"><a href="#技术架构" class="headerlink" title="技术架构"></a>技术架构</h2><ul><li><p>原WeiboSpider架构，主要使用技术celery库，分成三个部分</p><ul><li>使用定时器触发事件：如每隔20小时登录一次，每隔5分钟执行一次抓取评论、抓发和点赞信息，定时器有以下2中方法<ul><li>crontab，定时调用下python脚本</li><li>使用celery功能，如”celery beat -A tasks.workers -l info”</li></ul></li><li>使用celery爬取微博：celery会把触发事件插入到redis，celery开启工作线程执行爬取<ul><li>“celery -A tasks.workers -l info”</li></ul></li><li>工作线程把爬取的内容插入到数据库，目前使用的是mysql</li></ul></li><li><p>在原来的基础上，加了两个服务</p><ul><li>爬虫前端服务：<ul><li>提供微博的实时接口，如查询等功能，这些功能因为数据量太大，就直接转向微博</li><li>定时触发事件功能</li></ul></li><li>接口服务：<ul><li>多种接入协议支持，如http，ws等</li><li>转发微博的实时接口，对接到爬虫前端服务</li><li>这层接口更加业务化，它从数据库组织数据，发送给应用端</li></ul></li></ul></li></ul><h2 id="注意的问题"><a href="#注意的问题" class="headerlink" title="注意的问题"></a>注意的问题</h2><ul><li>WeiboSpider中需要注意的问题<ul><li>数据库连接不支持多线程</li><li>数据库连接长时间没有操作，会失去连接</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;技术选型&quot;&gt;&lt;a href=&quot;#技术选型&quot; class=&quot;headerlink&quot; title=&quot;技术选型&quot;&gt;&lt;/a&gt;技术选型&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;目的：实现爬取相关微博的评论、转发、点赞等信息&lt;/li&gt;
+&lt;li&gt;方案：&lt;ul&gt;
+&lt;li&gt;在网上搜索了一遍后，相
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Managing OneSelf 整理</title>

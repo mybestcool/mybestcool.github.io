@@ -71,6 +71,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="知行合一" type="application/atom+xml" />
 
@@ -79,17 +81,17 @@
 
 
 
-<meta name="description" content="反射，关键在理解宏BOOST_PP_SEQ_FOR_EACH，分成以下两类 成员反射 原理：生成一个reflector&amp;lt;T&amp;gt;类，把T的成员转移到reflector&amp;lt;T&amp;gt;中，并提供visit(visitor&amp;amp;)接口访问，访问的时候遍列每个成员，且调用visitor.operator(const char* name) 应用 variant：即可以把T转移到variant中，也可">
+<meta name="description" content="技术选型 目的：实现爬取相关微博的评论、转发、点赞等信息 方案： 在网上搜索了一遍后，相对觉得python比较好用。现存的解决方案多，实现爬虫开发速度快，且开源项目也多，但大多数都是娱乐性质的 又找了一遍后，觉得WeiboSpider这个项目相对可以商业化，就基于这个项目来实现吧 WeiboSpider使用到的工具：python3.5、mysql、redis    技术架构 原WeiboSpide">
 <meta property="og:type" content="article">
-<meta property="og:title" content="bitshares反射解析">
-<meta property="og:url" content="https://mybestcool.github.io/2018/05/09/bitshares-reflect/index.html">
+<meta property="og:title" content="微博爬虫技术方案">
+<meta property="og:url" content="https://mybestcool.github.io/2018/07/13/crawler-weibo/index.html">
 <meta property="og:site_name" content="知行合一">
-<meta property="og:description" content="反射，关键在理解宏BOOST_PP_SEQ_FOR_EACH，分成以下两类 成员反射 原理：生成一个reflector&amp;lt;T&amp;gt;类，把T的成员转移到reflector&amp;lt;T&amp;gt;中，并提供visit(visitor&amp;amp;)接口访问，访问的时候遍列每个成员，且调用visitor.operator(const char* name) 应用 variant：即可以把T转移到variant中，也可">
+<meta property="og:description" content="技术选型 目的：实现爬取相关微博的评论、转发、点赞等信息 方案： 在网上搜索了一遍后，相对觉得python比较好用。现存的解决方案多，实现爬虫开发速度快，且开源项目也多，但大多数都是娱乐性质的 又找了一遍后，觉得WeiboSpider这个项目相对可以商业化，就基于这个项目来实现吧 WeiboSpider使用到的工具：python3.5、mysql、redis    技术架构 原WeiboSpide">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-09T13:56:30.000Z">
+<meta property="og:updated_time" content="2018-07-13T02:21:04.044Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bitshares反射解析">
-<meta name="twitter:description" content="反射，关键在理解宏BOOST_PP_SEQ_FOR_EACH，分成以下两类 成员反射 原理：生成一个reflector&amp;lt;T&amp;gt;类，把T的成员转移到reflector&amp;lt;T&amp;gt;中，并提供visit(visitor&amp;amp;)接口访问，访问的时候遍列每个成员，且调用visitor.operator(const char* name) 应用 variant：即可以把T转移到variant中，也可">
+<meta name="twitter:title" content="微博爬虫技术方案">
+<meta name="twitter:description" content="技术选型 目的：实现爬取相关微博的评论、转发、点赞等信息 方案： 在网上搜索了一遍后，相对觉得python比较好用。现存的解决方案多，实现爬虫开发速度快，且开源项目也多，但大多数都是娱乐性质的 又找了一遍后，觉得WeiboSpider这个项目相对可以商业化，就基于这个项目来实现吧 WeiboSpider使用到的工具：python3.5、mysql、redis    技术架构 原WeiboSpide">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://mybestcool.github.io/2018/05/09/bitshares-reflect/"/>
+  <link rel="canonical" href="https://mybestcool.github.io/2018/07/13/crawler-weibo/"/>
 
 
 
 
 
-  <title>bitshares反射解析 | 知行合一</title>
+  <title>微博爬虫技术方案 | 知行合一</title>
   
 
 
@@ -242,7 +244,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/05/09/bitshares-reflect/">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/07/13/crawler-weibo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lucus Gu">
@@ -259,7 +261,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">bitshares反射解析</h1>
+          <h1 class="post-title" itemprop="name headline">微博爬虫技术方案</h1>
         
 
         <div class="post-meta">
@@ -271,8 +273,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T21:48:28+08:00">
-                2018-05-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-13T09:48:57+08:00">
+                2018-07-13
               </time>
             
 
@@ -290,9 +292,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/09/bitshares-reflect/#comments" itemprop="discussionUrl">
+                <a href="/2018/07/13/crawler-weibo/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/09/bitshares-reflect/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/07/13/crawler-weibo/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -320,34 +322,50 @@
       
 
       
-        <ul>
-<li>反射，关键在理解宏BOOST_PP_SEQ_FOR_EACH，分成以下两类<ul>
-<li>成员反射<ul>
-<li>原理：生成一个reflector&lt;T>类，把T的成员转移到reflector&lt;T>中，并提供visit(visitor&amp;)接口访问，访问的时候遍列每个成员，且调用visitor.operator(const char* name)</li>
-<li>应用<ul>
-<li>variant：即可以把T转移到variant中，也可以从variant转移出来</li>
-<li>序列化：pack、unpack</li>
+        <h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
+<li>目的：实现爬取相关微博的评论、转发、点赞等信息</li>
+<li>方案：<ul>
+<li>在网上搜索了一遍后，相对觉得python比较好用。现存的解决方案多，实现爬虫开发速度快，且开源项目也多，但大多数都是娱乐性质的</li>
+<li>又找了一遍后，觉得<a href="https://github.com/SpiderClub/weibospider" target="_blank" rel="noopener">WeiboSpider</a>这个项目相对可以商业化，就基于这个项目来实现吧</li>
+<li>WeiboSpider使用到的工具：python3.5、mysql、redis</li>
+</ul>
+</li>
+</ul>
+<h2 id="技术架构"><a href="#技术架构" class="headerlink" title="技术架构"></a>技术架构</h2><ul>
+<li><p>原WeiboSpider架构，主要使用技术celery库，分成三个部分</p>
+<ul>
+<li>使用定时器触发事件：如每隔20小时登录一次，每隔5分钟执行一次抓取评论、抓发和点赞信息，定时器有以下2中方法<ul>
+<li>crontab，定时调用下python脚本</li>
+<li>使用celery功能，如”celery beat -A tasks.workers -l info”</li>
+</ul>
+</li>
+<li>使用celery爬取微博：celery会把触发事件插入到redis，celery开启工作线程执行爬取<ul>
+<li>“celery -A tasks.workers -l info”</li>
+</ul>
+</li>
+<li>工作线程把爬取的内容插入到数据库，目前使用的是mysql</li>
+</ul>
+</li>
+<li><p>在原来的基础上，加了两个服务</p>
+<ul>
+<li>爬虫前端服务：<ul>
+<li>提供微博的实时接口，如查询等功能，这些功能因为数据量太大，就直接转向微博</li>
+<li>定时触发事件功能</li>
+</ul>
+</li>
+<li>接口服务：<ul>
+<li>多种接入协议支持，如http，ws等</li>
+<li>转发微博的实时接口，对接到爬虫前端服务</li>
+<li>这层接口更加业务化，它从数据库组织数据，发送给应用端</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>接口反射<ul>
-<li>原理：生成一个vtable&lt;T,Transform>类，把T的成员函数转移到vtable&lt;T,Transform>中，转移成成员，并提供visit(visitor&amp;&amp;)接口访问，访问的时候遍列每个成员，调用方法有两类，且都可以修改memb<ul>
-<li>visitor.operator()( const char* name, std::function&lt;R(Args…)>&amp; memb, MemberPtr m )，memb为成员，m为vistor的类的成员函数&amp;OtherType::elem</li>
-<li>visitor.operator()( const char* name, std::function&lt;R(Args…)>&amp; memb )</li>
-<li>使用：api&lt;interfaceT> apit(realT)，<ul>
-<li>内部生成vtable&lt;T,Transform>实例，使用api->访问vtable&lt;T,Transform>的实例的“虚拟函数”</li>
-<li>构造的时候，会调用visitor.operator()( const char* name, std::function&lt;R(Args…)>&amp; memb, MemberPtr m ),接口的真实地址变更到realT上</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>应用<ul>
-<li>网络RCP调用，参数和返回值需要转化成variant</li>
-</ul>
-</li>
-</ul>
-</li>
+<h2 id="注意的问题"><a href="#注意的问题" class="headerlink" title="注意的问题"></a>注意的问题</h2><ul>
+<li>WeiboSpider中需要注意的问题<ul>
+<li>数据库连接不支持多线程</li>
+<li>数据库连接长时间没有操作，会失去连接</li>
 </ul>
 </li>
 </ul>
@@ -375,8 +393,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/09/bitshares-install-uiwallet/" rel="next" title="BTS UI钱包搭建以及接入到私有链">
-                <i class="fa fa-chevron-left"></i> BTS UI钱包搭建以及接入到私有链
+              <a href="/2018/06/30/manage-oneself/" rel="next" title="Managing OneSelf 整理">
+                <i class="fa fa-chevron-left"></i> Managing OneSelf 整理
               </a>
             
           </div>
@@ -384,10 +402,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/11/bitshares-witness-structure-entrance/" rel="prev" title="bitshares-witness节点结构之入口">
-                bitshares-witness节点结构之入口 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -449,8 +463,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -508,6 +531,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#技术选型"><span class="nav-number">1.</span> <span class="nav-text">技术选型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技术架构"><span class="nav-number">2.</span> <span class="nav-text">技术架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意的问题"><span class="nav-number">3.</span> <span class="nav-text">注意的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -665,9 +704,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://mybestcool.github.io/2018/05/09/bitshares-reflect/';
-          this.page.identifier = '2018/05/09/bitshares-reflect/';
-          this.page.title = 'bitshares反射解析';
+          this.page.url = 'https://mybestcool.github.io/2018/07/13/crawler-weibo/';
+          this.page.identifier = '2018/07/13/crawler-weibo/';
+          this.page.title = '微博爬虫技术方案';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://https-mybestcool-github-io.disqus.com/embed.js';
