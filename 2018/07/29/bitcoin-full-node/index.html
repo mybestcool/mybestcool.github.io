@@ -71,6 +71,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="知行合一" type="application/atom+xml" />
 
@@ -86,7 +88,7 @@
 <meta property="og:site_name" content="知行合一">
 <meta property="og:description" content="选型比特币节点有很多实现  bitcoin core：官方节点，c/c++实现，正式网络大多数都是用这个来运行全节点 btcd：golang的实现版本，如果用golang来写一些功能，可以参考这个代码 libbitcoin：c/c++实现，特点是它有较好的工具链 parity-bitcoin：rust实现，是以太坊创始人之一Gavin Wood的新公司Parity Technologies下的一个">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-29T13:39:04.320Z">
+<meta property="og:updated_time" content="2018-07-29T13:57:56.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="比特币全节点部署">
 <meta name="twitter:description" content="选型比特币节点有很多实现  bitcoin core：官方节点，c/c++实现，正式网络大多数都是用这个来运行全节点 btcd：golang的实现版本，如果用golang来写一些功能，可以参考这个代码 libbitcoin：c/c++实现，特点是它有较好的工具链 parity-bitcoin：rust实现，是以太坊创始人之一Gavin Wood的新公司Parity Technologies下的一个">
@@ -356,6 +358,9 @@
 <li>一些其他命令</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看网络状态：</span></span><br><span class="line">bitcoin-cli getnetworkinfo</span><br><span class="line"><span class="comment"># 查看网络节点：</span></span><br><span class="line">bitcoin-cli getpeerinfo</span><br><span class="line"><span class="comment"># 查看区块链信息：如同步进度、</span></span><br><span class="line">bitcoin-cli getblockchaininfo</span><br><span class="line"><span class="comment"># 查看所有命令</span></span><br><span class="line">bitcoin-cli <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>其他，确保ntp服务是开启的，大多数区块链都要求开启。</li>
+</ul>
 <h1 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h1><ul>
 <li><a href="https://bitnodes.earn.com/" target="_blank" rel="noopener">比特币全球节点分布</a></li>
 <li><a href="https://www.blockchain.com/en/explorer" target="_blank" rel="noopener">比特币浏览器</a></li>
