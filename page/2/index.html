@@ -239,6 +239,180 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/05/09/bitshares-install-uiwallet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/09/bitshares-install-uiwallet/" itemprop="url">BTS UI钱包搭建以及接入到私有链</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T15:55:40+08:00">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/05/09/bitshares-install-uiwallet/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/05/09/bitshares-install-uiwallet/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="参考地址"><a href="#参考地址" class="headerlink" title="参考地址"></a>参考地址</h2><ul>
+<li>参考文章-<a href="https://steemit.com/bitshares/@cm-steem/bitshares-ui-customization-guide" target="_blank" rel="noopener">比特股钱包定制</a></li>
+<li>参考文章-<a href="https://github.com/bitshares/bitshares-ui/blob/staging/README_zh.md" target="_blank" rel="noopener">官方帮助MD</a></li>
+</ul>
+<h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><ul>
+<li>系统ubuntu16.04</li>
+<li>检查是否已经安装nvm，没有则</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.2/install.sh | bash</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装node</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvm install v6</span><br><span class="line">nvm use v6</span><br></pre></td></tr></table></figure>
+<p>本地切换只针对当前命令行窗口有效，新打开命令行，需要重新切换v6</p>
+<h2 id="源码下载和安裝"><a href="#源码下载和安裝" class="headerlink" title="源码下载和安裝"></a>源码下载和安裝</h2><ul>
+<li>下载和安装依赖</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/bitshares/bitshares-ui.git</span><br><span class="line"><span class="built_in">cd</span> bitshares-ui</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>安装中如果遇到问题</p>
+<p>  先安装cnpm</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<p>然后用cnpm安装所有的包。如果只有”electron”和”electron-builder”无法下载，可暂时删除依赖。</p>
+<ul>
+<li>启动服务</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p>成功的话，会看到以下提示</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack: Compiled succeedfully.</span><br></pre></td></tr></table></figure>
+<p>浏览器中输入以下命令查看运行情况</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080</span><br></pre></td></tr></table></figure>
+<h2 id="配置和源码修改"><a href="#配置和源码修改" class="headerlink" title="配置和源码修改"></a>配置和源码修改</h2><ul>
+<li>替换掉所有的货币名，搜索所有代码替换，包括js和node_modules/bitsharesjs-ws</li>
+<li>修改node_modules/bitsharesjs-ws的chainid，路径node_modules/bitsharesjs-ws/es/src/ChainConfig.js和node_modules/bitsharesjs-ws/cjs/src/ChainConfig.js</li>
+<li>修改链的地址和水龙头地址，路径app\api\apiConfig.js</li>
+<li>修改交易对等，路径app\stores\SettingsStore.js</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> topMarkets = &#123;</span><br><span class="line">    markets_4018d784: [ <span class="comment">// BTS MAIN NET</span></span><br><span class="line">        <span class="string">"OPEN.MKR"</span>, <span class="string">"BTS"</span>, <span class="string">"OPEN.ETH"</span>, <span class="string">"ICOO"</span>, <span class="string">"BTC"</span>, <span class="string">"OPEN.LISK"</span>, <span class="string">"BKT"</span>,</span><br><span class="line">        <span class="string">"OPEN.STEEM"</span>, <span class="string">"OPEN.GAME"</span>, <span class="string">"OCT"</span>, <span class="string">"USD"</span>, <span class="string">"CNY"</span>, <span class="string">"BTSR"</span>, <span class="string">"OBITS"</span>,</span><br><span class="line">        <span class="string">"OPEN.DGD"</span>, <span class="string">"EUR"</span>, <span class="string">"GOLD"</span>, <span class="string">"SILVER"</span>, <span class="string">"IOU.CNY"</span>, <span class="string">"OPEN.DASH"</span>,</span><br><span class="line">        <span class="string">"OPEN.USDT"</span>, <span class="string">"OPEN.EURT"</span>, <span class="string">"OPEN.BTC"</span>, <span class="string">"CADASTRAL"</span>, <span class="string">"BLOCKPAY"</span>, <span class="string">"BTWTY"</span>,</span><br><span class="line">        <span class="string">"OPEN.INCNT"</span>, <span class="string">"KAPITAL"</span>, <span class="string">"OPEN.MAID"</span>, <span class="string">"OPEN.SBD"</span>, <span class="string">"OPEN.GRC"</span>, <span class="string">"YOURASSET"</span>,</span><br><span class="line">        <span class="string">"YOYOW"</span>, <span class="string">"HERO"</span>, <span class="string">"RUBLE"</span></span><br><span class="line">    ],</span><br><span class="line">    markets_39f5e2ed: [ <span class="comment">// TESTNET</span></span><br><span class="line">        <span class="string">"PEG.FAKEUSD"</span>, <span class="string">"YOURASSET"</span>, <span class="string">"BTWTY"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bases = &#123;</span><br><span class="line">    markets_4018d784: [ <span class="comment">// BTS MAIN NET</span></span><br><span class="line">        <span class="string">"USD"</span>, <span class="string">"OPEN.BTC"</span>, <span class="string">"CNY"</span>, <span class="string">"BTS"</span>, <span class="string">"BTC"</span>, <span class="string">"YOURASSET"</span></span><br><span class="line">    ],</span><br><span class="line">    markets_39f5e2ed: [ <span class="comment">// TESTNET</span></span><br><span class="line">        <span class="string">"TEST"</span>, <span class="string">"YOURASSET"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">        <span class="keyword">let</span> defaults = &#123;</span><br><span class="line">            unit: [</span><br><span class="line">                CORE_ASSET,</span><br><span class="line">                <span class="string">"USD"</span>,</span><br><span class="line">                <span class="string">"CNY"</span>,</span><br><span class="line">                <span class="string">"BTC"</span>,</span><br><span class="line">                <span class="string">"EUR"</span>,</span><br><span class="line">                <span class="string">"YOURASSET"</span></span><br><span class="line">            ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="水龙头服务搭建"><a href="#水龙头服务搭建" class="headerlink" title="水龙头服务搭建"></a>水龙头服务搭建</h2><ul>
+<li>参考<a href="https://steemit.com/bitshares/@baidang/66din5" target="_blank" rel="noopener">搭建比特股的水龙头注册服务</a>，写的很详细，最后总结了一些问题的处理办法</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/05/03/coder-tools/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2403,7 +2577,7 @@ http://www.mongodb.org.cn/
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

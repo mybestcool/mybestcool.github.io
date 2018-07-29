@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="问题1：docker -v 与 onedrive 冲突 问题现象  在windows下docker用Ubuntu镜像生成容器，用-v映射到本地目录，如果这个目录也是onedrive包含的目录，那有可能导致onedrive一直卡在“正在更新文件”中  解决办法  停掉和删除容器 重设onedrive，键盘win+r，输入“%localappdata%\Microsoft\OneDrive\onedr">
+<meta name="description" content="选型比特币节点有很多实现  bitcoin core：官方节点，c/c++实现，正式网络大多数都是用这个来运行全节点 btcd：golang的实现版本，如果用golang来写一些功能，可以参考这个代码 libbitcoin：c/c++实现，特点是它有较好的工具链 parity-bitcoin：rust实现，是以太坊创始人之一Gavin Wood的新公司Parity Technologies下的一个">
 <meta property="og:type" content="article">
-<meta property="og:title" content="最近遇到的关于docker的问题">
-<meta property="og:url" content="https://mybestcool.github.io/2018/06/15/problem-about-docker/index.html">
+<meta property="og:title" content="比特币全节点部署">
+<meta property="og:url" content="https://mybestcool.github.io/2018/07/29/bitcoin-full-node/index.html">
 <meta property="og:site_name" content="知行合一">
-<meta property="og:description" content="问题1：docker -v 与 onedrive 冲突 问题现象  在windows下docker用Ubuntu镜像生成容器，用-v映射到本地目录，如果这个目录也是onedrive包含的目录，那有可能导致onedrive一直卡在“正在更新文件”中  解决办法  停掉和删除容器 重设onedrive，键盘win+r，输入“%localappdata%\Microsoft\OneDrive\onedr">
+<meta property="og:description" content="选型比特币节点有很多实现  bitcoin core：官方节点，c/c++实现，正式网络大多数都是用这个来运行全节点 btcd：golang的实现版本，如果用golang来写一些功能，可以参考这个代码 libbitcoin：c/c++实现，特点是它有较好的工具链 parity-bitcoin：rust实现，是以太坊创始人之一Gavin Wood的新公司Parity Technologies下的一个">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-15T05:34:50.574Z">
+<meta property="og:updated_time" content="2018-07-29T13:39:04.320Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="最近遇到的关于docker的问题">
-<meta name="twitter:description" content="问题1：docker -v 与 onedrive 冲突 问题现象  在windows下docker用Ubuntu镜像生成容器，用-v映射到本地目录，如果这个目录也是onedrive包含的目录，那有可能导致onedrive一直卡在“正在更新文件”中  解决办法  停掉和删除容器 重设onedrive，键盘win+r，输入“%localappdata%\Microsoft\OneDrive\onedr">
+<meta name="twitter:title" content="比特币全节点部署">
+<meta name="twitter:description" content="选型比特币节点有很多实现  bitcoin core：官方节点，c/c++实现，正式网络大多数都是用这个来运行全节点 btcd：golang的实现版本，如果用golang来写一些功能，可以参考这个代码 libbitcoin：c/c++实现，特点是它有较好的工具链 parity-bitcoin：rust实现，是以太坊创始人之一Gavin Wood的新公司Parity Technologies下的一个">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://mybestcool.github.io/2018/06/15/problem-about-docker/"/>
+  <link rel="canonical" href="https://mybestcool.github.io/2018/07/29/bitcoin-full-node/"/>
 
 
 
 
 
-  <title>最近遇到的关于docker的问题 | 知行合一</title>
+  <title>比特币全节点部署 | 知行合一</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/06/15/problem-about-docker/">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/07/29/bitcoin-full-node/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lucus Gu">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">最近遇到的关于docker的问题</h1>
+          <h1 class="post-title" itemprop="name headline">比特币全节点部署</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-15T13:29:52+08:00">
-                2018-06-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T19:50:45+08:00">
+                2018-07-29
               </time>
             
 
@@ -290,9 +290,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/06/15/problem-about-docker/#comments" itemprop="discussionUrl">
+                <a href="/2018/07/29/bitcoin-full-node/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/06/15/problem-about-docker/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/07/29/bitcoin-full-node/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -320,38 +320,50 @@
       
 
       
-        <h2 id="问题1：docker-v-与-onedrive-冲突"><a href="#问题1：docker-v-与-onedrive-冲突" class="headerlink" title="问题1：docker -v 与 onedrive 冲突"></a>问题1：docker -v 与 onedrive 冲突</h2><ul>
-<li>问题现象</li>
-</ul>
-<p>在windows下docker用Ubuntu镜像生成容器，用-v映射到本地目录，如果这个目录也是onedrive包含的目录，那有可能导致onedrive一直卡在“正在更新文件”中</p>
+        <h2 id="选型"><a href="#选型" class="headerlink" title="选型"></a>选型</h2><p>比特币节点有很多实现</p>
 <ul>
-<li><p>解决办法</p>
+<li><a href="https://github.com/bitcoin/bitcoin" target="_blank" rel="noopener">bitcoin core</a>：官方节点，c/c++实现，正式网络大多数都是用这个来运行全节点</li>
+<li><a href="https://github.com/btcsuite/btcd" target="_blank" rel="noopener">btcd</a>：golang的实现版本，如果用golang来写一些功能，可以参考这个代码</li>
+<li><a href="https://github.com/libbitcoin/libbitcoin" target="_blank" rel="noopener">libbitcoin</a>：c/c++实现，特点是它有较好的工具链</li>
+<li><a href="https://github.com/paritytech/parity-bitcoin" target="_blank" rel="noopener">parity-bitcoin</a>：rust实现，是以太坊创始人之一Gavin Wood的新公司Parity Technologies下的一个产品，它同样也实现了以太坊rust版本</li>
+</ul>
+<p>还有很多其他实现，如java版本和js版本。如果用作商业用途，那bitcoin core必然是最稳妥的选择。所以这里选择了bitcoin core。</p>
+<h2 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h2><ul>
+<li>硬盘：500G。比特币从08年开始运行，已经积累了大量数据，区块链内容大小达210G。</li>
+<li>内存：16G。一般来说4G就够，但如果要查历史记录，需要加载完整的交易索引表-tindex，这导致需要8G+的内存</li>
+<li>cpu：4核。</li>
+<li>带宽：一般就行。阿里云的一般2-3天就能同步完。</li>
+<li>系统选择：centos 7版本</li>
+</ul>
+<h2 id="节点设置"><a href="#节点设置" class="headerlink" title="节点设置"></a>节点设置</h2><ul>
+<li>下载<a href="https://github.com/bitcoin/bitcoin" target="_blank" rel="noopener">bitcoin core</a>Linux版本bitcoin-0.16.1-x86_64-linux-gnu.tar.gz</li>
+<li>解压到系统目录</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf bitcoin-0.16.1-x86_64-linux-gnu.tar.gz -C /usr/<span class="built_in">local</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>停掉和删除容器</li>
-<li>重设onedrive，键盘win+r，输入“%localappdata%\Microsoft\OneDrive\onedrive.exe /reset”</li>
-<li>重启操作系统</li>
+<li>bitcoin的默认配置目录为 ~/.bitcoin/bitcoin.conf，填写以下配置，</li>
 </ul>
-</li>
-<li><p>这种方法但失去了在容器上操作文件后能直接同步到onedrive的功能，暂时用以下办法代替</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This config should be placed in following path:</span></span><br><span class="line"><span class="comment"># ~/.bitcoin/bitcoin.conf</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [core]</span></span><br><span class="line"><span class="comment"># Specify a non-default location to store blockchain and other data.</span></span><br><span class="line"><span class="attr">datadir</span>=/data/btc_data</span><br><span class="line"><span class="comment"># Set database cache size in megabytes; machines sync faster with a larger cache. Recommend setting as high as possible based upon machine's available RAM.</span></span><br><span class="line"><span class="attr">dbcache</span>=<span class="number">10240</span></span><br><span class="line"><span class="comment"># Maintain a full transaction index, used by the getrawtransaction rpc call.</span></span><br><span class="line"><span class="attr">txindex</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [rpc]</span></span><br><span class="line"><span class="comment"># Enable Add Witness Address RPC</span></span><br><span class="line"></span><br><span class="line"><span class="attr">deprecatedrpc</span>=addwitnessaddress</span><br><span class="line"></span><br><span class="line"><span class="comment"># Accept command line and JSON-RPC commands.</span></span><br><span class="line"><span class="attr">server</span>=<span class="number">1</span></span><br><span class="line"><span class="comment"># Accept public REST requests.</span></span><br><span class="line"><span class="attr">rest</span>=<span class="number">1</span></span><br><span class="line"><span class="comment"># Bind to given address to listen for JSON-RPC connections. This option is ignored unless -rpcallowip is also passed. Port is optional and overrides -rpcport. Use [host]:port notation for IPv6. This option can be specified multiple times. (default: 127.0.0.1 and ::1 i.e., localhost, or if -rpcallowip has been specified, 0.0.0.0 and :: i.e., all addresses)</span></span><br><span class="line"><span class="attr">rpcbind</span>=<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">8332</span></span><br><span class="line"></span><br><span class="line"><span class="attr">rpcuser</span>=btcuser</span><br><span class="line"><span class="attr">rpcpassword</span>=btcpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># rpcallowip=0.0.0.0</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>目录copy一份到别的路径下，然后写一个脚本，按差异复制到onedrive目录</li>
+<li>启动bitcoin</li>
 </ul>
-</li>
-</ul>
-<p>以下是同步脚本</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> NOWDIR=%~dp0</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">%NOWDIR%</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> SRC=...</span><br><span class="line"><span class="built_in">set</span> DST=...</span><br><span class="line"></span><br><span class="line"><span class="built_in">xcopy</span> "<span class="variable">%SRC%</span>\server" "<span class="variable">%DST%</span>\server" /s /h /d /y /exclude:uncopy.txt</span><br></pre></td></tr></table></figure>
-<p>以下是uncopy.txt文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">*.so</span><br><span class="line">*.o</span><br><span class="line">*.a</span><br><span class="line">*.log</span><br><span class="line">*.dSYM</span><br><span class="line"></span><br><span class="line">.idea</span><br><span class="line">*.iml</span><br><span class="line">*.rock</span><br><span class="line">*.rockspec</span><br><span class="line">.DS_Store</span><br><span class="line">*.pid</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoind -daemon</span><br></pre></td></tr></table></figure>
 <ul>
-<li>用系统的任务计划来执行脚本，把文件同步到onedrive下</li>
+<li>关闭bitcoin，一定要用以下命令，否则会有可能导致数据异常，需要重新同步数据</li>
 </ul>
-<h2 id="问题2：docker-v映射目录后，容器中不生效"><a href="#问题2：docker-v映射目录后，容器中不生效" class="headerlink" title="问题2：docker -v映射目录后，容器中不生效"></a>问题2：docker -v映射目录后，容器中不生效</h2><ul>
-<li><p>引起这个问题的原因是更新了操作系统的密码，解决办法如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli stop</span><br></pre></td></tr></table></figure>
 <ul>
-<li>打开docker设置，在sharedrives栏，reset credentials…，然后选择shared的盘符，重新输入系统密码</li>
-<li>重新生成容器</li>
+<li>一些其他命令</li>
 </ul>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看网络状态：</span></span><br><span class="line">bitcoin-cli getnetworkinfo</span><br><span class="line"><span class="comment"># 查看网络节点：</span></span><br><span class="line">bitcoin-cli getpeerinfo</span><br><span class="line"><span class="comment"># 查看区块链信息：如同步进度、</span></span><br><span class="line">bitcoin-cli getblockchaininfo</span><br><span class="line"><span class="comment"># 查看所有命令</span></span><br><span class="line">bitcoin-cli <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+<h1 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h1><ul>
+<li><a href="https://bitnodes.earn.com/" target="_blank" rel="noopener">比特币全球节点分布</a></li>
+<li><a href="https://www.blockchain.com/en/explorer" target="_blank" rel="noopener">比特币浏览器</a></li>
+<li><a href="http://chainquery.com/bitcoin-api" target="_blank" rel="noopener">比特币在线RPC接口</a></li>
+<li><a href="https://mistydew.github.io/archive.html" target="_blank" rel="noopener">比特币RPC接口解析</a></li>
+<li><a href="https://bitcoinfees.earn.com/" target="_blank" rel="noopener">比特币交易费查询</a></li>
+<li><a href="https://jlopp.github.io/bitcoin-core-config-generator/" target="_blank" rel="noopener">比特币配置工具</a></li>
+<li><a href="http://book.8btc.com/books/6/masterbitcoin2cn/_book/" target="_blank" rel="noopener">推荐书：精通比特币</a></li>
 </ul>
 
       
@@ -377,8 +389,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/06/typescript-learning/" rel="next" title="typescript_learning">
-                <i class="fa fa-chevron-left"></i> typescript_learning
+              <a href="/2018/07/13/crawler-weibo/" rel="next" title="微博爬虫技术方案">
+                <i class="fa fa-chevron-left"></i> 微博爬虫技术方案
               </a>
             
           </div>
@@ -386,10 +398,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/19/across-the-chain-tech/" rel="prev" title="区块链跨链技术">
-                区块链跨链技术 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -529,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题1：docker-v-与-onedrive-冲突"><span class="nav-number">1.</span> <span class="nav-text">问题1：docker -v 与 onedrive 冲突</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题2：docker-v映射目录后，容器中不生效"><span class="nav-number">2.</span> <span class="nav-text">问题2：docker -v映射目录后，容器中不生效</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#选型"><span class="nav-number">1.</span> <span class="nav-text">选型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器配置"><span class="nav-number">2.</span> <span class="nav-text">服务器配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节点设置"><span class="nav-number">3.</span> <span class="nav-text">节点设置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他工具"><span class="nav-number"></span> <span class="nav-text">其他工具</span></a></div>
             
 
           </div>
@@ -692,9 +700,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://mybestcool.github.io/2018/06/15/problem-about-docker/';
-          this.page.identifier = '2018/06/15/problem-about-docker/';
-          this.page.title = '最近遇到的关于docker的问题';
+          this.page.url = 'https://mybestcool.github.io/2018/07/29/bitcoin-full-node/';
+          this.page.identifier = '2018/07/29/bitcoin-full-node/';
+          this.page.title = '比特币全节点部署';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://https-mybestcool-github-io.disqus.com/embed.js';

@@ -239,6 +239,181 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/07/29/bitcoin-full-node/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/29/bitcoin-full-node/" itemprop="url">比特币全节点部署</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T19:50:45+08:00">
+                2018-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/29/bitcoin-full-node/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/07/29/bitcoin-full-node/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="选型"><a href="#选型" class="headerlink" title="选型"></a>选型</h2><p>比特币节点有很多实现</p>
+<ul>
+<li><a href="https://github.com/bitcoin/bitcoin" target="_blank" rel="noopener">bitcoin core</a>：官方节点，c/c++实现，正式网络大多数都是用这个来运行全节点</li>
+<li><a href="https://github.com/btcsuite/btcd" target="_blank" rel="noopener">btcd</a>：golang的实现版本，如果用golang来写一些功能，可以参考这个代码</li>
+<li><a href="https://github.com/libbitcoin/libbitcoin" target="_blank" rel="noopener">libbitcoin</a>：c/c++实现，特点是它有较好的工具链</li>
+<li><a href="https://github.com/paritytech/parity-bitcoin" target="_blank" rel="noopener">parity-bitcoin</a>：rust实现，是以太坊创始人之一Gavin Wood的新公司Parity Technologies下的一个产品，它同样也实现了以太坊rust版本</li>
+</ul>
+<p>还有很多其他实现，如java版本和js版本。如果用作商业用途，那bitcoin core必然是最稳妥的选择。所以这里选择了bitcoin core。</p>
+<h2 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h2><ul>
+<li>硬盘：500G。比特币从08年开始运行，已经积累了大量数据，区块链内容大小达210G。</li>
+<li>内存：16G。一般来说4G就够，但如果要查历史记录，需要加载完整的交易索引表-tindex，这导致需要8G+的内存</li>
+<li>cpu：4核。</li>
+<li>带宽：一般就行。阿里云的一般2-3天就能同步完。</li>
+<li>系统选择：centos 7版本</li>
+</ul>
+<h2 id="节点设置"><a href="#节点设置" class="headerlink" title="节点设置"></a>节点设置</h2><ul>
+<li>下载<a href="https://github.com/bitcoin/bitcoin" target="_blank" rel="noopener">bitcoin core</a>Linux版本bitcoin-0.16.1-x86_64-linux-gnu.tar.gz</li>
+<li>解压到系统目录</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf bitcoin-0.16.1-x86_64-linux-gnu.tar.gz -C /usr/<span class="built_in">local</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>bitcoin的默认配置目录为 ~/.bitcoin/bitcoin.conf，填写以下配置，</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This config should be placed in following path:</span></span><br><span class="line"><span class="comment"># ~/.bitcoin/bitcoin.conf</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [core]</span></span><br><span class="line"><span class="comment"># Specify a non-default location to store blockchain and other data.</span></span><br><span class="line"><span class="attr">datadir</span>=/data/btc_data</span><br><span class="line"><span class="comment"># Set database cache size in megabytes; machines sync faster with a larger cache. Recommend setting as high as possible based upon machine's available RAM.</span></span><br><span class="line"><span class="attr">dbcache</span>=<span class="number">10240</span></span><br><span class="line"><span class="comment"># Maintain a full transaction index, used by the getrawtransaction rpc call.</span></span><br><span class="line"><span class="attr">txindex</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># [rpc]</span></span><br><span class="line"><span class="comment"># Enable Add Witness Address RPC</span></span><br><span class="line"></span><br><span class="line"><span class="attr">deprecatedrpc</span>=addwitnessaddress</span><br><span class="line"></span><br><span class="line"><span class="comment"># Accept command line and JSON-RPC commands.</span></span><br><span class="line"><span class="attr">server</span>=<span class="number">1</span></span><br><span class="line"><span class="comment"># Accept public REST requests.</span></span><br><span class="line"><span class="attr">rest</span>=<span class="number">1</span></span><br><span class="line"><span class="comment"># Bind to given address to listen for JSON-RPC connections. This option is ignored unless -rpcallowip is also passed. Port is optional and overrides -rpcport. Use [host]:port notation for IPv6. This option can be specified multiple times. (default: 127.0.0.1 and ::1 i.e., localhost, or if -rpcallowip has been specified, 0.0.0.0 and :: i.e., all addresses)</span></span><br><span class="line"><span class="attr">rpcbind</span>=<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">8332</span></span><br><span class="line"></span><br><span class="line"><span class="attr">rpcuser</span>=btcuser</span><br><span class="line"><span class="attr">rpcpassword</span>=btcpassword</span><br><span class="line"></span><br><span class="line"><span class="comment"># rpcallowip=0.0.0.0</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动bitcoin</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoind -daemon</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关闭bitcoin，一定要用以下命令，否则会有可能导致数据异常，需要重新同步数据</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli stop</span><br></pre></td></tr></table></figure>
+<ul>
+<li>一些其他命令</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看网络状态：</span></span><br><span class="line">bitcoin-cli getnetworkinfo</span><br><span class="line"><span class="comment"># 查看网络节点：</span></span><br><span class="line">bitcoin-cli getpeerinfo</span><br><span class="line"><span class="comment"># 查看区块链信息：如同步进度、</span></span><br><span class="line">bitcoin-cli getblockchaininfo</span><br><span class="line"><span class="comment"># 查看所有命令</span></span><br><span class="line">bitcoin-cli <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+<h1 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h1><ul>
+<li><a href="https://bitnodes.earn.com/" target="_blank" rel="noopener">比特币全球节点分布</a></li>
+<li><a href="https://www.blockchain.com/en/explorer" target="_blank" rel="noopener">比特币浏览器</a></li>
+<li><a href="http://chainquery.com/bitcoin-api" target="_blank" rel="noopener">比特币在线RPC接口</a></li>
+<li><a href="https://mistydew.github.io/archive.html" target="_blank" rel="noopener">比特币RPC接口解析</a></li>
+<li><a href="https://bitcoinfees.earn.com/" target="_blank" rel="noopener">比特币交易费查询</a></li>
+<li><a href="https://jlopp.github.io/bitcoin-core-config-generator/" target="_blank" rel="noopener">比特币配置工具</a></li>
+<li><a href="http://book.8btc.com/books/6/masterbitcoin2cn/_book/" target="_blank" rel="noopener">推荐书：精通比特币</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/07/13/crawler-weibo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1996,180 +2171,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/05/09/bitshares-install-uiwallet/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lucus Gu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="知行合一">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/09/bitshares-install-uiwallet/" itemprop="url">BTS UI钱包搭建以及接入到私有链</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T15:55:40+08:00">
-                2018-05-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/09/bitshares-install-uiwallet/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/09/bitshares-install-uiwallet/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="参考地址"><a href="#参考地址" class="headerlink" title="参考地址"></a>参考地址</h2><ul>
-<li>参考文章-<a href="https://steemit.com/bitshares/@cm-steem/bitshares-ui-customization-guide" target="_blank" rel="noopener">比特股钱包定制</a></li>
-<li>参考文章-<a href="https://github.com/bitshares/bitshares-ui/blob/staging/README_zh.md" target="_blank" rel="noopener">官方帮助MD</a></li>
-</ul>
-<h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><ul>
-<li>系统ubuntu16.04</li>
-<li>检查是否已经安装nvm，没有则</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.2/install.sh | bash</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装node</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvm install v6</span><br><span class="line">nvm use v6</span><br></pre></td></tr></table></figure>
-<p>本地切换只针对当前命令行窗口有效，新打开命令行，需要重新切换v6</p>
-<h2 id="源码下载和安裝"><a href="#源码下载和安裝" class="headerlink" title="源码下载和安裝"></a>源码下载和安裝</h2><ul>
-<li>下载和安装依赖</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/bitshares/bitshares-ui.git</span><br><span class="line"><span class="built_in">cd</span> bitshares-ui</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>安装中如果遇到问题</p>
-<p>  先安装cnpm</p>
-</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-<p>然后用cnpm安装所有的包。如果只有”electron”和”electron-builder”无法下载，可暂时删除依赖。</p>
-<ul>
-<li>启动服务</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
-<p>成功的话，会看到以下提示</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack: Compiled succeedfully.</span><br></pre></td></tr></table></figure>
-<p>浏览器中输入以下命令查看运行情况</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080</span><br></pre></td></tr></table></figure>
-<h2 id="配置和源码修改"><a href="#配置和源码修改" class="headerlink" title="配置和源码修改"></a>配置和源码修改</h2><ul>
-<li>替换掉所有的货币名，搜索所有代码替换，包括js和node_modules/bitsharesjs-ws</li>
-<li>修改node_modules/bitsharesjs-ws的chainid，路径node_modules/bitsharesjs-ws/es/src/ChainConfig.js和node_modules/bitsharesjs-ws/cjs/src/ChainConfig.js</li>
-<li>修改链的地址和水龙头地址，路径app\api\apiConfig.js</li>
-<li>修改交易对等，路径app\stores\SettingsStore.js</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> topMarkets = &#123;</span><br><span class="line">    markets_4018d784: [ <span class="comment">// BTS MAIN NET</span></span><br><span class="line">        <span class="string">"OPEN.MKR"</span>, <span class="string">"BTS"</span>, <span class="string">"OPEN.ETH"</span>, <span class="string">"ICOO"</span>, <span class="string">"BTC"</span>, <span class="string">"OPEN.LISK"</span>, <span class="string">"BKT"</span>,</span><br><span class="line">        <span class="string">"OPEN.STEEM"</span>, <span class="string">"OPEN.GAME"</span>, <span class="string">"OCT"</span>, <span class="string">"USD"</span>, <span class="string">"CNY"</span>, <span class="string">"BTSR"</span>, <span class="string">"OBITS"</span>,</span><br><span class="line">        <span class="string">"OPEN.DGD"</span>, <span class="string">"EUR"</span>, <span class="string">"GOLD"</span>, <span class="string">"SILVER"</span>, <span class="string">"IOU.CNY"</span>, <span class="string">"OPEN.DASH"</span>,</span><br><span class="line">        <span class="string">"OPEN.USDT"</span>, <span class="string">"OPEN.EURT"</span>, <span class="string">"OPEN.BTC"</span>, <span class="string">"CADASTRAL"</span>, <span class="string">"BLOCKPAY"</span>, <span class="string">"BTWTY"</span>,</span><br><span class="line">        <span class="string">"OPEN.INCNT"</span>, <span class="string">"KAPITAL"</span>, <span class="string">"OPEN.MAID"</span>, <span class="string">"OPEN.SBD"</span>, <span class="string">"OPEN.GRC"</span>, <span class="string">"YOURASSET"</span>,</span><br><span class="line">        <span class="string">"YOYOW"</span>, <span class="string">"HERO"</span>, <span class="string">"RUBLE"</span></span><br><span class="line">    ],</span><br><span class="line">    markets_39f5e2ed: [ <span class="comment">// TESTNET</span></span><br><span class="line">        <span class="string">"PEG.FAKEUSD"</span>, <span class="string">"YOURASSET"</span>, <span class="string">"BTWTY"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bases = &#123;</span><br><span class="line">    markets_4018d784: [ <span class="comment">// BTS MAIN NET</span></span><br><span class="line">        <span class="string">"USD"</span>, <span class="string">"OPEN.BTC"</span>, <span class="string">"CNY"</span>, <span class="string">"BTS"</span>, <span class="string">"BTC"</span>, <span class="string">"YOURASSET"</span></span><br><span class="line">    ],</span><br><span class="line">    markets_39f5e2ed: [ <span class="comment">// TESTNET</span></span><br><span class="line">        <span class="string">"TEST"</span>, <span class="string">"YOURASSET"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">        <span class="keyword">let</span> defaults = &#123;</span><br><span class="line">            unit: [</span><br><span class="line">                CORE_ASSET,</span><br><span class="line">                <span class="string">"USD"</span>,</span><br><span class="line">                <span class="string">"CNY"</span>,</span><br><span class="line">                <span class="string">"BTC"</span>,</span><br><span class="line">                <span class="string">"EUR"</span>,</span><br><span class="line">                <span class="string">"YOURASSET"</span></span><br><span class="line">            ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="水龙头服务搭建"><a href="#水龙头服务搭建" class="headerlink" title="水龙头服务搭建"></a>水龙头服务搭建</h2><ul>
-<li>参考<a href="https://steemit.com/bitshares/@baidang/66din5" target="_blank" rel="noopener">搭建比特股的水龙头注册服务</a>，写的很详细，最后总结了一些问题的处理办法</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2220,7 +2221,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
