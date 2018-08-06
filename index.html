@@ -239,6 +239,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/08/06/mingw-obs-pango/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/06/mingw-obs-pango/" itemprop="url">在MinGW64下编译obs-text-pango</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-06T21:15:08+08:00">
+                2018-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/06/mingw-obs-pango/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/06/mingw-obs-pango/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="obs-text-pango-是什么"><a href="#obs-text-pango-是什么" class="headerlink" title="obs-text-pango 是什么"></a>obs-text-pango 是什么</h2><p>首先介绍下OBS是什么，OBS - Free and open source software for live streaming and screen recording(OBS是一款开源的用于录屏直播的工具软件)。旧版的OBS只能支持Windows，目前已经停止开发。作者为了支持Windows/Mac/Linux重写了整个软件，项目地址为<a href="https://github.com/obsproject/obs-studio" target="_blank" rel="noopener">obs-studio in Github</a>。</p>
+<p>OBS项目的语言分布：</p>
+<ol>
+<li>C: 57.6%</li>
+<li>C++: 36.3%</li>
+<li>Objective-C/Objective-C++: 4%</li>
+<li>others: 3%</li>
+</ol>
+<p>OBS代码主要包含这些部分：</p>
+<ol>
+<li>libobs: 核心代码，定义项目框架以及核心API，主要用C语言编写。</li>
+<li>UI: 界面代码，采用C++的QT框架，开发出适用三大平台的界面。</li>
+<li>plugins: 插件代码，可独立编译成dll(windows平台)或so(*nix平台)，包含Source(录屏输入源)、Output、Service(各种流播服务)等全部被定义为插件。</li>
+<li>libobs-d3d11: 基于D3D的图形子系统，主要用在Windows系统。</li>
+<li>libobs-opengl: 基于opengl的图形子系统，主要用在*uix系统。</li>
+</ol>
+<p>obs-text-pango是obs的一个文本插件plugins，它与obs本身提供的obs-text插件不同之处在于，它支持emoji，且用pango排版引擎实现，项目地址为<a href="https://github.com/kkartaltepe/obs-text-pango" target="_blank" rel="noopener">obs-studio in Github</a>，forked from <a href="https://github.com/reboot/obs-text-pango" target="_blank" rel="noopener">reboot/obs-text-pango</a>, 这个项目源码需要改进，编译出来是无法使用</p>
+<h2 id="如何编译"><a href="#如何编译" class="headerlink" title="如何编译"></a>如何编译</h2><ol>
+<li>使用MSys2的pacman工具安装以下库</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pacman -S mingw-w64-x86_64-pkg-config</span><br><span class="line">pacman -S mingw-w64-x86_64-gcc</span><br><span class="line">pacman -S mingw64/mingw-w64-x86_64-cmake</span><br><span class="line">pacman -S mingw64/mingw-w64-x86_64-make //cp mingw32-make.exe make.exe</span><br><span class="line">pacman -S mingw-w64-x86_64-qt5</span><br><span class="line">pacman -S mingw-w64-x86_64-ffmpeg</span><br><span class="line">pacman -S mingw-w64-x86_64-vlc</span><br><span class="line">pacman -S mingw-w64-x86_64-fdk-aac</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>下载obs-text-pango源码</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/kkartaltepe/obs-text-pango.git</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>修改CMakeList.txt</li>
+</ol>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">2.8</span>.<span class="number">12</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(text-pango)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Standalone build</span></span><br><span class="line"><span class="keyword">if</span>(NOT OBS_OUTPUT_DIR)</span><br><span class="line">	<span class="comment">#SET(CMAKE_FIND_LIBRARY_PREFIXES "lib" "")</span></span><br><span class="line">	<span class="comment">#SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a" ".dll.a" ".lib" ".dll")</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">set</span>(CMAKE_INSTALL_PREFIX <span class="string">"D:/_workdir/obs/obs-studio/vs2015/rundir/Debug"</span>)</span><br><span class="line">	list(APPEND CMAKE_INCLUDE_PATH <span class="string">"D:/_workdir/obs/obs-studio/libobs"</span>)</span><br><span class="line">	list(APPEND CMAKE_LIBRARY_PATH <span class="string">"D:/_workdir/obs/obs-studio/vs2015/libobs/Debug"</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">set</span>(CMAKE_MODULE_PATH <span class="variable">$&#123;CMAKE_MODULE_PATH&#125;</span> <span class="string">"$&#123;CMAKE_SOURCE_DIR&#125;/cmake/"</span>)</span><br><span class="line">	<span class="keyword">include</span>(ObsHelpers)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">set</span>(CMAKE_C_STANDARD <span class="number">11</span>)</span><br><span class="line">	<span class="keyword">set</span>(STANDALONE_PLUGIN <span class="keyword">TRUE</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">find_path</span>(OBS_INCLUDE_DIRS</span><br><span class="line">        obs-module.h)</span><br><span class="line">    <span class="keyword">find_library</span>(OBS_LIBRARIES</span><br><span class="line">        NAMES libobs obs)</span><br><span class="line"><span class="comment"># Build as submodule of obs-studio</span></span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">	<span class="keyword">set</span>(OBS_INCLUDE_DIRS</span><br><span class="line">		../../libobs)</span><br><span class="line">	<span class="keyword">set</span>(OBS_LIBRARIES</span><br><span class="line">		libobs)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(Pango REQUIRED)</span><br><span class="line"><span class="keyword">find_package</span>(Cairo REQUIRED)</span><br><span class="line"><span class="keyword">find_package</span>(Pangocairo REQUIRED)</span><br><span class="line"><span class="keyword">find_package</span>(Pangoft2 REQUIRED)</span><br><span class="line"><span class="comment">#if(WIN32)</span></span><br><span class="line"><span class="comment">#	find_package(Pangowin32 REQUIRED)</span></span><br><span class="line"><span class="comment">#endif()</span></span><br><span class="line"><span class="keyword">set</span>(PANGOWIN32_LIBRARIES</span><br><span class="line">	<span class="string">"C:/msys64/mingw64/lib/libpangowin32-1.0.a"</span>)</span><br><span class="line"><span class="keyword">find_package</span>(Fontconfig REQUIRED)</span><br><span class="line"><span class="keyword">find_package</span>(Freetype REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="keyword">include_directories</span>(</span><br><span class="line">	<span class="variable">$&#123;OBS_INCLUDE_DIRS&#125;</span></span><br><span class="line">	<span class="variable">$&#123;PANGO_INCLUDE_DIRS&#125;</span></span><br><span class="line">	<span class="variable">$&#123;CAIRO_INCLUDE_DIRS&#125;</span></span><br><span class="line">	<span class="variable">$&#123;PANGOCAIRO_INCLUDE_DIRS&#125;</span></span><br><span class="line">	<span class="variable">$&#123;PANGOFT2_INCLUDE_DIRS&#125;</span></span><br><span class="line">	<span class="variable">$&#123;FREETYPE_INCLUDE_DIRS&#125;</span>)</span><br><span class="line"><span class="keyword">if</span>(NOT WIN32)</span><br><span class="line">	<span class="keyword">FIND_PACKAGE</span>(PkgConfig)</span><br><span class="line">	PKG_CHECK_MODULES(GLIB glib-<span class="number">2.0</span> REQUIRED)</span><br><span class="line">	<span class="keyword">include_directories</span>(<span class="variable">$&#123;GLIB_INCLUDE_DIRS&#125;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">link_directories</span>(</span><br><span class="line">	<span class="variable">$&#123;PANGO_LIBRARY_DIRS&#125;</span></span><br><span class="line">	<span class="variable">$&#123;CAIRO_LIBRARY_DIRS&#125;</span></span><br><span class="line">	<span class="variable">$&#123;FREETYPE_LIBRARY_DIRS&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(text-pango_SOURCES</span><br><span class="line">	text-pango.c</span><br><span class="line">	text-pango.h</span><br><span class="line">	text-utilities.h)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(win32_static_LIBRARIES</span><br><span class="line">	intl</span><br><span class="line">	fribidi</span><br><span class="line">	pixman-<span class="number">1</span></span><br><span class="line">	z</span><br><span class="line">	harfbuzz</span><br><span class="line">	libpng16</span><br><span class="line">	expat</span><br><span class="line">	usp10)</span><br><span class="line"><span class="keyword">if</span>(WIN32)</span><br><span class="line">	<span class="keyword">set</span>(PLATFORM_LIBRARIES <span class="variable">$&#123;win32_static_LIBRARIES&#125;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span>(text-pango MODULE</span><br><span class="line">	<span class="variable">$&#123;text-pango_SOURCES&#125;</span>)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(text-pango</span><br><span class="line">	<span class="variable">$&#123;OBS_LIBRARIES&#125;</span></span><br><span class="line">	<span class="variable">$&#123;CAIRO_LIBRARIES&#125;</span></span><br><span class="line">	<span class="variable">$&#123;PANGO_LIBRARIES&#125;</span></span><br><span class="line">	<span class="variable">$&#123;PANGOWIN32_LIBRARIES&#125;</span></span><br><span class="line">	<span class="variable">$&#123;PANGOCAIRO_LIBRARIES&#125;</span></span><br><span class="line">	<span class="variable">$&#123;PANGOFT2_LIBRARIES&#125;</span></span><br><span class="line">	<span class="variable">$&#123;FREETYPE_LIBRARIES&#125;</span></span><br><span class="line">	<span class="variable">$&#123;FONTCONFIG_LIBRARIES&#125;</span></span><br><span class="line">	<span class="variable">$&#123;PLATFORM_LIBRARIES&#125;</span>) <span class="comment"># win only currently</span></span><br><span class="line">target_compile_definitions(text-pango PRIVATE <span class="variable">$&#123;CAIRO_C_FLAGS&#125;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(STANDALONE_PLUGIN)</span><br><span class="line">	<span class="keyword">if</span>(CMAKE_SIZEOF_VOID_P <span class="keyword">EQUAL</span> <span class="number">8</span>)</span><br><span class="line">		<span class="keyword">set</span>(_bit_suffix <span class="string">"64bit/"</span>)</span><br><span class="line">	<span class="keyword">else</span>()</span><br><span class="line">		<span class="keyword">set</span>(_bit_suffix <span class="string">"32bit/"</span>)</span><br><span class="line">	<span class="keyword">endif</span>()</span><br><span class="line">	<span class="keyword">if</span>(APPLE)</span><br><span class="line">		<span class="keyword">install</span>(TARGETS text-pango</span><br><span class="line">			LIBRARY DESTINATION <span class="string">"Library/Application Support/obs-studio/plugins/libtext-pango/bin/"</span>)</span><br><span class="line">		<span class="keyword">install</span>(DIRECTORY data/common/</span><br><span class="line">			DESTINATION <span class="string">"Library/Application Support/obs-studio/plugins/libtext-pango/data"</span>)</span><br><span class="line">		<span class="keyword">install</span>(DIRECTORY data/apple/</span><br><span class="line">			DESTINATION <span class="string">"Library/Application Support/obs-studio/plugins/libtext-pango/data"</span>)</span><br><span class="line">		<span class="comment"># for packaging, copy all dependencies, change dependency links</span></span><br><span class="line">		<span class="comment"># run pkgbuild --identifier user.obsproject.kurufu.text-pango --root ./obs-text-pango-install/ text-pango-mac.pkg</span></span><br><span class="line">	<span class="keyword">else</span>() <span class="comment"># Not apple so normal layout</span></span><br><span class="line">		<span class="keyword">install</span>(TARGETS text-pango </span><br><span class="line">			LIBRARY DESTINATION <span class="string">"obs-plugins/$&#123;_bit_suffix&#125;/"</span>)</span><br><span class="line">		<span class="keyword">install</span>(DIRECTORY data/common/</span><br><span class="line">			DESTINATION data/obs-plugins/text-pango)</span><br><span class="line">		<span class="comment"># Platform specific data, like fontconfig in win32</span></span><br><span class="line">		<span class="keyword">if</span>(WIN32)</span><br><span class="line">			<span class="comment">#install(FILES $&lt;TARGET_PDB_FILE:$&#123;PROJECT_NAME&#125;&gt;</span></span><br><span class="line">			<span class="comment">#	DESTINATION "obs-plugins/$&#123;_bit_suffix&#125;/" OPTIONAL)</span></span><br><span class="line">			<span class="keyword">install</span>(DIRECTORY data/win32/</span><br><span class="line">				DESTINATION data/obs-plugins/text-pango)</span><br><span class="line">		<span class="keyword">endif</span>()</span><br><span class="line">	<span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">	install_obs_plugin_with_data(text-pango data/common)</span><br><span class="line">	<span class="comment"># calling this twice might not work?</span></span><br><span class="line">	<span class="keyword">if</span>(WIN32)</span><br><span class="line">		install_obs_plugin_with_data(text-pango data/win32)</span><br><span class="line">	<span class="keyword">endif</span>()</span><br><span class="line">	<span class="keyword">if</span>(APPLE)</span><br><span class="line">		install_obs_plugin_with_data(text-pango data/apple)</span><br><span class="line">	<span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>使用window的cmd工具，以x64位的姿态打开，进入obs-text-pango目录，并输入以下命令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir mingw64</span><br><span class="line">cd mingw64</span><br><span class="line">cmake .. -G &quot;MinGW Makefiles&quot;</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h2 id="过程中遇到的问题"><a href="#过程中遇到的问题" class="headerlink" title="过程中遇到的问题"></a>过程中遇到的问题</h2><ol>
+<li><p>命令行使用msys2_shell.cmd，或者git-bash.exe，会遇到一个sh冲突的问题，所以只能用windows的cmd</p>
+</li>
+<li><p>cmake的时候使用-G “Visual Studio 14 2015 Win64”，项目能够编译过，且lib也能相互兼容，至少是c的lib，但链接的时候会有各种各样的问题，未深入去研究</p>
+</li>
+<li><p>cmake的时候使用-G “MSYS Makefiles”，也是各种问题，可能我安装的都是mingw64的库的原因吧</p>
+</li>
+<li><p>cmake的时候，想尽量静态编译，所以在CMakeLists.txt中加入以下语句，但在链接的时候提示各种各样奇怪问题，所以最后还是去掉</p>
+</li>
+</ol>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span>(CMAKE_FIND_LIBRARY_PREFIXES <span class="string">"lib"</span> <span class="string">""</span>)</span><br><span class="line"><span class="keyword">SET</span>(CMAKE_FIND_LIBRARY_SUFFIXES <span class="string">".a"</span> <span class="string">".dll.a"</span> <span class="string">".lib"</span> <span class="string">".dll"</span>)</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>纹理大小为0的时候，会导致程序崩溃，可能是obs新旧版本兼容问题</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/08/06/mingw-environment/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2022,189 +2199,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/05/11/bitshares-witness-structure-entrance/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lucus Gu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="知行合一">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/11/bitshares-witness-structure-entrance/" itemprop="url">bitshares-witness节点结构之入口</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-11T14:18:28+08:00">
-                2018-05-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/11/bitshares-witness-structure-entrance/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/11/bitshares-witness-structure-entrance/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="入口分成三个部分"><a href="#入口分成三个部分" class="headerlink" title="入口分成三个部分"></a>入口分成三个部分</h2><ul>
-<li><p>main函数入口</p>
-</li>
-<li><p>主循环入口</p>
-</li>
-<li><p>网络消息入口</p>
-</li>
-</ul>
-<h2 id="main函数入口"><a href="#main函数入口" class="headerlink" title="main函数入口"></a>main函数入口</h2><ul>
-<li>成员结构</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">main</span><br><span class="line">    1. app:application                                     - 应用</span><br><span class="line">        1. map&lt;string, app::abstract_plugin&gt;                   - 所有插件， 分激活的和能够支持的</span><br><span class="line">            1. witness_plugin::witness_plugin                      - 见证人</span><br><span class="line">                1. witness private_keys                                - 见证人私钥</span><br><span class="line">                2. witness ids                                         - 见证人ids</span><br><span class="line">                3. witness block schedule                              - 区块产生调度器</span><br><span class="line">            2. debug_witness_plugin::debug_witness_plugin          - 见证人调试,监听区块链事件</span><br><span class="line">            3. account_history::account_history_plugin             - 账号历史事件，监听区块链事件，并记录到object_database中</span><br><span class="line">            4. elasticsearch::elasticsearch_plugin                 - ES插件</span><br><span class="line">            5. market_history::market_history_plugin               - 市场历史</span><br><span class="line">            6. delayed_node::delayed_node_plugin                   - 延时节点</span><br><span class="line">            7. snapshot_plugin::snapshot_plugin                    - 快照</span><br><span class="line">            8. es_objects::es_objects_plugin                       - ES对象</span><br><span class="line">            9. grouped_orders::grouped_orders_plugin               - 命令组</span><br><span class="line">        2. chain::database                                     - 区块链</span><br><span class="line">            1. object_database                                     - 对象索引管理，chain::database继承自object_database</span><br><span class="line">                1. index[256][256]                                     - 对象索引</span><br><span class="line">                    1. index = primary_index&lt;witness_index&gt;                - 以下为举例</span><br><span class="line">                        1. witness_index = generic_index&lt;witness_object, witness_multi_index_type&gt;;</span><br><span class="line">                            1. witness_object = multi_index_container&lt;witness_object, </span><br><span class="line">                                    indexed_by&lt;</span><br><span class="line">                                        ordered_unique&lt; tag&lt;by_id&gt;,member&lt;object, object_id_type, &amp;object::id&gt;&gt;,</span><br><span class="line">                                        ordered_unique&lt; tag&lt;by_account&gt;,member&lt;witness_object, account_id_type, &amp;witness_object::witness_account&gt;&gt;,</span><br><span class="line">                                        ordered_unique&lt; tag&lt;by_vote_id&gt;,member&lt;witness_object, vote_id_type, &amp;witness_object::vote_id&gt;&gt;</span><br><span class="line">                                    &gt; &gt;;</span><br><span class="line">            2. block_database                                      - 区块数据库</span><br><span class="line">                1. _blocks                                              - 实际区块数据</span><br><span class="line">                2. _block_num_to_pos                                    - 区块索引数据</span><br><span class="line">        3. net::node                                           - p2p节点</span><br><span class="line">        4. websocket_server                                    - ws连接，api再连接里面</span><br><span class="line">        5. websocket_tls_server                                - wss连接，api再连接里面</span><br><span class="line">            1. websocket_connection_ptr</span><br><span class="line">                1. websocket_api_connection</span><br><span class="line">                    1. app::login_api</span><br><span class="line">        6. api_access                                          - api接口控制</span><br><span class="line">    2. bpo::variables_map                                  - 配置</span><br><span class="line">        1. bpo::options_description                            - 入口配置:argc,argv</span><br><span class="line">        2. bpo::options_description                            - 文件配置:data/config.ini</span><br><span class="line">    3. <span class="built_in">exit</span> signal                                         - 退出信号</span><br></pre></td></tr></table></figure>
-<ul>
-<li>启动顺序</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">main</span><br><span class="line">    1. app:register_plugin&lt;&gt;*9                - 注册9个插件</span><br><span class="line">    2. app_options:<span class="built_in">read</span>                       - 读取入口函数配置参数</span><br><span class="line">    3. cfg_options:<span class="built_in">read</span>                       - 读取配置文件参数</span><br><span class="line">    4. app:initialize                         - 初始化</span><br><span class="line">    5. app:initialize_plugins                 - 初始化插件</span><br><span class="line">    6. app:startup                            - 启动</span><br><span class="line">        1. chain::database:open                 - 启动区块链</span><br><span class="line">            1. db version check                     - 链版本检查</span><br><span class="line">            2. object_database:open                 - 对象数据读取，对应本地的object_database目录</span><br><span class="line">            3. block_database::open                 - 区块数据读取，对应本地的database目录</span><br><span class="line">            4. init_genesis                         - 初始化创世数据</span><br><span class="line">            5. reindex                              - 索引检查</span><br><span class="line">        2. <span class="built_in">set</span> allowed_apis                     - ws/wss等api权限设置</span><br><span class="line">        3. reset_p2p_node                       - 启动p2p网络</span><br><span class="line">        4. reset_websocket_server               - 启动ws网络</span><br><span class="line">        5. reset_websocket_tls_server           - 启动wss网络</span><br><span class="line">    7. app:startup_plugins                    - 启动插件</span><br><span class="line">        1. witness_plugin::plugin_startup       - 启动witness插件</span><br><span class="line">            1. dschedule_production_loop            - 启动区块产生的循环</span><br><span class="line">                1. witness_plugin::maybe_produce_block  - 根据条件来确认是否产生区块</span><br><span class="line">    8. <span class="built_in">wait</span> <span class="built_in">exit</span> signal                       - 等待退出信息，如ctrl+c</span><br><span class="line">    9. app:shutdown_plugins                   - 关闭所有插件</span><br><span class="line">    10. app:shutdown                          - 关闭</span><br></pre></td></tr></table></figure>
-<h2 id="主循环入口"><a href="#主循环入口" class="headerlink" title="主循环入口"></a>主循环入口</h2><ul>
-<li><p>见证人插件，内部循环会调用函数，条件是node为见证人节点、时序轮到自己等</p>
-<ul>
-<li>witness_plugin::maybe_produce_block</li>
-</ul>
-</li>
-<li><p>Delay节点插件，定时从见证人节点获取已经落地的数据</p>
-<ul>
-<li>delayed_node_plugin::mainloop</li>
-</ul>
-</li>
-</ul>
-<h2 id="网络消息入口"><a href="#网络消息入口" class="headerlink" title="网络消息入口"></a>网络消息入口</h2><ul>
-<li><p>p2p网络消息接收点</p>
-<ul>
-<li>有20多个协议，但业务主要用到trx_message_type，其下面有47个操作类型，如transfer_operation,limit_order_create_operation,limit_order_cancel_operation等</li>
-<li>application下的application_impl::handle_transaction 为trx_message_type类消息的接受点</li>
-<li>此消息的处理在witness_plugin::maybe_produce_block中</li>
-</ul>
-</li>
-<li><p>ws/wss, http/https网络消息接收点</p>
-<ul>
-<li>login_api                         - websocket_api_connection 注册 login_api和database_api 接口<ul>
-<li>block_api</li>
-<li><strong>database_api</strong>                - 默认</li>
-<li><strong>network_broadcast_api</strong>       - 默认</li>
-<li>network_node_api</li>
-<li><strong>history_api</strong>                 - 默认</li>
-<li><strong>crypto_api</strong>                  - 默认</li>
-<li>asset_api</li>
-<li><strong>orders_api</strong>                  - 默认</li>
-<li>graphene::debug_witness::debug_api</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2255,7 +2249,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
