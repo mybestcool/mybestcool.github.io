@@ -71,6 +71,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="知行合一" type="application/atom+xml" />
 
@@ -86,7 +88,7 @@
 <meta property="og:site_name" content="知行合一">
 <meta property="og:description" content="类MinGW环境有哪些 MinGW：是Minimalist GNU for Windows的缩写，是让windows开发者可以使用GNU工具链和一些类库，同时也支持win32的api，它编译出来的程序不一定是跨平台的。它有MinGW32和MinGW64两个版本，对应开发32位和64位程序。为了更方便的使用MinGW，就产生了一个叫MSys工具，是一个类Unix命令行环境。由于MSys开发太慢，又搞">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-06T13:04:01.814Z">
+<meta property="og:updated_time" content="2018-08-06T13:09:58.093Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MinGW开发环境搭建">
 <meta name="twitter:description" content="类MinGW环境有哪些 MinGW：是Minimalist GNU for Windows的缩写，是让windows开发者可以使用GNU工具链和一些类库，同时也支持win32的api，它编译出来的程序不一定是跨平台的。它有MinGW32和MinGW64两个版本，对应开发32位和64位程序。为了更方便的使用MinGW，就产生了一个叫MSys工具，是一个类Unix命令行环境。由于MSys开发太慢，又搞">
@@ -334,7 +336,7 @@
 <li><p>安装完后，需要用包管理工具更新系统，首先了解下pacman的命令</p>
 </li>
 </ol>
-<p>常用命令：如下</p>
+<p>常用命令：如下。<a href="https://wiki.archlinux.org/index.php/Pacman_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87" target="_blank" rel="noopener">更多命令</a>)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pacman -S package_name  <span class="comment">#安装软件包</span></span><br><span class="line">pacman -R package_name  <span class="comment">#删除软件包</span></span><br><span class="line">pacman -Rs package_name <span class="comment">#顺便删除软件包相关依赖</span></span><br><span class="line">pacman -Syu             <span class="comment">#升级系统中的所有包</span></span><br><span class="line">pacman -Ss package      <span class="comment">#查询软件包</span></span><br><span class="line">pacman -Qs package      <span class="comment">#查询已安装的包</span></span><br><span class="line">pacman -Qi package      <span class="comment">#显示查找的包的信息</span></span><br><span class="line">pacman -Ql package      <span class="comment">#显示你要找的包的文件都安装的位置</span></span><br><span class="line">pacman -Sw package      <span class="comment">#下载但不安装包</span></span><br><span class="line">pacman -U /path/package.pkg.tar.gz <span class="comment">#安装本地包</span></span><br><span class="line">pacman -Scc             <span class="comment">#清理包缓存，下载的包会在/var/cache 这个目录</span></span><br><span class="line">pacman -Sf pacman       <span class="comment">#重新安装包</span></span><br></pre></td></tr></table></figure>
 <p>更新过程：运行msys2_shell.bat，启动MSys2命令行窗口</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 升级系统中的所有包</span></span><br><span class="line">pacman -Syu</span><br><span class="line"><span class="comment"># 更新核心包，更新完后执行autorebase.bat</span></span><br><span class="line">pacman -S --needed filesystem msys2-runtime bash libreadline libiconv libarchive libgpgme libcurl pacman ncurses libintl</span><br><span class="line"><span class="comment"># 再次启动msys2_shell.bat，用以下命令确认是否为最新</span></span><br><span class="line">pacman -Syu</span><br></pre></td></tr></table></figure>
