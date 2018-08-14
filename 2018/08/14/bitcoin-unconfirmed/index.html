@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="系统安装   使用win10企业版，激活使用DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ   软件安装   通用工具  百度网盘 同步文件 OneDrive 同步文件 QQ拼音 输入法 Chrome 浏览器，同步收藏夹等 ShadowsocksR-4.6.1-win 科学上网 腾讯桌面管理 桌面管理和快速搜索 Colver 文件浏览器 winrar 压缩解压工具 notepad++">
+<meta name="description" content="原因 设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块  交易费设置太低，旷工会根据交易费排序，选择交易费高的交易进行打包（老的节点可能会按时间顺序排序），所以会出现两种情况  一直在交易内存池，没有旷工选择打包 交易内存池慢了，或者超时了，被删除掉了    产生上面的这些行为，我们的节点（接受RPC的节点）是无法感知到的，且交易也不会回退，我们用RPC查找的时候，会永远在">
 <meta property="og:type" content="article">
-<meta property="og:title" content="重装系统备忘">
-<meta property="og:url" content="https://mybestcool.github.io/2018/05/03/coder-tools/index.html">
+<meta property="og:title" content="比特币长时间不被确认的处理办法">
+<meta property="og:url" content="https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/index.html">
 <meta property="og:site_name" content="知行合一">
-<meta property="og:description" content="系统安装   使用win10企业版，激活使用DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ   软件安装   通用工具  百度网盘 同步文件 OneDrive 同步文件 QQ拼音 输入法 Chrome 浏览器，同步收藏夹等 ShadowsocksR-4.6.1-win 科学上网 腾讯桌面管理 桌面管理和快速搜索 Colver 文件浏览器 winrar 压缩解压工具 notepad++">
+<meta property="og:description" content="原因 设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块  交易费设置太低，旷工会根据交易费排序，选择交易费高的交易进行打包（老的节点可能会按时间顺序排序），所以会出现两种情况  一直在交易内存池，没有旷工选择打包 交易内存池慢了，或者超时了，被删除掉了    产生上面的这些行为，我们的节点（接受RPC的节点）是无法感知到的，且交易也不会回退，我们用RPC查找的时候，会永远在">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-09T13:47:28.000Z">
+<meta property="og:updated_time" content="2018-08-14T13:01:17.285Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="重装系统备忘">
-<meta name="twitter:description" content="系统安装   使用win10企业版，激活使用DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ   软件安装   通用工具  百度网盘 同步文件 OneDrive 同步文件 QQ拼音 输入法 Chrome 浏览器，同步收藏夹等 ShadowsocksR-4.6.1-win 科学上网 腾讯桌面管理 桌面管理和快速搜索 Colver 文件浏览器 winrar 压缩解压工具 notepad++">
+<meta name="twitter:title" content="比特币长时间不被确认的处理办法">
+<meta name="twitter:description" content="原因 设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块  交易费设置太低，旷工会根据交易费排序，选择交易费高的交易进行打包（老的节点可能会按时间顺序排序），所以会出现两种情况  一直在交易内存池，没有旷工选择打包 交易内存池慢了，或者超时了，被删除掉了    产生上面的这些行为，我们的节点（接受RPC的节点）是无法感知到的，且交易也不会回退，我们用RPC查找的时候，会永远在">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://mybestcool.github.io/2018/05/03/coder-tools/"/>
+  <link rel="canonical" href="https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/"/>
 
 
 
 
 
-  <title>重装系统备忘 | 知行合一</title>
+  <title>比特币长时间不被确认的处理办法 | 知行合一</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/05/03/coder-tools/">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lucus Gu">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">重装系统备忘</h1>
+          <h1 class="post-title" itemprop="name headline">比特币长时间不被确认的处理办法</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-03T15:33:11+08:00">
-                2018-05-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-14T21:00:18+08:00">
+                2018-08-14
               </time>
             
 
@@ -290,9 +290,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/03/coder-tools/#comments" itemprop="discussionUrl">
+                <a href="/2018/08/14/bitcoin-unconfirmed/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/03/coder-tools/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/08/14/bitcoin-unconfirmed/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -320,63 +320,33 @@
       
 
       
-        <ol>
-<li>系统安装</li>
+        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><ol>
+<li><p>设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块</p>
+</li>
+<li><p>交易费设置太低，旷工会根据交易费排序，选择交易费高的交易进行打包（老的节点可能会按时间顺序排序），所以会出现两种情况</p>
+<ul>
+<li>一直在交易内存池，没有旷工选择打包</li>
+<li>交易内存池慢了，或者超时了，被删除掉了</li>
+</ul>
+</li>
 </ol>
+<p>产生上面的这些行为，我们的节点（接受RPC的节点）是无法感知到的，且交易也不会回退，我们用RPC查找的时候，会永远在交易内存池内。</p>
+<h2 id="如何处理"><a href="#如何处理" class="headerlink" title="如何处理"></a>如何处理</h2><ol>
+<li><p>针对1情况，就不要设置LockTime。如果需要设置，一定要核对好。</p>
+</li>
+<li><p>针对2情况，有以下几种办法</p>
 <ul>
-<li>使用win10企业版，激活使用DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ</li>
+<li>重启自己的节点，<ul>
+<li>简单重启，它会重新广播交易，可能再次失败</li>
+<li>加-zapwallettxes参数，删除钱包的所有交易记录；加-rescan参数，重新扫描区块链以查找遗漏的钱包交易，获取交易前的UTXO。这个方法不一定能够成功，因为交易可能还在某些节点上。</li>
 </ul>
-<ol start="2">
-<li>软件安装</li>
+</li>
+<li>在btc.com上查找交易是否存在，如果不存在，则用<a href="https://btc.com/tools/tx/publish，再次广播交易，可能再次失败；也可以用别家的矿池" target="_blank" rel="noopener">https://btc.com/tools/tx/publish，再次广播交易，可能再次失败；也可以用别家的矿池</a></li>
+<li>打开<a href="https://pushtx.btc.com/#/，提供一定的费用，让其矿池打包处理。最长需要4个小时才能进入区块。因为他家的矿池在4个小时内，挖到矿的概率是98%。可能费用比较高。" target="_blank" rel="noopener">https://pushtx.btc.com/#/，提供一定的费用，让其矿池打包处理。最长需要4个小时才能进入区块。因为他家的矿池在4个小时内，挖到矿的概率是98%。可能费用比较高。</a></li>
+<li>发送交易的时候，将交易设置成RBF模式(Replace by Fee)，允许用高费用交易来替代掉老的交易</li>
+</ul>
+</li>
 </ol>
-<ul>
-<li><p>通用工具</p>
-<ul>
-<li>百度网盘 同步文件</li>
-<li>OneDrive 同步文件</li>
-<li>QQ拼音 输入法</li>
-<li>Chrome 浏览器，同步收藏夹等</li>
-<li>ShadowsocksR-4.6.1-win 科学上网</li>
-<li>腾讯桌面管理 桌面管理和快速搜索</li>
-<li>Colver 文件浏览器</li>
-<li>winrar 压缩解压工具</li>
-<li>notepad++ 文本工具</li>
-<li>有道笔记和有道翻译</li>
-</ul>
-</li>
-<li><p>沟通软件</p>
-<ul>
-<li>TIM</li>
-<li>微信</li>
-<li>钉钉</li>
-</ul>
-</li>
-<li><p>办公软件</p>
-<ul>
-<li>wps office</li>
-<li>xmind</li>
-<li>foxmail</li>
-</ul>
-</li>
-<li><p>开发辅助工具</p>
-<ul>
-<li>bcompare 对比工具</li>
-<li>cmder 命令行工具</li>
-<li>navicat for mysql mysql访问工具</li>
-<li>mRemoteNG 远程工具</li>
-</ul>
-</li>
-<li><p>开发语言和工具</p>
-<ul>
-<li>git 版本管理工具</li>
-<li>golang</li>
-<li>python 2.7</li>
-<li>cmake</li>
-<li>vscode + 插件</li>
-<li>vs2013 + VA + 其他插件</li>
-</ul>
-</li>
-</ul>
 
       
     </div>
@@ -401,8 +371,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/02/bitshares-vs2013/" rel="next" title="bitshares vs2013 x64位 编译">
-                <i class="fa fa-chevron-left"></i> bitshares vs2013 x64位 编译
+              <a href="/2018/08/06/mingw-obs-pango/" rel="next" title="在MinGW64下编译obs-text-pango">
+                <i class="fa fa-chevron-left"></i> 在MinGW64下编译obs-text-pango
               </a>
             
           </div>
@@ -410,10 +380,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/09/bitshares-install-uiwallet/" rel="prev" title="BTS UI钱包搭建以及接入到私有链">
-                BTS UI钱包搭建以及接入到私有链 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -475,8 +441,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -534,6 +509,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原因"><span class="nav-number">1.</span> <span class="nav-text">原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何处理"><span class="nav-number">2.</span> <span class="nav-text">如何处理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -691,9 +682,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://mybestcool.github.io/2018/05/03/coder-tools/';
-          this.page.identifier = '2018/05/03/coder-tools/';
-          this.page.title = '重装系统备忘';
+          this.page.url = 'https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/';
+          this.page.identifier = '2018/08/14/bitcoin-unconfirmed/';
+          this.page.title = '比特币长时间不被确认的处理办法';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://https-mybestcool-github-io.disqus.com/embed.js';

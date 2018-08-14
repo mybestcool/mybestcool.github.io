@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mybestcool.github.io/"/>
-  <updated>2018-08-06T13:38:48.323Z</updated>
+  <updated>2018-08-14T13:01:17.285Z</updated>
   <id>https://mybestcool.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>比特币长时间不被确认的处理办法</title>
+    <link href="https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/"/>
+    <id>https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/</id>
+    <published>2018-08-14T13:00:18.000Z</published>
+    <updated>2018-08-14T13:01:17.285Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><ol><li><p>设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块</p></li><li><p>交易费设置太低，旷工会根据交易费排序，选择交易费高的交易进行打包（老的节点可能会按时间顺序排序），所以会出现两种情况</p><ul><li>一直在交易内存池，没有旷工选择打包</li><li>交易内存池慢了，或者超时了，被删除掉了</li></ul></li></ol><p>产生上面的这些行为，我们的节点（接受RPC的节点）是无法感知到的，且交易也不会回退，我们用RPC查找的时候，会永远在交易内存池内。</p><h2 id="如何处理"><a href="#如何处理" class="headerlink" title="如何处理"></a>如何处理</h2><ol><li><p>针对1情况，就不要设置LockTime。如果需要设置，一定要核对好。</p></li><li><p>针对2情况，有以下几种办法</p><ul><li>重启自己的节点，<ul><li>简单重启，它会重新广播交易，可能再次失败</li><li>加-zapwallettxes参数，删除钱包的所有交易记录；加-rescan参数，重新扫描区块链以查找遗漏的钱包交易，获取交易前的UTXO。这个方法不一定能够成功，因为交易可能还在某些节点上。</li></ul></li><li>在btc.com上查找交易是否存在，如果不存在，则用<a href="https://btc.com/tools/tx/publish，再次广播交易，可能再次失败；也可以用别家的矿池" target="_blank" rel="noopener">https://btc.com/tools/tx/publish，再次广播交易，可能再次失败；也可以用别家的矿池</a></li><li>打开<a href="https://pushtx.btc.com/#/，提供一定的费用，让其矿池打包处理。最长需要4个小时才能进入区块。因为他家的矿池在4个小时内，挖到矿的概率是98%。可能费用比较高。" target="_blank" rel="noopener">https://pushtx.btc.com/#/，提供一定的费用，让其矿池打包处理。最长需要4个小时才能进入区块。因为他家的矿池在4个小时内，挖到矿的概率是98%。可能费用比较高。</a></li><li>发送交易的时候，将交易设置成RBF模式(Replace by Fee)，允许用高费用交易来替代掉老的交易</li></ul></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;原因&quot;&gt;&lt;a href=&quot;#原因&quot; class=&quot;headerlink&quot; title=&quot;原因&quot;&gt;&lt;/a&gt;原因&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;交易费设置太低
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>在MinGW64下编译obs-text-pango</title>
@@ -444,31 +468,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Mongodb学习总结</title>
-    <link href="https://mybestcool.github.io/2018/04/03/mongodbstudy/"/>
-    <id>https://mybestcool.github.io/2018/04/03/mongodbstudy/</id>
-    <published>2018-04-03T10:43:09.000Z</published>
-    <updated>2018-04-03T10:49:10.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h2><pre><code>https://www.mongodb.com/http://docs.mongoing.com/index.htmlhttp://www.mongodb.org.cn/</code></pre><h2 id="mongo的安装"><a href="#mongo的安装" class="headerlink" title="mongo的安装"></a>mongo的安装</h2><pre><code>1. 下载社区版本 https://www.mongodb.com/download-center?jmp=navcommunity2. 安装目录下有哪些程序</code></pre><table><thead><tr><th>程序</th><th>说明</th><th>使用说明</th></tr></thead><tbody><tr><td>mongo</td><td>mongo客户端</td><td>默认连接local：27017 用–help查看帮助</td></tr><tr><td>mongod</td><td>mongo服务器</td><td>要先建立dbpath才能启动，可以用命令行创建，也可以根据服务器的配置来创建（一般配置systemLog和stroage:dbPath，使用yaml格式）。用mongod –install（-f configpath）在windows下注册成服务</td></tr><tr><td>mongodump</td><td>数据库备份</td><td>mongodump -h dbhost -d dbname -o dbdirectory</td></tr><tr><td>mongorestore</td><td>数据库恢复</td><td>mongorestore -h <hostname>&lt;:port&gt; -d dbname <path></path></hostname></td></tr><tr><td>mongoexport</td><td>集合备份</td><td>mongoexport -d test -c students -o students.dat</td></tr><tr><td>mongoimport</td><td>集合恢复</td><td>mongoimport -d test -c students students.dat</td></tr><tr><td>mongofiles</td><td>存取文件</td><td>mongofiles put E:xxx.data/mongofiles get E:xxx.data</td></tr><tr><td>mongooplog</td><td>oplog重放</td><td>mongooplog –port 20001 -u* –authenticationDatabase=admin –from=172.16.201.73:27017</td></tr><tr><td>mongoperf</td><td>独立检查mongoDB的I/O性能工具</td><td></td></tr><tr><td>mongos</td><td>集群工具</td><td></td></tr><tr><td>mongostat</td><td>状态监控工具</td><td></td></tr><tr><td>mongotop</td><td>性能监控工具</td><td></td></tr></tbody></table><h2 id="shell命令"><a href="#shell命令" class="headerlink" title="shell命令"></a>shell命令</h2><table><thead><tr><th>操作类型</th><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>增</td><td>insert</td><td></td></tr><tr><td>删</td><td>remove</td><td></td></tr><tr><td>查</td><td>find</td><td>更加复杂的有条件查询：比较查询操作符，逻辑查询操作符，元素查询操作符，评价查询查询操作，Geospatia查询操作符，数组查询操作符，位查询操作符</td></tr><tr><td>改</td><td>update</td><td>字段更新操作符，数组更新操作符，位更新操作符</td></tr><tr><td>聚合</td><td></td><td>group查询操作符，管道聚合阶段</td></tr></tbody></table><table><thead><tr><th>大类</th><th>说明</th></tr></thead><tbody><tr><td>Collection</td><td><a href="https://docs.mongodb.com/manual/reference/method/#collection" target="_blank" rel="noopener">https://docs.mongodb.com/manual/reference/method/#collection</a></td></tr><tr><td>Replication</td><td>…</td></tr><tr><td>Cursor</td><td>…</td></tr><tr><td>Sharding</td><td>…</td></tr><tr><td>Database</td><td>…</td></tr><tr><td>Subprocess</td><td>…</td></tr><tr><td>Query Plan Cache</td><td>… </td></tr><tr><td>Constructors</td><td>…</td></tr><tr><td>Bulk Write Operation</td><td>… </td></tr><tr><td>Connection</td><td>…</td></tr><tr><td>User Management</td><td>…  </td></tr><tr><td>Native</td><td>…</td></tr><tr><td>Role Management</td><td>… </td></tr></tbody></table><h2 id="理论学习（基本概念）"><a href="#理论学习（基本概念）" class="headerlink" title="理论学习（基本概念）"></a>理论学习（基本概念）</h2><ol><li><p>基本类型</p><p> 对应bjson的格式</p></li></ol><table><thead><tr><th>类型</th><th>类型</th><th>编号</th></tr></thead><tbody><tr><td>Double</td><td>双精度</td><td>1</td></tr><tr><td>String</td><td>字符串</td><td>2</td></tr><tr><td>Object</td><td>对象</td><td>3</td></tr><tr><td>Array</td><td>数组</td><td>4</td></tr><tr><td>Binary data</td><td>二进制对象</td><td>5</td></tr><tr><td>Object id</td><td>对象id</td><td>7</td></tr><tr><td>Boolean</td><td>布尔值</td><td>8</td></tr><tr><td>Date</td><td>日期</td><td>9</td></tr><tr><td>Null</td><td>未定义</td><td>10</td></tr><tr><td>Regular Expression</td><td>正则表达式</td><td>11</td></tr><tr><td>JavaScript</td><td>JavaScript代码</td><td>13</td></tr><tr><td>Symbol</td><td>符号</td><td>14</td></tr><tr><td>JavaScript (with scope)</td><td>JavaScript代码(带范围)</td><td>15</td></tr><tr><td>32-bit integer</td><td>32 位整数</td><td>16</td></tr><tr><td>Timestamp</td><td>时间戳</td><td>17</td></tr><tr><td>64-bit integer</td><td>64 位整数</td><td>18</td></tr><tr><td>Min key</td><td>最小键</td><td>255</td></tr><tr><td>Max key</td><td>最大键</td><td>127</td></tr></tbody></table><ol start="2"><li><p>文档：是mongodb中数据的基本单元（类似于关系数据库的行，但比行要复杂），多个键及其关联的值放在一起就是文档。mongodb文件存储格式为bjson。</p><ul><li>示例{“firstName”:”egger”,”lastName”:”wong”}</li><li>文档中的健/值是有序的</li><li>文档中的值不仅可以是在双引号里的字符串，还可以是其他的类型，包括文档</li><li>mongodb区分类型和大小写</li><li>mongodb的文档不能有重复的键</li><li>文档的键是字符串，除了少数情况，键可以使用任意的utf-8字符<ul><li>键不能含有\0，这个表示键的结束</li><li>.和$有特别的意义，只能在特定的环境下使用</li><li>以下划线”_”开头的键是保留的（非严格要求）</li></ul></li><li><p>每个文档都有一个objectid，由客户端驱动生成，由”_id”表示</p><p>  ObjectId占用12字节的存储空间，每个字节两位十六进制数字，是一个24位的字符串。由“时间戳” 、“机器名”、“PID号”和“计数器”组成。使用机器名的好处是在分布式环境中能够避免单点计数的性能瓶颈。使用PID号的好处是支持同一机器内运行多个mongod实例。最终采用时间戳和计数器的组合来保证唯一性</p><ul><li>时间戳 4个字节。从标准纪元开始，单位为秒</li><li>机器名　　3个字节。所在主机的唯一标识符。通常是机器主机名的散列值，机器名通过Md5加密后取前三个字节</li><li>PID　　2个字节。为了确保在同一台机器上并发的多个进程产生的Objectld是唯一的，所以加上进程标识符(PID).注意到每次重启mongod进程后PID号通常会发生变化就可以了</li><li>计数器　　3个字节，表示的取值范围就是256<em>256</em>256=16777216。一个自动增加的计数器，确保相同进程同一秒产生的Obj ectld也是不一样的同一秒钟最多允许每个进程拥有2563 (16 777 216)不同的Objectld</li></ul></li></ul></li></ol><table><thead><tr><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th></tr></thead><tbody><tr><td>时间戳</td><td></td><td></td><td></td><td>机器名</td><td></td><td></td><td>PID</td><td></td><td>计数器</td><td></td><td></td></tr></tbody></table><ol start="3"><li><p>集合：指一组文档（类似于关系数据库的表），可以看成没有模式的表</p><ul><li>集合是无模式的，文档的格式可以不一样。如{“name”:”egger”}，{“age”:18}可以在一个集合中。一般来说，这种情况还是推荐改成多个集合<ul><li>把各种各样的模式的文档混在一起，对开发和维护都会产生麻烦</li><li>在几个查询速度上会折损</li><li>创建索引的时候，会附加结构，尤其是唯一索引，模式一样会更加高效</li></ul></li><li>命名，用utf-8字符串来表示集合，有下列要求<ul><li>集合名不能有空字符串</li><li>集合名不能含有\0，这个表示集合名的结束</li><li>集合名不能以”system.”开头，这个是为系统集合保留的前缀</li><li>用户创建的集合名不能呢个含有保留字符</li></ul></li><li><p>子集合</p><p>  组织集合的一种惯例是使用”.”字符分开的按命名空间划分的子集合。在MongoDB中使用子集合来组织数据是很好的方法。</p><p>  例如，一个个人信息可能包含两个集合，分别是person.name和person.age。这样做的目的只是为了使组织结构更好些，也就是说person这个集合（这里根本就不需要存在）及其子集合没有任何关系。把数据库的名字放到集合名前面，得到就是集合的完全限定名，称为命名空间。命名空间的长度不得超过121字节，在实际使用当中应该小于100字节。</p><p>  很多MongoDB工具中都包含子集合。</p><ul><li>GridFS是一种存储大文件的协议，使用子集合来存储文件的元数据，这样就与内容块分开了</li><li>MongoDB的Web控制台通过子集合的方式将数据组织在DBTOP部分.</li><li>绝大多数驱动程序都提供语法糖，为访问指定集合的子集合提供方便。</li></ul></li></ul></li><li><p>数据库</p><p> MongoDB中多个集合可以组成一个数据库。mongodb的单个实例可以容纳多个独立的数据库，每个都有自己的集合和权限，不同的数据库放在不同的文件中。</p><p> 数据库也通过名字来标识。为满足以下条件的utf-8字符串</p><ul><li>不能是空字符串</li><li>不得含有’ ‘（空格)、.、$、/、\和\0 (空宇符)</li><li>应全部小写</li><li><p>最多64个字节</p><p>有一些数据库名是保留的，可以直接访问这些特殊作用的数据库</p></li><li><p>admin</p><p>  从权限的角度来看，这是“root”数据库。要是将一个用户添加到这个数据库，这个用户自动继承所有数据库的权限。一些特定的服务器端命令也只能从这个数据库运行，比如列出所有的数据库或者关闭服务器。</p></li><li><p>local</p><p>  这个数据永远不会被复制，可以用来存储限于本地单台服务器的任意集合</p></li><li><p>config</p><p>  当Mongo用于分片设置时，config数据库在内部使用，用于保存分片的相关信息。</p></li></ul></li></ol><h2 id="客户端驱动"><a href="#客户端驱动" class="headerlink" title="客户端驱动"></a>客户端驱动</h2><pre><code>待补充</code></pre><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><pre><code>http://shift-alt-ctrl.iteye.com/blog/2255580</code></pre><h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><pre><code>待补充</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;官方文档&quot;&gt;&lt;a href=&quot;#官方文档&quot; class=&quot;headerlink&quot; title=&quot;官方文档&quot;&gt;&lt;/a&gt;官方文档&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;https://www.mongodb.com/
-
-http://docs.mongoing.com/ind
-      
-    
-    </summary>
-    
-    
-      <category term="mongodb" scheme="https://mybestcool.github.io/tags/mongodb/"/>
     
   </entry>
   
