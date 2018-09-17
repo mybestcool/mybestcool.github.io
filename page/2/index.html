@@ -239,6 +239,464 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/06/15/problem-about-docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/15/problem-about-docker/" itemprop="url">最近遇到的关于docker的问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-15T13:29:52+08:00">
+                2018-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/15/problem-about-docker/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/15/problem-about-docker/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="问题1：docker-v-与-onedrive-冲突"><a href="#问题1：docker-v-与-onedrive-冲突" class="headerlink" title="问题1：docker -v 与 onedrive 冲突"></a>问题1：docker -v 与 onedrive 冲突</h2><ul>
+<li>问题现象</li>
+</ul>
+<p>在windows下docker用Ubuntu镜像生成容器，用-v映射到本地目录，如果这个目录也是onedrive包含的目录，那有可能导致onedrive一直卡在“正在更新文件”中</p>
+<ul>
+<li><p>解决办法</p>
+<ul>
+<li>停掉和删除容器</li>
+<li>重设onedrive，键盘win+r，输入“%localappdata%\Microsoft\OneDrive\onedrive.exe /reset”</li>
+<li>重启操作系统</li>
+</ul>
+</li>
+<li><p>这种方法但失去了在容器上操作文件后能直接同步到onedrive的功能，暂时用以下办法代替</p>
+<ul>
+<li>目录copy一份到别的路径下，然后写一个脚本，按差异复制到onedrive目录</li>
+</ul>
+</li>
+</ul>
+<p>以下是同步脚本</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> NOWDIR=%~dp0</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">%NOWDIR%</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> SRC=...</span><br><span class="line"><span class="built_in">set</span> DST=...</span><br><span class="line"></span><br><span class="line"><span class="built_in">xcopy</span> "<span class="variable">%SRC%</span>\server" "<span class="variable">%DST%</span>\server" /s /h /d /y /exclude:uncopy.txt</span><br></pre></td></tr></table></figure>
+<p>以下是uncopy.txt文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">*.so</span><br><span class="line">*.o</span><br><span class="line">*.a</span><br><span class="line">*.log</span><br><span class="line">*.dSYM</span><br><span class="line"></span><br><span class="line">.idea</span><br><span class="line">*.iml</span><br><span class="line">*.rock</span><br><span class="line">*.rockspec</span><br><span class="line">.DS_Store</span><br><span class="line">*.pid</span><br></pre></td></tr></table></figure>
+<ul>
+<li>用系统的任务计划来执行脚本，把文件同步到onedrive下</li>
+</ul>
+<h2 id="问题2：docker-v映射目录后，容器中不生效"><a href="#问题2：docker-v映射目录后，容器中不生效" class="headerlink" title="问题2：docker -v映射目录后，容器中不生效"></a>问题2：docker -v映射目录后，容器中不生效</h2><ul>
+<li><p>引起这个问题的原因是更新了操作系统的密码，解决办法如下</p>
+<ul>
+<li>打开docker设置，在sharedrives栏，reset credentials…，然后选择shared的盘符，重新输入系统密码</li>
+<li>重新生成容器</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/06/06/typescript-learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/06/typescript-learning/" itemprop="url">typescript_learning</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T16:49:07+08:00">
+                2018-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/06/typescript-learning/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/06/typescript-learning/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="TypeScript-转自legacy的gitbook"><a href="#TypeScript-转自legacy的gitbook" class="headerlink" title="TypeScript,转自legacy的gitbook"></a>TypeScript,转自<a href="https://ts.xcatliu.com" target="_blank" rel="noopener">legacy的gitbook</a></h1><h2 id="安装编译"><a href="#安装编译" class="headerlink" title="安装编译"></a>安装编译</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g typescript</span><br><span class="line">tsc hello.ts</span><br></pre></td></tr></table></figure>
+<p>tsc 对类型做静态检查，如果有错误，编译会报错，但会继续生成编译结果</p>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><ol>
+<li>原始数据类型</li>
+</ol>
+<ul>
+<li>布尔值</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> isDone: <span class="built_in">boolean</span> = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>null类型 和 undefined类型，他俩是所有类型的子类型，即可以赋值给其他类型</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> u: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"><span class="keyword">let</span> n: <span class="literal">null</span> = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>数值</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> decLiteral: <span class="built_in">number</span> = <span class="number">6</span>;</span><br><span class="line"><span class="comment">// 16 进制</span></span><br><span class="line"><span class="keyword">let</span> hexLiteral: <span class="built_in">number</span> = <span class="number">0xf00d</span>;</span><br><span class="line"><span class="comment">// ES6 中的二进制表示法</span></span><br><span class="line"><span class="keyword">let</span> binaryLiteral: <span class="built_in">number</span> = <span class="number">0b1010</span>;</span><br><span class="line"><span class="comment">// ES6 中的八进制表示法</span></span><br><span class="line"><span class="keyword">let</span> octalLiteral: <span class="built_in">number</span> = <span class="number">0o744</span>;</span><br><span class="line"><span class="keyword">let</span> notANumber: <span class="built_in">number</span> = <span class="literal">NaN</span>;</span><br><span class="line"><span class="keyword">let</span> infinityNumber: <span class="built_in">number</span> = <span class="literal">Infinity</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字符串</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myName: <span class="built_in">string</span> = <span class="string">'Tom'</span>;</span><br><span class="line"><span class="keyword">let</span> myAge: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模板字符串</span></span><br><span class="line"><span class="keyword">let</span> sentence: <span class="built_in">string</span> = <span class="string">`Hello, my name is <span class="subst">$&#123;myName&#125;</span>.</span></span><br><span class="line"><span class="string">I'll be <span class="subst">$&#123;myAge + 1&#125;</span> years old next month.`</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>空值, 用于函数返回值</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertName</span>(<span class="params"></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">    alert(<span class="string">'My name is Tom'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>任意类型</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFavoriteNumber: <span class="built_in">string</span> = <span class="string">'seven'</span>;</span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>联合类型</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myFavoriteNumber: <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line">myFavoriteNumber = <span class="string">'seven'</span>;</span><br><span class="line">myFavoriteNumber = <span class="number">7</span>;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>对象的类型</li>
+</ol>
+<ul>
+<li>接口</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">    name: <span class="built_in">string</span>;</span><br><span class="line">    age: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    name: <span class="string">'Tom'</span>,</span><br><span class="line">    age: <span class="number">25</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可选属性，带?</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">    name: <span class="built_in">string</span>;</span><br><span class="line">    age?: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    name: <span class="string">'Tom'</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>任意属性</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">    name: <span class="built_in">string</span>;</span><br><span class="line">    age?: <span class="built_in">number</span>;</span><br><span class="line">    [propName: <span class="built_in">string</span>]: <span class="built_in">any</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    name: <span class="string">'Tom'</span>,</span><br><span class="line">    gender: <span class="string">'male'</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>使用 [propName: string] 定义了任意属性取 string 类型的值。</p>
+<p>需要注意的是，一旦定义了任意属性，那么确定属性和可选属性都必须是它的子属性</p>
+<ul>
+<li>只读属性</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">    readonly id: <span class="built_in">number</span>;</span><br><span class="line">    name: <span class="built_in">string</span>;</span><br><span class="line">    age?: <span class="built_in">number</span>;</span><br><span class="line">    [propName: <span class="built_in">string</span>]: <span class="built_in">any</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tom: Person = &#123;</span><br><span class="line">    id: <span class="number">89757</span>,</span><br><span class="line">    name: <span class="string">'Tom'</span>,</span><br><span class="line">    gender: <span class="string">'male'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">tom.id = <span class="number">9527</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// index.ts(14,5): error TS2540: Cannot assign to 'id' because it is a constant or a read-only property.</span></span><br></pre></td></tr></table></figure>
+<p>上例中，使用 readonly 定义的属性 id 初始化后，又被赋值了，所以报错了。</p>
+<p>注意，只读的约束存在于第一次给对象赋值的时候，而不是第一次给只读属性赋值的时候</p>
+<ol start="3">
+<li>数组类型</li>
+</ol>
+<ul>
+<li>基本数组 </li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fibonacci: <span class="built_in">number</span>[] = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>泛型数组</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fibonacci: <span class="built_in">Array</span>&lt;<span class="built_in">number</span>&gt; = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>];</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>函数类型</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数声明（Function Declaration）</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数表达式（Function Expression）</span></span><br><span class="line"><span class="keyword">let</span> mySum = <span class="function"><span class="keyword">function</span> (<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>类型断言</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getLength</span>(<span class="params">something: <span class="built_in">string</span> | <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ((&lt;<span class="built_in">string</span>&gt;something).length) &#123;</span><br><span class="line">        <span class="keyword">return</span> (&lt;<span class="built_in">string</span>&gt;something).length;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> something.toString().length;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>声明文件</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// jQuery.d.ts</span></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">var</span> jQuery: <span class="function">(<span class="params"><span class="built_in">string</span></span>) =&gt;</span> <span class="built_in">any</span>;</span><br><span class="line"></span><br><span class="line">jQuery(<span class="string">'#foo'</span>);</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>内置对象</li>
+</ol>
+<ul>
+<li><p>ECMAScript内置对象，在<a href="https://github.com/Microsoft/TypeScript/tree/master/src/lib" target="_blank" rel="noopener">typescript核心库</a>中已经定义好了，还扩展了内置对象，如DOM、BOM等</p>
+</li>
+<li><p>其他第三方，如node，可以用npm来生成</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @types/node --save-dev</span><br></pre></td></tr></table></figure>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><ol>
+<li>类型别名，关键词type</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Name = <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">type</span> NameResolver = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">type</span> NameOrResolver = Name | NameResolver;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params">n: NameOrResolver</span>): <span class="title">Name</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> n === <span class="string">'string'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> n();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>字符串字面量类型，关键词type</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> EventNames = <span class="string">'click'</span> | <span class="string">'scroll'</span> | <span class="string">'mousemove'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleEvent</span>(<span class="params">ele: Element, event: EventNames</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">handleEvent(<span class="built_in">document</span>.getElementById(<span class="string">'hello'</span>), <span class="string">'scroll'</span>);  <span class="comment">// 没问题</span></span><br><span class="line">handleEvent(<span class="built_in">document</span>.getElementById(<span class="string">'world'</span>), <span class="string">'dbclick'</span>); <span class="comment">// 报错，event 不能为 'dbclick'</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>元组，数组合并了相同类型的对象，而元组（Tuple）合并了不同类型的对象。</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> xcatliu: [<span class="built_in">string</span>, <span class="built_in">number</span>];</span><br><span class="line">xcatliu[<span class="number">0</span>] = <span class="string">'Xcat Liu'</span>;</span><br><span class="line">xcatliu[<span class="number">1</span>] = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line">xcatliu[<span class="number">0</span>].slice(<span class="number">1</span>);</span><br><span class="line">xcatliu[<span class="number">1</span>].toFixed(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>越界的元素,当赋值给越界的元素时，它类型会被限制为元组中每个类型的联合类型：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> xcatliu: [<span class="built_in">string</span>, <span class="built_in">number</span>];</span><br><span class="line">xcatliu = [<span class="string">'Xcat Liu'</span>, <span class="number">25</span>];</span><br><span class="line">xcatliu.push(<span class="string">'http://xcatliu.com/'</span>);</span><br><span class="line">xcatliu.push(<span class="literal">true</span>); <span class="comment">// 报错，不能push boolean类型</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>枚举，关键词enum</li>
+</ol>
+<ul>
+<li>普通枚举</li>
+</ul>
+<p>枚举成员会被赋值为从 0 开始递增的数字，同时也会对枚举值到枚举名进行反向映射：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Days &#123;Sun, Mon, Tue, Wed, Thu, Fri, Sat&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(Days[<span class="string">"Sun"</span>] === <span class="number">0</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Days[<span class="string">"Mon"</span>] === <span class="number">1</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Days[<span class="string">"Tue"</span>] === <span class="number">2</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Days[<span class="string">"Sat"</span>] === <span class="number">6</span>); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(Days[<span class="number">0</span>] === <span class="string">"Sun"</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Days[<span class="number">1</span>] === <span class="string">"Mon"</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Days[<span class="number">2</span>] === <span class="string">"Tue"</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Days[<span class="number">6</span>] === <span class="string">"Sat"</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>常数枚举</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">enum</span> Directions &#123;</span><br><span class="line">    Up,</span><br><span class="line">    Down,</span><br><span class="line">    Left,</span><br><span class="line">    Right</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right];</span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">常数枚举与普通枚举的区别是，它会在编译阶段被删除，并且不能包含计算成员。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">- 外部枚举</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">5. 类</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">- 属性与方法</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">使用 class 定义类，使用 constructor 定义构造函数。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">通过 new 生成新实例的时候，会自动调用构造函数。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span> typescript</span><br><span class="line"><span class="keyword">class</span> Animal &#123;</span><br><span class="line">    <span class="keyword">constructor</span>(<span class="params">name</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    sayHi() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">`My name is <span class="subst">$&#123;this.name&#125;</span>`</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> Animal(<span class="string">'Jack'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(a.sayHi()); <span class="comment">// My name is Jack</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>继承</li>
+</ul>
+<p>使用 extends 关键字实现继承，子类中使用 super 关键字来调用父类的构造函数和方法。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Cat <span class="keyword">extends</span> Animal &#123;</span><br><span class="line">    <span class="keyword">constructor</span>(<span class="params">name</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>(name); <span class="comment">// 调用父类的 constructor(name)</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">    &#125;</span><br><span class="line">    sayHi() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Meow, '</span> + <span class="keyword">super</span>.sayHi(); <span class="comment">// 调用父类的 sayHi()</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> c = <span class="keyword">new</span> Cat(<span class="string">'Tom'</span>); <span class="comment">// Tom</span></span><br><span class="line"><span class="built_in">console</span>.log(c.sayHi()); <span class="comment">// Meow, My name is Tom</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>存取器</li>
+</ul>
+<p>使用 getter 和 setter 可以改变属性的赋值和读取行为：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Animal &#123;</span><br><span class="line">    <span class="keyword">constructor</span>(<span class="params">name</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">get</span> name() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Jack'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">set</span> name(value) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'setter: '</span> + value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> Animal(<span class="string">'Kitty'</span>); <span class="comment">// setter: Kitty</span></span><br><span class="line">a.name = <span class="string">'Tom'</span>; <span class="comment">// setter: Tom</span></span><br><span class="line"><span class="built_in">console</span>.log(a.name); <span class="comment">// Jack</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>静态方法</li>
+</ul>
+<p>使用 static 修饰符修饰的方法称为静态方法，它们不需要实例化，而是直接通过类来调用：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Animal &#123;</span><br><span class="line">    <span class="keyword">static</span> isAnimal(a) &#123;</span><br><span class="line">        <span class="keyword">return</span> a <span class="keyword">instanceof</span> Animal;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> Animal(<span class="string">'Jack'</span>);</span><br><span class="line">Animal.isAnimal(a); <span class="comment">// true</span></span><br><span class="line">a.isAnimal(a); <span class="comment">// TypeError: a.isAnimal is not a function</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>public private 和 protected</p>
+</li>
+<li><p>抽象类</p>
+</li>
+</ul>
+<p>abstract 用于定义抽象类和其中的抽象方法。</p>
+<p>抽象类是不允许被实例化的;抽象类中的抽象方法必须被子类实现</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> Animal &#123;</span><br><span class="line">    <span class="keyword">public</span> name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">constructor</span>(<span class="params">name</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> sayHi();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Cat <span class="keyword">extends</span> Animal &#123;</span><br><span class="line">    <span class="keyword">public</span> sayHi() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`Meow, My name is <span class="subst">$&#123;this.name&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> cat = <span class="keyword">new</span> Cat(<span class="string">'Tom'</span>);</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>类与接口</li>
+</ol>
+<ul>
+<li>类继承接口</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Alarm &#123;</span><br><span class="line">    alert();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Door &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> SecurityDoor <span class="keyword">extends</span> Door <span class="keyword">implements</span> Alarm &#123;</span><br><span class="line">    alert() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'SecurityDoor alert'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Car <span class="keyword">implements</span> Alarm &#123;</span><br><span class="line">    alert() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Car alert'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>类继承多个接口</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Alarm &#123;</span><br><span class="line">    alert();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Light &#123;</span><br><span class="line">    lightOn();</span><br><span class="line">    lightOff();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Car <span class="keyword">implements</span> Alarm, Light &#123;</span><br><span class="line">    alert() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Car alert'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    lightOn() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Car light on'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    lightOff() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Car light off'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接口继承接口</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Alarm &#123;</span><br><span class="line">    alert();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> LightableAlarm <span class="keyword">extends</span> Alarm &#123;</span><br><span class="line">    lightOn();</span><br><span class="line">    lightOff();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接口继承类</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Point &#123;</span><br><span class="line">    x: <span class="built_in">number</span>;</span><br><span class="line">    y: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Point3d <span class="keyword">extends</span> Point &#123;</span><br><span class="line">    z: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> point3d: Point3d = &#123;x: <span class="number">1</span>, y: <span class="number">2</span>, z: <span class="number">3</span>&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>混合类型</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> SearchFunc &#123;</span><br><span class="line">    (source: <span class="built_in">string</span>, subString: <span class="built_in">string</span>): <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> mySearch: SearchFunc;</span><br><span class="line">mySearch = <span class="function"><span class="keyword">function</span>(<span class="params">source: <span class="built_in">string</span>, subString: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> source.search(subString) !== <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>namespace，之前叫module，内部使用export导出，引入的时候用全名或者import成别名</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/06/04/ipfs-dev-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1913,617 +2371,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/04/19/ethereum-theory/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lucus Gu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="知行合一">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/19/ethereum-theory/" itemprop="url">ethereum-theory</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-19T22:12:27+08:00">
-                2018-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/19/ethereum-theory/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/19/ethereum-theory/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="区块链核心理论"><a href="#区块链核心理论" class="headerlink" title="区块链核心理论"></a>区块链核心理论</h2><ul>
-<li><a href="https://www.youtube.com/watch?v=bBC-nXj3Ng4" target="_blank" rel="noopener">账本-信任+密码学=加密货币（视频地址）</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2017/12/blockchain-tutorial.html" target="_blank" rel="noopener">区块链入门教程</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2018/01/bitcoin-tutorial.html" target="_blank" rel="noopener">比特币入门教程</a></li>
-</ul>
-<h3 id="账本（Ledger）"><a href="#账本（Ledger）" class="headerlink" title="账本（Ledger）"></a>账本（Ledger）</h3><ol>
-<li>账本记录如：<ul>
-<li>A pays B ￥40</li>
-<li>C pays A ￥60</li>
-<li>……</li>
-</ul>
-</li>
-<li>记录可伪造，所以需要加签名<ul>
-<li><a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html" target="_blank" rel="noopener">非对称加密</a>：公钥（pk）和私钥（sk）</li>
-<li>用户帐号：Acc(pk)=Account</li>
-<li>签名：Sign(Message,sk)=Signature，将签名放到账本记录上</li>
-<li>签名验证：Verify(Message,Signature,pk) = T/F，公钥解密签名，得到的Message HASH值并与账本记录Message做HASH比较。</li>
-<li>签名使用AES-256</li>
-</ul>
-</li>
-<li>记录可复制<ul>
-<li>给每条记录添加一个唯一编号</li>
-</ul>
-</li>
-<li>不足扣则不记录</li>
-<li>最终账本记录如下：<ul>
-<li><ol>
-<li>A pays B ￥40 (A’s Signature)</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>C pays A ￥60 (C’s Signature)</li>
-</ol>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="去中心化"><a href="#去中心化" class="headerlink" title="去中心化"></a>去中心化</h3><ol>
-<li>P2P 网络</li>
-<li>工作量证明机制（PoW,Proof of Work）<ol>
-<li>算法：SHA256(Message,RandomValue)=HashValue,改变Message的一小部份，则HashValue完全不一样，它具有散列性和不可预测性，且无法逆向。HashValue长度256位。</li>
-<li>工作量：当RandomValue不同时，HashValue完全不一样，而区块链协议要求算出的区块的HashValue前30位为0（即尝试10E次），且随着时间，这个值会变大，则更加难易计算。 </li>
-<li>P2P网络中的所有节点信任这个算法，这算法即共识算法。那么这个按此算法产生的区块整个网络都认可。</li>
-<li>区块创建者会得到一笔奖励，起初是50，后续逐渐减半减少，减少到0为止。以BTC举例<ul>
-<li>09.01 - 12.11     50BTC</li>
-<li>12.11 - 16.07     25BTC</li>
-<li>16.07 - 20.02     12.5BTC</li>
-<li>20.02 - 23.09     6.25BTC      </li>
-</ul>
-</li>
-<li>区块产生时间：<ul>
-<li>BTC：10min</li>
-<li>ETH：15sec</li>
-<li>XRP：3.5sec</li>
-<li>LTC：2.5min</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>账本一旦写入不能被修改。<ol>
-<li>所有区块使用默克尔树连接在一起，新的区块在后面，则导致整个区块不能修改。</li>
-</ol>
-</li>
-<li>当有两个或者多个节点创建出区块时，都添加到上一区块上，导致区块分叉。分叉后以区块链长的分支为准，同时取消掉其他分支。</li>
-<li>伪造账单，会导致区块链分叉。但如果算力小于整个网络的50%，那么最终会被正确的区块链取消。</li>
-</ol>
-<h2 id="以太坊核心概念"><a href="#以太坊核心概念" class="headerlink" title="以太坊核心概念"></a>以太坊核心概念</h2><ul>
-<li><a href="http://me.tryblockchain.org/getting-up-to-speed-on-ethereum.html" target="_blank" rel="noopener">以太坊开发入门</a></li>
-<li><a href="https://www.youtube.com/watch?v=66SaEDzlmP4" target="_blank" rel="noopener">V神演讲-25分钟理解以太坊</a></li>
-<li><a href="https://ethfans.org/posts/Ethereum-in-25-minites-vision-2017-1" target="_blank" rel="noopener">对应中文翻译-上</a></li>
-<li><a href="https://ethfans.org/posts/25-minutes-in-Ethereum-vision-2017-2" target="_blank" rel="noopener">对应中文翻译-下</a></li>
-<li>以太坊HASH算法：<a href="https://ethereum.stackexchange.com/questions/550/which-cryptographic-hash-function-does-ethereum-use" target="_blank" rel="noopener">KECCAK-256</a></li>
-<li>分叉协议：GHOST协议(GHOST protocol)=(Greedy Heaviest Observed Subtree)</li>
-</ul>
-<h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h3><ol>
-<li>一个合约是一个帐号，它成为消息的目标，那么合约就会被调用。调用者可以是外部帐号，也可以是其他合约帐号。</li>
-<li>合约代码运行在EVM上，并分布到整个网络每个节点</li>
-<li>合约代码一旦发布，不可变，且永久存在</li>
-<li>合约代码过程中状态的存储，是不可变的</li>
-<li>智能合约开发语言：<ol>
-<li><a href="https://solidity.readthedocs.io/en/latest/" target="_blank" rel="noopener">Solidity</a>,类JS语言，其开发的合约可以用<a href="https://ethereum.github.io/browser-solidity/" target="_blank" rel="noopener">Remix IDE</a>快速验证。官方推荐。</li>
-<li>LLL，类Lisp语言，与<a href="https://github.com/ethereum/solidity" target="_blank" rel="noopener">Solidity</a>同一仓库</li>
-<li><a href="https://github.com/ethereum/serpent/tree/develop" target="_blank" rel="noopener">Serpent</a>，类Python语言</li>
-</ol>
-</li>
-<li><a href="https://github.com/ConsenSys/smart-contract-best-practices" target="_blank" rel="noopener">智能合约最佳实践</a></li>
-</ol>
-<h3 id="DApp"><a href="#DApp" class="headerlink" title="DApp"></a>DApp</h3><ol>
-<li>定义：相当于C/S或B/S结构中的S端，一部分放在以太坊上，由运行于以太坊网络上一个或多个智能合约的组成；另一部分可以是我们现在意义上的服务端。</li>
-<li>DApp并不把所有的状态都存储在区块链上，也不把所有的计算都放在区块链上，不然话费的Gas量太大。只把大家需要信任的东西放到区块链上。</li>
-</ol>
-<h3 id="DApp客户端"><a href="#DApp客户端" class="headerlink" title="DApp客户端"></a>DApp客户端</h3><ol>
-<li>定义：相当于C/S或B/S结构中的C端或者B端。区别在于它们可能与区块链交互，也有可能与我们自己服务端交互。目前大多数的客户端用JS编写，因为可以运行在浏览器中。当然也可以用其他语言来编写。nodejs中有meteor工具来辅助开发。</li>
-</ol>
-<h3 id="DApp浏览器"><a href="#DApp浏览器" class="headerlink" title="DApp浏览器"></a>DApp浏览器</h3><ol>
-<li>用来让DApp客户端（常常使用JS与以太坊的智能合约进行交互）的使用更加容易。</li>
-<li>主要目的：<ol>
-<li>提供到一个以太坊节点的连接（或者连接到一个本地节点或者远程节点），和一个方便的切换不同节点（甚至是不同的网络）。</li>
-<li>提供一个帐户（或者一个钱包）来方便用户与DApp交互。</li>
-</ol>
-</li>
-<li>目前有哪些浏览器<ol>
-<li><a href="https://github.com/ethereum/mist" target="_blank" rel="noopener">Mist</a>是以太坊官方的DApp浏览器。一个漂亮的界面来与以太坊节点交互，与智能合约发、收交易。</li>
-<li><a href="https://status.im/" target="_blank" rel="noopener">Status</a>是一个手机上可以使用的DApp浏览器.</li>
-<li><a href="https://metamask.io/" target="_blank" rel="noopener">MetaMask</a>是一个Google浏览器扩展，把Chrome变成了一个DApp浏览器。它的核心特性是注入以太坊提供的js客户端库web3，到每一个界面，来让DApp连接到MetaMask提供的以太坊节点服务。不过这个Chrome扩展，可以允许你管理你的钱包，以及连接到不同的以太坊网络（译者注：包括本地的开发网络）。</li>
-<li><a href="https://parity.io/parity.html" target="_blank" rel="noopener">Parity</a>是一个以太坊客户端（也是一个全节点的实现），集成到了Web浏览器，并使之成为一个DApp浏览器</li>
-</ol>
-</li>
-</ol>
-<h3 id="GAS"><a href="#GAS" class="headerlink" title="GAS"></a>GAS</h3><ol>
-<li>定义：以太坊上每一次计算和存储所需要的费用，这个费用用gas来支付。它是用来衡量在一个具体计算中要求的费用单位。gas price就是你愿意在每个gas上花费Ether的数量，以“gwei”进行衡量。“Wei”是Ether的最小单位，1Ether=10^18Wei，1gwei=1,000,000,000 Wei。gas limit代表用户愿意花费在gas上费用的最大值。<br><img src="https://lilymoana.github.io/asset/eth_price.png" alt="image"></li>
-<li>作用：<ol>
-<li>防止死循环（因为以太坊的智能合约是图灵完备的）</li>
-<li>防止以太坊超负荷</li>
-<li>Gas限制是比特币上区块大小限制的对应物.目前的Gas上限是6.7百万gwei</li>
-</ol>
-</li>
-</ol>
-<h3 id="账户（对应以太坊白皮书）"><a href="#账户（对应以太坊白皮书）" class="headerlink" title="账户（对应以太坊白皮书）"></a>账户（对应以太坊白皮书）</h3><ol>
-<li>账户分类：<ol>
-<li>外部账户：被用户（私钥）控制的账户</li>
-<li>合约账户：是由运行在区块链自身上的代码（合约）来控制的，即被整个区块链控制。</li>
-</ol>
-</li>
-<li>账户状态：<ul>
-<li>State consists of key value mapping addressed to account objects</li>
-<li>Every account objest contains 4 pieces of data:<ul>
-<li>Nonce:如果账户是一个外部拥有账户，nonce代表从此账户地址发送的交易序号。如果账户是一个合约账户，nonce代表此账户创建的合约序号</li>
-<li>Balance:此地址拥有Wei的数量。1Ether=10^18Wei</li>
-<li>Code hash(code = empty string for private key-controlled accounts ):此账户EVM代码的hash值。对于合约账户，就是被Hash的代码并作为codeHash保存。对于外部拥有账户，codeHash域是一个空字符串的Hash值</li>
-<li>Storage trie root:Merkle Patricia树的根节点Hash值。Merkle树会将此账户存储内容的Hash值进行编码，默认是空值</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>账户之间的关系</li>
-</ol>
-<ul>
-<li>消息由外部帐号发起，合约账户不能成为消息的发起者<br><img src="https://lilymoana.github.io/asset/eth_transationset.png" alt="image"></li>
-</ul>
-<h3 id="Coin和Token"><a href="#Coin和Token" class="headerlink" title="Coin和Token"></a>Coin和Token</h3><ol>
-<li>Coin，是区块链的原生货币，有自己的区块链，如BTC、LTC</li>
-<li>Token，特定的资产或者某种效力，通常以现有的一个区块链为基础。大多数的以太坊的ERC20/ERC23代币都是协议代币</li>
-<li>两者都是Cryptocurrencies</li>
-</ol>
-<h3 id="网络，节点，区块"><a href="#网络，节点，区块" class="headerlink" title="网络，节点，区块"></a>网络，节点，区块</h3><ol>
-<li>网络<ol>
-<li>Mainnet-以太坊主网，通常是所有客户端的默认网络。</li>
-<li>Ropsten - 以太坊使用工作量证明的主测试网络。这个网络，因为低的计算量，容易遭到DDOS攻击，分片，或者其它问题。垃圾邮件攻击后被暂时放弃，最近才恢复使用。</li>
-<li>Kovan-parity客户端组成的测试网络，使用授权证明来提升对垃圾邮件攻击的抗扰度，并且持续4秒的阻塞时间。</li>
-<li>Rinkeby-geth客户端组成的测试网络，使用集团共识，尽管计算量低，但是对恶意行为者更有弹性。</li>
-</ol>
-</li>
-<li>节点<ol>
-<li>定义：为区块链网络中的一台电脑（简单理解的话，再详细点是指那个区块链进程）存放了整个区块链的数据。节点分成全节点（有完整的数据）和轻节点。可以通过geth来运行一个全节点（官方的节点，go语言），或者parity来运行一个轻节点。</li>
-</ol>
-</li>
-<li>区块<ol>
-<li>区块包含：<ol>
-<li>区块头<ul>
-<li>parentHash：父区块头的Hash值（这也是使得区块变成区块链的原因）</li>
-<li>ommerHash：当前区块ommers列表的Hash值</li>
-<li>beneficiary：接收挖此区块费用的账户地址</li>
-<li>stateRoot：状态树根节点的Hash值</li>
-<li>transactionsRoot：包含此区块所有交易的Merkle树的根节点Hash值</li>
-<li>receiptsRoot：包含此区块所有交易收据的Merkle树的根节点Hash值</li>
-<li>logsBloom：由日志信息组成的一个Bloom过滤器 (一种数据结构)</li>
-<li>difficulty： 此区块的难度级别</li>
-<li>number：当前区块的计数（创世纪块的区块序号为0，对于每个后续区块，区块序号都增加1）</li>
-<li>gasLimit：每个区块的当前gas limit</li>
-<li>gasUsed： 此区块中交易所用的总gas量</li>
-<li>timestamp：此区块成立时的unix的时间戳</li>
-<li>extraData：与此区块相关的附加数据</li>
-<li>mixHash：一个Hash值，当与nonce组合时，证明此区块已经执行了足够的计算</li>
-<li>nonce：一个Hash值，当与mixHash组合时，证明此区块已经执行了足够的计算<br><img src="https://lilymoana.github.io/asset/eth_blockheaders.png" alt="image"></li>
-</ul>
-</li>
-<li>关于包含在此区块中的交易集信息</li>
-<li>与当前区块的ommers相关的一些列其他区块头</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="开发工具和开发库"><a href="#开发工具和开发库" class="headerlink" title="开发工具和开发库"></a>开发工具和开发库</h3><ol>
-<li>发布框架<ol>
-<li><a href="http://truffleframework.com/docs/getting_started" target="_blank" rel="noopener">Truffle框架</a> &amp; <a href="https://blog.zeppelin.solutions/the-hitchhikers-guide-to-smart-contracts-in-ethereum-848f08001f05" target="_blank" rel="noopener">Truffle教程</a></li>
-<li><a href="https://github.com/iurimatias/embark-framework" target="_blank" rel="noopener">Embark框架</a></li>
-</ol>
-</li>
-<li>去中心化的智能合约包管理资源库<ol>
-<li><a href="https://www.ethpm.com/registry" target="_blank" rel="noopener">ETHP</a> &amp; <a href="https://github.com/ethereum/EIPs/issues/190" target="_blank" rel="noopener">使用教程</a></li>
-</ol>
-</li>
-<li>反编译智能合约/Disassembly<ol>
-<li>可以通过<a href="https://github.com/comaeio/porosity" target="_blank" rel="noopener">prosity</a>来反编译以太坊智能合约的字节码，可以使用<a href="https://github.com/Arachnid/evmdis" target="_blank" rel="noopener">evmdis</a>来Disassembly。</li>
-</ol>
-</li>
-<li><a href="https://github.com/ethereum/go-ethereum/wiki/Whisper-Overview" target="_blank" rel="noopener">Whisper</a>是一个集成进以太坊的消息系统。它允许DApp发布小量的信息来进行非实时的消息通信。使用ssh协议。<a href="https://github.com/ethereum/meteor-dapp-whisper-chat-client" target="_blank" rel="noopener">一个使用Whisper协议实现一个聊天客户端的例子</a></li>
-<li><a href="https://openzeppelin.org/" target="_blank" rel="noopener">Open Zeppelin</a>是一系列经过审查的，最佳的智能合约实践，你可以继承并应用于你自己的DApp中。<a href="https://github.com/OpenZeppelin/zeppelin-solidity" target="_blank" rel="noopener">github学习资源</a></li>
-</ol>
-<h3 id="应用项目"><a href="#应用项目" class="headerlink" title="应用项目"></a>应用项目</h3><ol>
-<li><a href="https://github.com/slockit/DAO/" target="_blank" rel="noopener">去中心自动化组织</a></li>
-<li><a href="https://aragon.one/" target="_blank" rel="noopener">Aragon</a>设计一个根据智能合约逻辑运作的公司，重点是创建一个可以接受投资，处理会计，支付雇员，分配股权，正如我们现在知道的完成每天的公司的业务。他们也实现了漂亮的DApp客户端来让他们的协议使用起来更为简单。</li>
-<li><a href="https://ipfs.io/" target="_blank" rel="noopener">IPFS</a>（星际文件系统）是一个协议，用来分发文件。</li>
-<li><a href="https://filecoin.io/" target="_blank" rel="noopener">FileCoin</a>是Protocol Lab为创建一个去中心化的基于IPFS的存储市场的努力结果，也就是向整个网络提供存储资源的激励层</li>
-<li><a href="https://swap.tech/" target="_blank" rel="noopener">Swarm</a>是一个去中心化的存储网络，集成于以太坊生态系统</li>
-<li><a href="https://augur.net/" target="_blank" rel="noopener">Augur</a>是一个去中心化的预测市场，让大家对于某个现实世界的事件进行对赌</li>
-<li><a href="https://gnosis.pm/" target="_blank" rel="noopener">Gnosis</a>与Augur有类似的理念，也是一个去中心化的预测市场</li>
-<li><a href="https://golem.network/" target="_blank" rel="noopener">Golem</a>是一个分布式的算力市场</li>
-<li>0xProject创建了一个交换代币的协议，以及一个DApp来实现这个协议。<br>10.<a href="https://district0x.io/" target="_blank" rel="noopener">district0x</a>是一个更高层级的去中心化的市场和社区。 </li>
-<li><a href="https://www.uport.me/" target="_blank" rel="noopener">uPort</a>在解决去中心化的身份识别问题。</li>
-</ol>
-<h3 id="一些公司"><a href="#一些公司" class="headerlink" title="一些公司"></a>一些公司</h3><ol>
-<li>ConsenSys（有点像共识Consensus，但作为一个公司名称;它很聪明，巧妙的把u改成了s，但我一般念为“con-SEn-SIS”，避免读错）是一个“风险投资和产品工作室”。他们是一个（其实非常大）伞形组织，它赞助了一大堆项目和核心组件的开发。值得一提的是，它们资助了Truffle，Infura，MetaMask，Gnosis和uPort。</li>
-<li>Zeppelin Solutions在上面我们有提到过，他也审查智能合约代码，提供咨询服务。他们的<a href="https://blog.zeppelin.solutions/" target="_blank" rel="noopener">博客</a>质量相当高。</li>
-<li>Protocol Labs是一群让人印象深刻的人，致力于IPFS，FileCoin，lip2p以及IPLD等其它项目的开发。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/04/17/ethereum-wp/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lucus Gu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="知行合一">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/17/ethereum-wp/" itemprop="url">以太坊白皮书学习记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T22:26:01+08:00">
-                2018-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/17/ethereum-wp/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/17/ethereum-wp/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://github.com/ethereum/wiki/wiki/%5B%E4%B8%AD%E6%96%87%5D-%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%99%BD%E7%9A%AE%E4%B9%A6" target="_blank" rel="noopener">以太币白皮书中文文档</a></p>
-<h2 id="比特币的核心概念"><a href="#比特币的核心概念" class="headerlink" title="比特币的核心概念"></a>比特币的核心概念</h2><h3 id="作为状态转换系统的比特币"><a href="#作为状态转换系统的比特币" class="headerlink" title="作为状态转换系统的比特币"></a>作为状态转换系统的比特币</h3><ol>
-<li><p>转换函数</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APPLY(S,TX) ­&gt; S&apos; or ERROR</span><br></pre></td></tr></table></figure>
-<ul>
-<li>转换函数解析：<ol>
-<li>交易的每个输入：<ul>
-<li>如果引用的UTXO不存在于现在的状态中（S），返回错误提示</li>
-<li>如果签名与UTXO所有者的签名不一致，返回错误提示</li>
-</ul>
-</li>
-<li>如果所有的UTXO输入面值总额小于所有的UTXO输出面值总额，返回错误提示</li>
-<li>返回新状态S’,新状态S’中移除了所有的输入UTXO，增加了所有的输出UTXO</li>
-</ol>
-</li>
-</ul>
-</li>
-<li><p>状态结构（UTXO:未花费的交易输出，unspent transaction outputs）,包含一个面值和所有者（由20个字节的本质上是密码学公钥的地址所定义[1]）。一笔交易包括一个或多个输入和一个或多个输出。每个输入包含一个对现有UTXO的引用和由与所有者地址相对应的私钥创建的密码学签名。每个输出包含一个新的加入到状态中的UTXO。</p>
-</li>
-</ol>
-<h3 id="挖矿"><a href="#挖矿" class="headerlink" title="挖矿"></a>挖矿</h3><ol>
-<li>区块<ol>
-<li>网络中的节点不断尝试把交易结果打包成“区块”</li>
-<li>区块大约每十分钟产生一块</li>
-<li>每个区块包含：时间戳、随机数、对上一个区块的引用（即hash值）、上一区块生成以来发生的所有交易列表。核对规则如下：<ul>
-<li>检查区块引用的上一个区块是否存在且有效</li>
-<li>检查区块的时间戳是否晚于以前的区块的时间戳，而且早于未来2小时</li>
-<li>检查区块的工作量证明是否有效</li>
-<li>将上一个区块的最终状态赋于S[0]</li>
-<li>假设TX是区块的交易列表，包含n笔交易。对于属于0……n-1的所有i,进行状态转换S[i+1] = APPLY(S[i],TX[i])。如果任何一笔交易i在状态转换中出错，退出程序，返回错误。</li>
-<li>返回正确，状态S[n]是这一区块的最终状态</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>矿工的作用和奖励<ol>
-<li>使用共识算法“工作量证明”，即不停的创建区块，并设置区块的随机值等随机手段，然后hash这个区块，得出hash值是否小于2^190(190是随着比特币的增长，不断变小的值)，即为创建区块成功。创建区块者可以得到25BTC的奖励</li>
-<li>矿工将交易打包到区块链。交易中的输入往往大于输出，差额部分就作为“交易费用”付给矿工。</li>
-</ol>
-</li>
-</ol>
-<h3 id="默克尔树"><a href="#默克尔树" class="headerlink" title="默克尔树"></a>默克尔树</h3><ol>
-<li>定义：默克尔树是一种二叉树，由一组叶节点、一组中间节点和一个根节点构成。最下面的大量的叶节点包含基础数据，每个中间节点是它的两个子节点的哈希，根节点也是由它的两个子节点的哈希，代表了默克尔树的顶部。</li>
-<li>特点：允许区块的数据可以零散地传送。节点可以从一个源下载区块头，从另外的源下载与其有关的树的其它部分，而依然能够确认所有的数据都是正确的</li>
-</ol>
-<h3 id="比特币智能合约的问题"><a href="#比特币智能合约的问题" class="headerlink" title="比特币智能合约的问题"></a>比特币智能合约的问题</h3><ol>
-<li>缺少图灵完备</li>
-<li>价值盲</li>
-<li>缺少状态</li>
-<li>区块链盲</li>
-</ol>
-<h2 id="以太坊的核心概念"><a href="#以太坊的核心概念" class="headerlink" title="以太坊的核心概念"></a>以太坊的核心概念</h2><h3 id="以太坊账户"><a href="#以太坊账户" class="headerlink" title="以太坊账户"></a>以太坊账户</h3><ol>
-<li>以太坊状态：是由被称为“账户”的对象和在两个帐号之间转移价值和信息的状态转换构成</li>
-<li>以太坊账户包含四个部分：<ol>
-<li>随机数，用于确定每笔交易只能被处理一次的计数器</li>
-<li>账户目前的以太币余额</li>
-<li>账户的合约代码，如果有的话</li>
-<li>账户的存储，默认为空</li>
-</ol>
-</li>
-<li>分成两类账户：外部所有账户（私钥控制）、合约账户（合约代码控制）</li>
-</ol>
-<h3 id="消息和交易"><a href="#消息和交易" class="headerlink" title="消息和交易"></a>消息和交易</h3><ol>
-<li>消息，类似于比特币的交易，但有三点不同<ol>
-<li>以太坊的消息可以由外部实体或者合约创建，然而比特币的交易只能从外部创建</li>
-<li>以太坊消息可以选择包含数据</li>
-<li>如果以太坊消息的接受者是合约账户，可以选择进行回应，这意味着以太坊消息也包含函数概念</li>
-</ol>
-</li>
-<li>交易是指存储的从外部账户发出的消息的签名数据包，包含<ol>
-<li>to：消息的接收者</li>
-<li>v,r,s:用于确认发送者的签名</li>
-<li>value:从发送者转移到接收者Wei的数量。在合约创建交易中，value作为新建合约账户的开始余额</li>
-<li>data（可选域，只有在消息通信中存在）:消息通信中的输入数据(也就是参数)。例如，如果智能合约就是一个域名注册服务，那么调用合约可能就会期待输入参数：域名和IP地址</li>
-<li>STARTGAS值:发送者愿意为执行交易支付gas数量的最大值。此值设置之后在任何计算完成之前就会被提前扣掉</li>
-<li>GASPRICE值:发送者愿意支付执行交易所需的每个gas的Wei数量</li>
-<li>nonce：发送者发送交易数的计数</li>
-<li>init（只有在合约创建交易中存在）：用来初始化新合约账户的EVM代码片段。init值会执行一次，然后就会被丢弃。当init第一次执行的时候，它返回一个账户代码体，也就是永久与合约账户关联的一段代码。</li>
-</ol>
-</li>
-<li>创建合约有单独的交易类型和相应的消息类型；合约的地址是基于账号随机数和交易数据的哈希计算出来的</li>
-</ol>
-<h3 id="以太坊状态转换函数"><a href="#以太坊状态转换函数" class="headerlink" title="以太坊状态转换函数"></a>以太坊状态转换函数</h3><ol>
-<li><p>状态转换函数</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APPLY(S,TX) ­&gt; S&apos; or ERROR</span><br></pre></td></tr></table></figure>
-<ul>
-<li>转换函数解析：<ol>
-<li>检查交易的格式是否正确（即有正确数值）、签名是否有效和随机数是否与发送者账户的随机数匹配。如否，返回错误</li>
-<li>计算交易费用:fee=STARTGAS * GASPRICE，并从签名中确定发送者的地址。从发送者的账户中减去交易费用和增加发送者的随机数。如果账户余额不足，返回错误</li>
-<li>设定初值GAS = STARTGAS，并根据交易中的字节数减去一定量的瓦斯值</li>
-<li>从发送者的账户转移价值到接收者账户。如果接收账户还不存在，创建此账户。如果接收账户是一个合约，运行合约的代码，直到代码运行结束或者瓦斯用完。</li>
-<li>如果因为发送者账户没有足够的钱或者代码执行耗尽瓦斯导致价值转移失败，恢复原来的状态，但是还需要支付交易费用，交易费用加至矿工账户。</li>
-<li>否则，将所有剩余的瓦斯归还给发送者，消耗掉的瓦斯作为交易费用发送给矿工</li>
-</ol>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="代码执行"><a href="#代码执行" class="headerlink" title="代码执行"></a>代码执行</h3><ol>
-<li>以太坊虚拟机：EVM</li>
-<li>可以访问三种数据空间：堆栈、内存、合约的长期存储</li>
-</ol>
-<h3 id="区块链和挖矿"><a href="#区块链和挖矿" class="headerlink" title="区块链和挖矿"></a>区块链和挖矿</h3><ol>
-<li>每个区块：不仅包含交易记录和最近的状态，还包含区块序号和难度值。核对规则如下<ol>
-<li>检查区块引用的上一个区块是否存在和有效</li>
-<li>检查区块的时间戳是否比引用的上一个区块大，而且小于15分钟</li>
-<li>检查区块序号、难度值、 交易根，叔根和瓦斯限额（许多以太坊特有的底层概念）是否有效</li>
-<li>检查区块的工作量证明是否有效</li>
-<li>将S[0]赋值为上一个区块的STATE_ROOT</li>
-<li>将TX赋值为区块的交易列表，一共有n笔交易。对于属于0……n-1的i，进行状态转换S[i+1] = APPLY(S[i],TX[i])。如果任何一个转换发生错误，或者程序执行到此处所花费的瓦斯（gas）超过了GASLIMIT，返回错误。</li>
-<li>用S[n]给S_FINAL赋值, 向矿工支付区块奖励</li>
-<li>检查S_FINAL是否与STATE_ROOT相同。如果相同，区块是有效的。否则，区块是无效的</li>
-</ol>
-</li>
-<li>矿工的奖励，同比特币</li>
-</ol>
-<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><ol>
-<li>代币系统</li>
-<li>金融衍生品和价值稳定的货币</li>
-<li>身份和信誉系统</li>
-<li>去中心化存储</li>
-<li>去中心化资质组织</li>
-<li>其他<ol>
-<li>储蓄钱包</li>
-<li>作物保险</li>
-<li>一个去中心化的数据发布器</li>
-<li>云计算</li>
-<li>点对点赌博</li>
-<li>预测市场</li>
-<li>链上去中心化市场</li>
-</ol>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2574,7 +2421,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
