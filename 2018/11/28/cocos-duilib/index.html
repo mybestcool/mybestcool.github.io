@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="知行合一" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="概述由于需要将cocos的程序在win32下运行，但cocos使用的是系统本身窗口，从游戏角度来说，这个是比较不能接受的。那么肯定需要重绘窗口，简单来说有两种方案：  使用mfc的窗口，重绘来实现 使用例如duilib接管ui来实现  从后续开发简易度来说，使用duilib会比较好些，这里也使用了这个方案。 本文参考了以下方案 强行在MFC窗体中渲染Cocos2d-x 3.6 Duilib接入步骤">
+<meta property="og:type" content="article">
+<meta property="og:title" content="win32下cocos对接duilib">
+<meta property="og:url" content="https://mybestcool.github.io/2018/11/28/cocos-duilib/index.html">
+<meta property="og:site_name" content="知行合一">
+<meta property="og:description" content="概述由于需要将cocos的程序在win32下运行，但cocos使用的是系统本身窗口，从游戏角度来说，这个是比较不能接受的。那么肯定需要重绘窗口，简单来说有两种方案：  使用mfc的窗口，重绘来实现 使用例如duilib接管ui来实现  从后续开发简易度来说，使用duilib会比较好些，这里也使用了这个方案。 本文参考了以下方案 强行在MFC窗体中渲染Cocos2d-x 3.6 Duilib接入步骤">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-28T10:46:20.405Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="win32下cocos对接duilib">
+<meta name="twitter:description" content="概述由于需要将cocos的程序在win32下运行，但cocos使用的是系统本身窗口，从游戏角度来说，这个是比较不能接受的。那么肯定需要重绘窗口，简单来说有两种方案：  使用mfc的窗口，重绘来实现 使用例如duilib接管ui来实现  从后续开发简易度来说，使用duilib会比较好些，这里也使用了这个方案。 本文参考了以下方案 强行在MFC窗体中渲染Cocos2d-x 3.6 Duilib接入步骤">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mybestcool.github.io/2018/11/28/cocos-duilib/"/>
+
+
+
+
+
+  <title>win32下cocos对接duilib | 知行合一</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知行合一</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">致良知</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/11/28/cocos-duilib/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">win32下cocos对接duilib</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-28T17:37:27+08:00">
+                2018-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/28/cocos-duilib/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/28/cocos-duilib/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>由于需要将cocos的程序在win32下运行，但cocos使用的是系统本身窗口，从游戏角度来说，这个是比较不能接受的。那么肯定需要重绘窗口，简单来说有两种方案：</p>
+<ul>
+<li>使用mfc的窗口，重绘来实现</li>
+<li>使用例如duilib接管ui来实现</li>
+</ul>
+<p>从后续开发简易度来说，使用duilib会比较好些，这里也使用了这个方案。</p>
+<p>本文参考了以下方案</p>
+<p><a href="https://www.cnblogs.com/GuyaWeiren/p/4600937.html" target="_blank" rel="noopener">强行在MFC窗体中渲染Cocos2d-x 3.6</a></p>
+<h2 id="Duilib接入步骤"><a href="#Duilib接入步骤" class="headerlink" title="Duilib接入步骤"></a>Duilib接入步骤</h2><ol>
+<li>准备工作</li>
+</ol>
+<ul>
+<li>下载cocos和对应win32开发工具vs2013，建议使用vs2013，因为下面几个工具确定可以用它来编译</li>
+<li>下载<a href="https://github.com/glfw/glfw/releases/" target="_blank" rel="noopener">glfw</a>，cocos是使用它接管跨平台的窗口创建和管理的，方便对接opengl。需要注意的是，找对cocos对应glfw版本。</li>
+<li>下载并安装<a href="https://cmake.org/files/" target="_blank" rel="noopener">cmake</a>，建议下载最新版本。</li>
+<li>下载并编译<a href="https://github.com/duilib/duilib" target="_blank" rel="noopener">duilib</a></li>
+</ul>
+<ol start="2">
+<li>修改GLFW源码</li>
+</ol>
+<ul>
+<li>进入glfw源码目录，打开cmakegui，source code处选择下下来的glfw解压的文件夹，build the binaries选择生成解决方案的文件夹，然后生成对应VS版本的解决方案</li>
+<li>进入build the binaries选择生成解决方案的文件夹，打开vs解决方案</li>
+<li><p>打开win32_windows.c，修改createWindow函数，注释处均为修改的地方</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 增加三个参数 HWND parent, int px, int py，表示父窗口是谁，以及对应位置</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">createWindow</span><span class="params">(_GLFWwindow* window, <span class="keyword">const</span> _GLFWwndconfig* wndconfig, HWND parent, <span class="keyword">int</span> px, <span class="keyword">int</span> py)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> xpos, ypos, fullWidth, fullHeight;</span><br><span class="line">    WCHAR* wideTitle;</span><br><span class="line">    DWORD style = getWindowStyle(window);</span><br><span class="line">    DWORD exStyle = getWindowExStyle(window);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果有父窗口，修改窗口属性</span></span><br><span class="line">	<span class="keyword">if</span> (parent)</span><br><span class="line">	&#123;</span><br><span class="line">		style = WS_CHILDWINDOW | WS_VISIBLE;</span><br><span class="line">		exStyle = WS_EX_APPWINDOW;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (window-&gt;monitor)</span><br><span class="line">    &#123;</span><br><span class="line">        GLFWvidmode mode;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// <span class="doctag">NOTE:</span> This window placement is temporary and approximate, as the</span></span><br><span class="line">        <span class="comment">//       correct position and size cannot be known until the monitor</span></span><br><span class="line">        <span class="comment">//       video mode has been set</span></span><br><span class="line">        _glfwPlatformGetMonitorPos(window-&gt;monitor, &amp;xpos, &amp;ypos);</span><br><span class="line">        _glfwPlatformGetVideoMode(window-&gt;monitor, &amp;mode);</span><br><span class="line">        fullWidth  = mode.width;</span><br><span class="line">        fullHeight = mode.height;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        xpos = CW_USEDEFAULT;</span><br><span class="line">        ypos = CW_USEDEFAULT;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (parent==<span class="literal">NULL</span> &amp;&amp; wndconfig-&gt;maximized)</span><br><span class="line">            style |= WS_MAXIMIZE;</span><br><span class="line"></span><br><span class="line">        getFullWindowSize(style, exStyle,</span><br><span class="line">                          wndconfig-&gt;width, wndconfig-&gt;height,</span><br><span class="line">                          &amp;fullWidth, &amp;fullHeight);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果有父窗口，修改窗口位置</span></span><br><span class="line">	<span class="keyword">if</span> (parent)</span><br><span class="line">	&#123;</span><br><span class="line">		xpos = px;</span><br><span class="line">		ypos = py;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    wideTitle = _glfwCreateWideStringFromUTF8Win32(wndconfig-&gt;title);</span><br><span class="line">    <span class="keyword">if</span> (!wideTitle)</span><br><span class="line">    &#123;</span><br><span class="line">        _glfwInputError(GLFW_PLATFORM_ERROR,</span><br><span class="line">                        <span class="string">"Win32: Failed to convert window title to UTF-16"</span>);</span><br><span class="line">        <span class="keyword">return</span> GLFW_FALSE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    window-&gt;win32.handle = CreateWindowExW(exStyle,</span><br><span class="line">                                           _GLFW_WNDCLASSNAME,</span><br><span class="line">                                           wideTitle,</span><br><span class="line">                                           style,</span><br><span class="line">                                           xpos, ypos,</span><br><span class="line">                                           fullWidth, fullHeight,</span><br><span class="line">										   parent, <span class="comment">// No parent window</span></span><br><span class="line">                                           <span class="literal">NULL</span>, <span class="comment">// No window menu</span></span><br><span class="line">                                           GetModuleHandleW(<span class="literal">NULL</span>),</span><br><span class="line">                                           <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(wideTitle);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开win32_windows.c，修改_glfwPlatformCreateWindow函数，对接createWindow函数的参数，并修改对应的头文件internal.h</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> _glfwPlatformCreateWindow(_GLFWwindow* window,</span><br><span class="line">                              <span class="keyword">const</span> _GLFWwndconfig* wndconfig,</span><br><span class="line">                              <span class="keyword">const</span> _GLFWctxconfig* ctxconfig,</span><br><span class="line">                              <span class="keyword">const</span> _GLFWfbconfig* fbconfig,</span><br><span class="line">							  HWND parent, <span class="keyword">int</span> px, <span class="keyword">int</span> py)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="keyword">if</span> (!createWindow(window, wndconfig, parent, px, py))</span><br><span class="line">        <span class="keyword">return</span> GLFW_FALSE;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">				<span class="keyword">if</span> (!createWindow(window, wndconfig, parent, px, py))</span><br><span class="line">                    <span class="keyword">return</span> GLFW_FALSE;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>glfw3.h，修改接口</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 为了兼容，保留老接口</span></span><br><span class="line"><span class="function">GLFWAPI GLFWwindow* <span class="title">glfwCreateWindow</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height, <span class="keyword">const</span> <span class="keyword">char</span>* title, GLFWmonitor* monitor, GLFWwindow* share)</span></span>;</span><br><span class="line"><span class="comment">// 增加新接口</span></span><br><span class="line"><span class="function">GLFWAPI GLFWwindow* <span class="title">glfwCreateWindowEx</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height, <span class="keyword">const</span> <span class="keyword">char</span>* title, GLFWmonitor* monitor, GLFWwindow* share, </span></span></span><br><span class="line"><span class="function"><span class="params">	<span class="keyword">intptr_t</span> parent, <span class="keyword">int</span> px, <span class="keyword">int</span> py)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>windows.h，修改接口实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">GLFWAPI GLFWwindow* <span class="title">glfwCreateWindow</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height, <span class="keyword">const</span> <span class="keyword">char</span>* title, GLFWmonitor* monitor, GLFWwindow* share)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> glfwCreateWindowEx(width, height, title, monitor, share, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">GLFWAPI GLFWwindow* <span class="title">glfwCreateWindowEx</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">const</span> <span class="keyword">char</span>* title,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     GLFWmonitor* monitor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     GLFWwindow* share,</span></span></span><br><span class="line"><span class="function"><span class="params">									 <span class="keyword">intptr_t</span> parent, <span class="keyword">int</span> px, <span class="keyword">int</span> py)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">// Open the actual window and create its context</span></span><br><span class="line">	<span class="keyword">if</span> (!_glfwPlatformCreateWindow(window, &amp;wndconfig, &amp;ctxconfig, &amp;fbconfig, (HWND)parent, px, py))</span><br><span class="line">    &#123;</span><br><span class="line">        glfwMakeContextCurrent((GLFWwindow*) previous);</span><br><span class="line">        glfwDestroyWindow((GLFWwindow*) window);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新编译，然后glfw3.h和glfw3.lib复制到Cocos2dx\external\glfw3\include\win32和E:\daclient\Cocos2dx\external\glfw3\prebuilt\win32目录下</p>
+</li>
+</ul>
+<ol start="3">
+<li>修改对应的cocos源码</li>
+</ol>
+<ul>
+<li><p>cocos是使用glfwCreateWindow创建窗口的，找到对应位置，在CCGLViewImpl-desktop.cpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 增加了三个参数，对应调用此函数的地方也要做响应修改</span></span><br><span class="line"><span class="keyword">bool</span> GLViewImpl::initWithRect(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; viewName, Rect rect, <span class="keyword">float</span> frameZoomFactor, <span class="keyword">bool</span> resizable, </span><br><span class="line">	HWND parent, <span class="keyword">int</span> px, <span class="keyword">int</span> py)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 去掉标题栏</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)</span></span><br><span class="line">	glfwWindowHint(GLFW_DECORATED, GL_FALSE); <span class="comment">// 这个样式实际上去掉了系统提供的默认标题栏。所有窗口区域都为客户区</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> neededWidth = rect.size.width * _frameZoomFactor;</span><br><span class="line">    <span class="keyword">int</span> neededHeight = rect.size.height * _frameZoomFactor;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// glfwCreateWindowEx替换glfwCreateWindow</span></span><br><span class="line">	_mainWindow = glfwCreateWindowEx(neededWidth, neededHeight, _viewName.c_str(), _monitor, <span class="literal">nullptr</span>, </span><br><span class="line">		(<span class="keyword">intptr_t</span>)parent, px, py);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>cocos的Application::getInstance()-&gt;run();会阻塞线程，但之后线程会被duilib主窗口接管，所以渲染主循环会放到时钟中去，那么需要将run函数拆分。找到CCApplication-win32.cpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 新增三个函数</span></span><br><span class="line"><span class="keyword">int</span> Application::loopinit()</span><br><span class="line">&#123;</span><br><span class="line">	PVRFrameEnableControlWindow(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">	initGLContextAttrs();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Initialize instance and cocos2d.</span></span><br><span class="line">	<span class="keyword">if</span> (!applicationDidFinishLaunching())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> director = Director::getInstance();</span><br><span class="line">	<span class="keyword">auto</span> glview = director-&gt;getOpenGLView();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Retain glview to avoid glview being released in the while loop</span></span><br><span class="line">	glview-&gt;retain();</span><br><span class="line">	_loopinit = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> Application::looponce()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (!_loopinit) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> director = Director::getInstance();</span><br><span class="line">	<span class="keyword">auto</span> glview = director-&gt;getOpenGLView();</span><br><span class="line"></span><br><span class="line">	director-&gt;mainLoop();</span><br><span class="line">	glview-&gt;pollEvents();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> Application::loopfini()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (!_loopinit) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> director = Director::getInstance();</span><br><span class="line">	<span class="keyword">auto</span> glview = director-&gt;getOpenGLView();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (glview-&gt;isOpenGLReady())</span><br><span class="line">	&#123;</span><br><span class="line">		director-&gt;end();</span><br><span class="line">		director-&gt;mainLoop();</span><br><span class="line">		director = <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	glview-&gt;release();</span><br><span class="line">	_loopinit = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="4">
+<li>引入duilib，根据duilib的例子，创建duilib窗口，建议把duilib相关的内容放到单独的cpp文件，不与cocos的文件有牵扯，容易出类库包含不兼容问题。<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// duilib窗口对应函数</span></span><br><span class="line"><span class="function">HWND <span class="title">DuiWinCreate</span><span class="params">(HINSTANCE hInstance)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DuiWinShow</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DuiWinRun</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>duilib窗口的<a href="https://github.com/duilib/duilib/blob/master/%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8.xml" target="_blank" rel="noopener">属性配置</a></p>
+<p>duilib库有一些bug，如Dialog的domodel返回值错误;PostQuitMessage(0L)有时候不能退出</p>
+<ol start="5">
+<li>修改主工程</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改main.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"main.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"DuiWin.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"AppDelegate.h"</span></span></span><br><span class="line">USING_NS_CC;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> USE_WIN32_CONSOLE</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CC_LOOPTIMER	101</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 声明时钟回调函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> CALLBACK <span class="title">WinSunTimerProc</span><span class="params">(HWND hWnd, UINT nMsg, UINT nTimerid, DWORD dwTime)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建一个完整的窗口需要经过四个步骤：设计一个窗口类；注册窗口类；创建窗口；显示及更新窗口</span></span><br><span class="line"><span class="keyword">int</span> WINAPI _tWinMain(HINSTANCE hInstance,</span><br><span class="line">                       HINSTANCE hPrevInstance,</span><br><span class="line">                       LPTSTR    lpCmdLine,</span><br><span class="line">                       <span class="keyword">int</span>       nCmdShow)</span><br><span class="line">&#123;</span><br><span class="line">    UNREFERENCED_PARAMETER(hPrevInstance);</span><br><span class="line">    UNREFERENCED_PARAMETER(lpCmdLine);</span><br><span class="line"></span><br><span class="line">	HICON hIcon = ::LoadIcon(hInstance, MAKEINTRESOURCE(MAINICON));</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> USE_WIN32_CONSOLE</span></span><br><span class="line">    AllocConsole();</span><br><span class="line">    freopen(<span class="string">"CONIN$"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    freopen(<span class="string">"CONOUT$"</span>, <span class="string">"w"</span>, <span class="built_in">stdout</span>);</span><br><span class="line">    freopen(<span class="string">"CONOUT$"</span>, <span class="string">"w"</span>, <span class="built_in">stderr</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">	HWND hwnd = DuiWinCreate(hInstance);</span><br><span class="line"></span><br><span class="line">	AppDelegate app;</span><br><span class="line">	app.m_parent = hwnd;</span><br><span class="line">	Application::getInstance()-&gt;loopinit();</span><br><span class="line">	SetTimer(hwnd, CC_LOOPTIMER, <span class="number">1</span>, WinSunTimerProc);</span><br><span class="line"></span><br><span class="line">	DuiWinShow();</span><br><span class="line">	DuiWinRun();</span><br><span class="line"></span><br><span class="line">	KillTimer(hwnd, CC_LOOPTIMER);</span><br><span class="line">	Application::getInstance()-&gt;loopfini();</span><br><span class="line">	<span class="comment">/*AppDelegate app;</span></span><br><span class="line"><span class="comment">	app.m_parent = NULL;</span></span><br><span class="line"><span class="comment">	Application::getInstance()-&gt;run();*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> USE_WIN32_CONSOLE</span></span><br><span class="line">    FreeConsole();</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> CALLBACK <span class="title">WinSunTimerProc</span><span class="params">(HWND hWnd, UINT nMsg, UINT nTimerid, DWORD dwTime)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (nTimerid == CC_LOOPTIMER)</span><br><span class="line">	&#123;</span><br><span class="line">		Application::getInstance()-&gt;looponce();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对应创建窗口的地方</span></span><br><span class="line"><span class="keyword">bool</span> AppDelegate::applicationDidFinishLaunching()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">	</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)</span></span><br><span class="line">	glview = GLViewImpl::createWithRect(<span class="string">"168game"</span>, Rect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1280</span>, <span class="number">720</span>), <span class="number">1.0f</span>, <span class="literal">false</span>, HWND(m_parent),<span class="number">0</span>, <span class="number">24</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>至此已经对接完成，本方案不会影响ios和android包的实现。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/17/geth-private-node/" rel="next" title="以太坊私有节点部署">
+                <i class="fa fa-chevron-left"></i> 以太坊私有节点部署
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Lucus Gu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Duilib接入步骤"><span class="nav-number">2.</span> <span class="nav-text">Duilib接入步骤</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lucus Gu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://https-mybestcool-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://mybestcool.github.io/2018/11/28/cocos-duilib/';
+          this.page.identifier = '2018/11/28/cocos-duilib/';
+          this.page.title = 'win32下cocos对接duilib';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://https-mybestcool-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

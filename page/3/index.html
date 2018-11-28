@@ -239,6 +239,327 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/04/27/bitshares-deploy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/27/bitshares-deploy/" itemprop="url">比特股环境部署-私链</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-27T15:25:23+08:00">
+                2018-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/27/bitshares-deploy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/27/bitshares-deploy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="获取可执行文件"><a href="#获取可执行文件" class="headerlink" title="获取可执行文件"></a><strong>获取可执行文件</strong></h2><ul>
+<li>windows<ul>
+<li>从<a href="https://github.com/bitshares/bitshares-core/releases" target="_blank" rel="noopener">github</a>下载可执行文件即可</li>
+</ul>
+</li>
+<li>其他系统<ul>
+<li>从<a href="https://github.com/bitshares/bitshares-core" target="_blank" rel="noopener">github</a>下载源码，根据其<a href="https://github.com/bitshares/bitshares-core/wiki" target="_blank" rel="noopener">wiki</a>的要求进行编译</li>
+</ul>
+</li>
+</ul>
+<h2 id="执行文件结构简介"><a href="#执行文件结构简介" class="headerlink" title="执行文件结构简介"></a><strong>执行文件结构简介</strong></h2><p><img src="https://steemitimages.com/DQmYMJGg6USuGY3DmMkbZT6rGwWcnBDKqLCUk7jxoec45kX/1.png" alt="image"></p>
+<ul>
+<li>witness_node<ul>
+<li>通过 P2P 方式连接到 BTS 网络，从网络接收最新区块，向网络广播本地签署的交易包</li>
+<li>通过 websocket + http rpc 的方式提供 API 供其他程序调用</li>
+</ul>
+</li>
+<li>delayed_node<ul>
+<li>通过 websocket 方式连接到 witness_node ，只包含不可回退的区块</li>
+<li>通常情况下最新区块比 witness_node 落后一分钟，异常时可能会落后很多，但可保证不可回退</li>
+<li>通过 websocket + http rpc 的方式提供 API 供其他程序调用，API清单与 witness_node 相同，但无法使用交易广播功能</li>
+</ul>
+</li>
+<li>cli_wallet<ul>
+<li>通过 websocket 方式连接到 witness_node 和 delayed_node 其中之一</li>
+<li>管理钱包文件，钱包文件里包含经过加密的用户私钥，一个钱包文件可以包含多个私钥</li>
+<li>提供交易签名功能，签名后通过 witness_node 向外广播</li>
+<li>通过 http rpc 的方式提供 API 供其他程序调用</li>
+<li>推荐交易所使用一个连接到 delayed_node 的 cli_wallet 来监测用户充值，使用另一个连接到 witness_node 的 cli_wallet 来处理用户提现请求</li>
+</ul>
+</li>
+</ul>
+<h2 id="私有链部署"><a href="#私有链部署" class="headerlink" title="私有链部署"></a><strong>私有链部署</strong></h2><h3 id="witness-node-部署"><a href="#witness-node-部署" class="headerlink" title="witness_node 部署"></a><strong>witness_node 部署</strong></h3><ol>
+<li>生成创世块的json<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./witness_node --create-genesis-json &quot;my-genesis.json&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>工作目录下会生成一个文件：my-genesis.json</p>
+<ol start="2">
+<li>启动见证人节点<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">witness_node -d data --genesis-json my-genesis.json --seed-nodes &quot;[]&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>工作目录下会生成一个目录：data，结构为blockchain目录、logs目录、p2p目录、config.ini配置文件。</li>
+<li>退出程序尽量不要强制关闭，按ctrl-c，等其优雅退出。数据损坏有可能需要重建索引（启动的时候使用–replay-blockchain参与）</li>
+</ul>
+<ol start="3">
+<li>配置config.ini，以下参数也可作为见证人节点的启动参数<ul>
+<li>–rpc-endpoint rpc监听端口，配置成”127.0.0.1:8090”（配置文件中不带引号）</li>
+<li>–enable-stale-production 让本节点无视区块链数据的时间，无论如何都生成区块数据，配置成”true”</li>
+<li>–witness-id（启动参数时可写作-w） 本节点控制的witness列表，(1.6.0-9)是默认的withness</li>
+<li>–seed-nodes 要连接的peer列表(测试环境务必传此参数，不传的话会走代码里hardcode的正式网的peer列表，会导致测试节点去跟正式网络同步数据)(没有种子节点，一般用户等一年也不一定能连上网络。见证人对网络连接的要求更高，所以，必须与完整数据的种子节点相连，否则数据不完整的钱包会制造分叉)。配置成”[]”</li>
+<li>–genesis-json 创世块的数据文件,配置成”my-genesis.json”</li>
+<li>–track-account 参数的意思是我们只关心特别指定的账户的历史交易信息，其他账户的历史交易信息我不需要。这样就可以大大节省内存开支。</li>
+</ul>
+</li>
+<li>再次启动见证人节点<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">witness_node -d data</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>参数-d data 与 –data-dir data是一样的</p>
+<h3 id="delayed-node-部署"><a href="#delayed-node-部署" class="headerlink" title="delayed_node 部署"></a><strong>delayed_node 部署</strong></h3><ol>
+<li>与 witness_node 雷同</li>
+</ol>
+<h3 id="cli-wallet-部署"><a href="#cli-wallet-部署" class="headerlink" title="cli_wallet 部署"></a><strong>cli_wallet 部署</strong></h3><ol>
+<li>启动钱包节点<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./cli_wallet --chain-id=&quot;97f304dce6fe30cccbdef37cd7899d349297a78ba483375adc3982016ef40c63&quot; -s ws://127.0.0.1:8090 -w my-wallet.json</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>-s 或 –server-rpc-endpoint witness_node的地址和端口 </li>
+<li>–chain-id 指的是服务的chain-id，可以不带此参数执行一次命令，程序的报错信息会显示这个id；witness_node启动成功后也会打印出这个id</li>
+<li>-w 或 –wallet-file 指的是钱包文件</li>
+</ul>
+<ol start="2">
+<li>cli_wallet 钱包命令</li>
+</ol>
+<ul>
+<li><p>创建钱包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new &gt;&gt;&gt; set_password 1111</span><br><span class="line">set_password 1111</span><br><span class="line">null</span><br><span class="line">locked &gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解锁钱包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">locked &gt;&gt;&gt; unlock 1111</span><br><span class="line">unlock 1111</span><br><span class="line">null</span><br><span class="line">unlocked &gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>钱包导入用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; import_key nathan 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>nathan是在创世文件中定义的帐户名称，5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3是对应的私钥，在data目录下的config.ini中可以查到</p>
+<ul>
+<li>导入余额<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; import_balance nathan [&quot;5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3&quot;] true</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>导入的余额在创世文件中有配置，在initial_balances中，其中owner是指帐号nathan的地址。一个帐号包含三块内容，如nathan帐号{“private_key”:”5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3”,”public_key”:”BTS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV”,”address”:”BTSFAbAx7yuxt725qSZvfwWqkdCwp9ZnUama”}，而这三个由一组brain_priv_key（16个有序的英文单词）生成。</p>
+<ul>
+<li>查看账户信息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; get_account nathan</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>查看账户余额</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; list_account_balances nathan</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>升级会员</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; upgrade_account nathan true</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>由于已知的缓存问题，您需要在这个阶段重新启动CLI，否则它将不知道nathan已经升级了。按Ctrl-C命令停止钱包，然后再次使用相同的命令之前启动它。</p>
+</blockquote>
+<blockquote>
+<p>然后用get_account nathan查看，看到”membership_expiration_date”已经从”1970-01-01T00:00:00” 变成了 “1969-12-31T23:59:59”，意味着升级成功了。</p>
+<ul>
+<li>创建帐号<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">locked &gt;&gt;&gt; suggest_brain_key</span><br><span class="line">suggest_brain_key</span><br><span class="line">&#123;</span><br><span class="line">  &quot;brain_priv_key&quot;: &quot;BECURSE VALGOID DEFROCK GODKIN SWITHER WORTH SUIFORM DAKER IPSEAND UPPERER PSALM UNCAST DOTTILY BEFRIZ SCUT BRONC&quot;,</span><br><span class="line">  &quot;wif_priv_key&quot;: &quot;5KZmzKmP8869Tw26nBTtYzGM4vW55mH9R9ZTeK9wPiTeX495rbn&quot;,</span><br><span class="line">  &quot;pub_key&quot;: &quot;BTS7KuKh66CdWb1pTRg414ocVXGDQLnrRtJDd4srevt6MRmQPd8Gg&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>首先生成新账户的信息。 通过使用suggest_brain_key命令来完成它<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; create_account_with_brain_key &quot;BECURSE VALGOID DEFROCK GODKIN SWITHER WORTH SUIFORM DAKER IPSEAND UPPERER PSALM UNCAST DOTTILY BEFRIZ SCUT BRONC&quot; alpha nathan nathan true</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>创建帐号的创建者有两个条件，1.必须是终生会员身份（LTM）；2.有足够的余额提供注册费用</p>
+<ul>
+<li>转账<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; transfer nathan alpha 2000000000 BTS &quot;here is some cash&quot; true</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<ol start="3">
+<li>其他钱包<ul>
+<li>网页钱包<ul>
+<li>官方钱包:<a href="https://wallet.bitshares.org" target="_blank" rel="noopener">https://wallet.bitshares.org</a></li>
+<li>Transwiser支持钱包： <a href="https://bts.transwiser.com" target="_blank" rel="noopener">https://bts.transwiser.com</a></li>
+<li>DACPLAY支持钱包：<a href="https://bitshares.dacplay.org" target="_blank" rel="noopener">https://bitshares.dacplay.org</a></li>
+<li>比特帝国支持钱包：<a href="https://bit.btsabc.org" target="_blank" rel="noopener">https://bit.btsabc.org</a></li>
+<li>OpenLedger支持钱包：<a href="https://bitshares.openledger.info" target="_blank" rel="noopener">https://bitshares.openledger.info</a></li>
+</ul>
+</li>
+<li>客户端钱包<ul>
+<li>官方钱包:<a href="https://bitshares.org/download/" target="_blank" rel="noopener">https://bitshares.org/download/</a></li>
+</ul>
+</li>
+<li>命令行钱包<ul>
+<li>witness_node</li>
+<li>curl:curl -d ‘{“jsonrpc”: “2.0”, “method”: “info”, “params”: [], “id”: 1}’ <a href="http://localhost:8090" target="_blank" rel="noopener">http://localhost:8090</a> <a href="http://127.0.0.1:8093/rpc" target="_blank" rel="noopener">http://127.0.0.1:8093/rpc</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="添加新的witness-node"><a href="#添加新的witness-node" class="headerlink" title="添加新的witness_node"></a><strong>添加新的witness_node</strong></h3><ol>
+<li>使用get_dev_key创建见证人帐号<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">programs/genesis_util/get_dev_key BTS w1</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>运行以上命令会生成一对秘钥对和地址</p>
+<blockquote>
+<p>[{“private_key”:”5JjzogP6V1TciYQHthBLPnmj5cyrYLfwfoDeY6rpG4mcNUd7hDq”,”public_key”:”BTS6WqFcNmb8DA8SG2HJDL23TzSKk67HrCf6qTeqXhbCcohi11epm”,”address”:”BTSMZq4SyNoFGraCNuV5ZjbJHMvcYBLSV3rM”},</p>
+</blockquote>
+<blockquote>
+<p>如果要修改创世文件的密钥对，修改以下字段initial_accounts、initial_balances、initial_witness_candidates（见证人）、initial_committee_candidates（委员会）</p>
+</blockquote>
+<ol start="2">
+<li>使用cli_wallet创建见证人帐号</li>
+</ol>
+<p>使用cli_wallet创建一个帐号w2，保证其有一定余额，并将其升级成终生会员。记录公钥私钥。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">locked &gt;&gt;&gt; suggest_brain_key</span><br><span class="line">unlocked &gt;&gt;&gt; create_account_with_brain_key &quot;BECURSE VALGOID DEFROCK GODKIN SWITHER WORTH SUIFORM DAKER IPSEAND UPPERER PSALM UNCAST DOTTILY BEFRIZ SCUT BRONC&quot; w2 nathan nathan true</span><br><span class="line">unlocked &gt;&gt;&gt; transfer nathan w2 2000000000 BTS &quot;here is some cash&quot; true</span><br><span class="line">unlocked &gt;&gt;&gt; upgrade_account nathan true</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>详细见 cli_wallet 命令</p>
+</blockquote>
+<ol start="3">
+<li>成为见证人-配置创世文件（对应1）</li>
+</ol>
+<p>修改创世文件的对应的字段，如initial_accounts、initial_balances、initial_witness_candidates（见证人）、initial_committee_candidates（委员会）</p>
+<ol start="4">
+<li>成为见证人-admin帐号使用客户端申请（对应2）<br>在cli_wallet客户端中，创建witness对象，参考<a href="https://github.com/cryptonomex/graphene/wiki/CLI-Wallet-Cookbook" target="_blank" rel="noopener">wiki</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; create_witness w2 &quot;http://url-to-proposal&quot; true //url-to-proposal可为空</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在cli_wallet客户端中，用admin帐号投票<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlocked &gt;&gt;&gt; vote_for_witness admin w2 true true</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>投票成功之后，等待下次maintenance（通常是第二天0点）就可以看到我们的witness已经进入列表了，使用以下命令查询witness列表（get_global_properties）</p>
+</blockquote>
+<ol start="4">
+<li>配置和启动<ul>
+<li>把公钥和私钥配置到data/config.ini文件中（private-key = [PublicKey, WIF private key]）</li>
+<li>将witness-id加入config.ini(witness-id = “1.6.12”)</li>
+<li>重启witness节点,注意seed-nodes的配置</li>
+</ul>
+</li>
+</ol>
+<h3 id="网页钱包部署"><a href="#网页钱包部署" class="headerlink" title="网页钱包部署"></a>网页钱包部署</h3><ol>
+<li><a href="https://www.jianshu.com/p/72396c43c906" target="_blank" rel="noopener">Web钱包搭建</a></li>
+<li><a href="https://www.jianshu.com/p/a89b3835d4e8" target="_blank" rel="noopener">水龙头服务搭建</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/04/19/ethereum-theory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1644,7 +1965,7 @@ http://www.mongodb.org.cn/
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
