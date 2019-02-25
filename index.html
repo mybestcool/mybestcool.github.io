@@ -239,6 +239,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2019/02/25/phpenv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/25/phpenv/" itemprop="url">PHP环境部署</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-25T13:27:01+08:00">
+                2019-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/25/phpenv/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/02/25/phpenv/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Ubuntu系统下手动安装PHP环境"><a href="#Ubuntu系统下手动安装PHP环境" class="headerlink" title="Ubuntu系统下手动安装PHP环境"></a>Ubuntu系统下手动安装PHP环境</h2><ul>
+<li><p>安装php</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装php</span></span><br><span class="line">apt-get install php</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装cgi以及启动器</span></span><br><span class="line">apt-get install php-cgi</span><br><span class="line">apt-get install spawn-fcgi(或者php-fpm，管理php-cgi的工具)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装一些库</span></span><br><span class="line">apt-get install php-curl</span><br><span class="line">apt-get install php-mbstring</span><br><span class="line">apt-get install php-gd </span><br><span class="line">apt-get install php-mcrypt</span><br><span class="line">apt-get install php-xml</span><br><span class="line">apt-get install php-mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动cgi</span></span><br><span class="line">spawn-fcgi -a 127.0.0.1 -p 9000 -C 10 -u www-data -f /usr/bin/php-cgi</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装nginx</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install nginx</span><br><span class="line"></span><br><span class="line">/etc/init.d/nginx restart</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装mysql</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install mysql-server</span><br><span class="line"></span><br><span class="line">/etc/init.d/mysql restart</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="PHP其他集成环境"><a href="#PHP其他集成环境" class="headerlink" title="PHP其他集成环境"></a>PHP其他集成环境</h2><h3 id="windows环境"><a href="#windows环境" class="headerlink" title="windows环境"></a>windows环境</h3><ul>
+<li>WAMP，简单易用</li>
+<li>phpStudy，专业好用</li>
+<li>UPUPW，专业好用*</li>
+<li>APMServ </li>
+</ul>
+<h3 id="linux环境"><a href="#linux环境" class="headerlink" title="linux环境"></a>linux环境</h3><ul>
+<li>LNMP 和 LAMP</li>
+<li>AppServ</li>
+<li>WDCP</li>
+</ul>
+<h3 id="其他工具包"><a href="#其他工具包" class="headerlink" title="其他工具包"></a>其他工具包</h3><ul>
+<li><p>OneinStack一键安装包，可以快速安装LNMP、LAMP、LNMT等环境，具体我们可以根据实际的安装进程组合，而且可以一键快速给网站部署Let’s Encrypt免费SSL证书。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget screen curl python <span class="comment">#for CentOS/Redhat</span></span><br><span class="line"><span class="comment"># apt-get -y install wget screen curl python #for Debian/Ubuntu</span></span><br><span class="line">wget http://mirrors.linuxeye.com/oneinstack-full.tar.gz</span><br><span class="line">tar xzf oneinstack-full.tar.gz</span><br><span class="line"><span class="built_in">cd</span> oneinstack</span><br><span class="line">screen -S oneinstack</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>宝塔</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2019/02/25/wxpaycert/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1838,183 +1997,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/07/13/crawler-weibo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lucus Gu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="知行合一">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/13/crawler-weibo/" itemprop="url">微博爬虫技术方案</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-13T09:48:57+08:00">
-                2018-07-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/07/13/crawler-weibo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/07/13/crawler-weibo/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
-<li>目的：实现爬取相关微博的评论、转发、点赞等信息</li>
-<li>方案：<ul>
-<li>在网上搜索了一遍后，相对觉得python比较好用。现存的解决方案多，实现爬虫开发速度快，且开源项目也多，但大多数都是娱乐性质的</li>
-<li>又找了一遍后，觉得<a href="https://github.com/SpiderClub/weibospider" target="_blank" rel="noopener">WeiboSpider</a>这个项目相对可以商业化，就基于这个项目来实现吧</li>
-<li>WeiboSpider使用到的工具：python3.5、mysql、redis</li>
-</ul>
-</li>
-</ul>
-<h2 id="技术架构"><a href="#技术架构" class="headerlink" title="技术架构"></a>技术架构</h2><ul>
-<li><p>原WeiboSpider架构，主要使用技术celery库，分成三个部分</p>
-<ul>
-<li>使用定时器触发事件：如每隔20小时登录一次，每隔5分钟执行一次抓取评论、抓发和点赞信息，定时器有以下2中方法<ul>
-<li>crontab，定时调用下python脚本</li>
-<li>使用celery功能，如”celery beat -A tasks.workers -l info”</li>
-</ul>
-</li>
-<li>使用celery爬取微博：celery会把触发事件插入到redis，celery开启工作线程执行爬取<ul>
-<li>“celery -A tasks.workers -l info”</li>
-</ul>
-</li>
-<li>工作线程把爬取的内容插入到数据库，目前使用的是mysql</li>
-</ul>
-</li>
-<li><p>在原来的基础上，加了两个服务</p>
-<ul>
-<li>爬虫前端服务：<ul>
-<li>提供微博的实时接口，如查询等功能，这些功能因为数据量太大，就直接转向微博</li>
-<li>定时触发事件功能</li>
-</ul>
-</li>
-<li>接口服务：<ul>
-<li>多种接入协议支持，如http，ws等</li>
-<li>转发微博的实时接口，对接到爬虫前端服务</li>
-<li>这层接口更加业务化，它从数据库组织数据，发送给应用端</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="注意的问题"><a href="#注意的问题" class="headerlink" title="注意的问题"></a>注意的问题</h2><ul>
-<li>WeiboSpider中需要注意的问题<ul>
-<li>数据库连接不支持多线程</li>
-<li>数据库连接长时间没有操作，会失去连接</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2065,7 +2047,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

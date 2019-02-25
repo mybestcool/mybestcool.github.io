@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mybestcool.github.io/"/>
-  <updated>2019-02-25T02:43:50.451Z</updated>
+  <updated>2019-02-25T05:28:21.440Z</updated>
   <id>https://mybestcool.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PHP环境部署</title>
+    <link href="https://mybestcool.github.io/2019/02/25/phpenv/"/>
+    <id>https://mybestcool.github.io/2019/02/25/phpenv/</id>
+    <published>2019-02-25T05:27:01.000Z</published>
+    <updated>2019-02-25T05:28:21.440Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Ubuntu系统下手动安装PHP环境"><a href="#Ubuntu系统下手动安装PHP环境" class="headerlink" title="Ubuntu系统下手动安装PHP环境"></a>Ubuntu系统下手动安装PHP环境</h2><ul><li><p>安装php</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装php</span></span><br><span class="line">apt-get install php</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装cgi以及启动器</span></span><br><span class="line">apt-get install php-cgi</span><br><span class="line">apt-get install spawn-fcgi(或者php-fpm，管理php-cgi的工具)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装一些库</span></span><br><span class="line">apt-get install php-curl</span><br><span class="line">apt-get install php-mbstring</span><br><span class="line">apt-get install php-gd </span><br><span class="line">apt-get install php-mcrypt</span><br><span class="line">apt-get install php-xml</span><br><span class="line">apt-get install php-mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动cgi</span></span><br><span class="line">spawn-fcgi -a 127.0.0.1 -p 9000 -C 10 -u www-data -f /usr/bin/php-cgi</span><br></pre></td></tr></table></figure></li><li><p>安装nginx</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install nginx</span><br><span class="line"></span><br><span class="line">/etc/init.d/nginx restart</span><br></pre></td></tr></table></figure></li><li><p>安装mysql</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install mysql-server</span><br><span class="line"></span><br><span class="line">/etc/init.d/mysql restart</span><br></pre></td></tr></table></figure></li></ul><h2 id="PHP其他集成环境"><a href="#PHP其他集成环境" class="headerlink" title="PHP其他集成环境"></a>PHP其他集成环境</h2><h3 id="windows环境"><a href="#windows环境" class="headerlink" title="windows环境"></a>windows环境</h3><ul><li>WAMP，简单易用</li><li>phpStudy，专业好用</li><li>UPUPW，专业好用*</li><li>APMServ </li></ul><h3 id="linux环境"><a href="#linux环境" class="headerlink" title="linux环境"></a>linux环境</h3><ul><li>LNMP 和 LAMP</li><li>AppServ</li><li>WDCP</li></ul><h3 id="其他工具包"><a href="#其他工具包" class="headerlink" title="其他工具包"></a>其他工具包</h3><ul><li><p>OneinStack一键安装包，可以快速安装LNMP、LAMP、LNMT等环境，具体我们可以根据实际的安装进程组合，而且可以一键快速给网站部署Let’s Encrypt免费SSL证书。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget screen curl python <span class="comment">#for CentOS/Redhat</span></span><br><span class="line"><span class="comment"># apt-get -y install wget screen curl python #for Debian/Ubuntu</span></span><br><span class="line">wget http://mirrors.linuxeye.com/oneinstack-full.tar.gz</span><br><span class="line">tar xzf oneinstack-full.tar.gz</span><br><span class="line"><span class="built_in">cd</span> oneinstack</span><br><span class="line">screen -S oneinstack</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure></li><li><p>宝塔</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Ubuntu系统下手动安装PHP环境&quot;&gt;&lt;a href=&quot;#Ubuntu系统下手动安装PHP环境&quot; class=&quot;headerlink&quot; title=&quot;Ubuntu系统下手动安装PHP环境&quot;&gt;&lt;/a&gt;Ubuntu系统下手动安装PHP环境&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>微信支付证书生成</title>
@@ -433,37 +455,6 @@
       
         &lt;h2 id=&quot;参考地址&quot;&gt;&lt;a href=&quot;#参考地址&quot; class=&quot;headerlink&quot; title=&quot;参考地址&quot;&gt;&lt;/a&gt;参考地址&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;参考文章-&lt;a href=&quot;https://steemit.com/bitshares/@cm-steem/bi
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>重装系统备忘</title>
-    <link href="https://mybestcool.github.io/2018/05/03/coder-tools/"/>
-    <id>https://mybestcool.github.io/2018/05/03/coder-tools/</id>
-    <published>2018-05-03T07:33:11.000Z</published>
-    <updated>2018-05-09T13:47:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<ol><li>系统安装</li></ol><ul><li>使用win10企业版，激活使用DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ</li></ul><ol start="2"><li>软件安装</li></ol><ul><li><p>通用工具</p><ul><li>百度网盘 同步文件</li><li>OneDrive 同步文件</li><li>QQ拼音 输入法</li><li>Chrome 浏览器，同步收藏夹等</li><li>ShadowsocksR-4.6.1-win 科学上网</li><li>腾讯桌面管理 桌面管理和快速搜索</li><li>Colver 文件浏览器</li><li>winrar 压缩解压工具</li><li>notepad++ 文本工具</li><li>有道笔记和有道翻译</li></ul></li><li><p>沟通软件</p><ul><li>TIM</li><li>微信</li><li>钉钉</li></ul></li><li><p>办公软件</p><ul><li>wps office</li><li>xmind</li><li>foxmail</li></ul></li><li><p>开发辅助工具</p><ul><li>bcompare 对比工具</li><li>cmder 命令行工具</li><li>navicat for mysql mysql访问工具</li><li>mRemoteNG 远程工具</li></ul></li><li><p>开发语言和工具</p><ul><li>git 版本管理工具</li><li>golang</li><li>python 2.7</li><li>cmake</li><li>vscode + 插件</li><li>vs2013 + VA + 其他插件</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;系统安装&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;使用win10企业版，激活使用DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol start=&quot;2&quot;&gt;
-&lt;li&gt;软件安装&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;通用工
       
     
     </summary>

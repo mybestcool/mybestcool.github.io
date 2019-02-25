@@ -239,6 +239,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/07/13/crawler-weibo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/13/crawler-weibo/" itemprop="url">微博爬虫技术方案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-13T09:48:57+08:00">
+                2018-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/13/crawler-weibo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/07/13/crawler-weibo/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><ul>
+<li>目的：实现爬取相关微博的评论、转发、点赞等信息</li>
+<li>方案：<ul>
+<li>在网上搜索了一遍后，相对觉得python比较好用。现存的解决方案多，实现爬虫开发速度快，且开源项目也多，但大多数都是娱乐性质的</li>
+<li>又找了一遍后，觉得<a href="https://github.com/SpiderClub/weibospider" target="_blank" rel="noopener">WeiboSpider</a>这个项目相对可以商业化，就基于这个项目来实现吧</li>
+<li>WeiboSpider使用到的工具：python3.5、mysql、redis</li>
+</ul>
+</li>
+</ul>
+<h2 id="技术架构"><a href="#技术架构" class="headerlink" title="技术架构"></a>技术架构</h2><ul>
+<li><p>原WeiboSpider架构，主要使用技术celery库，分成三个部分</p>
+<ul>
+<li>使用定时器触发事件：如每隔20小时登录一次，每隔5分钟执行一次抓取评论、抓发和点赞信息，定时器有以下2中方法<ul>
+<li>crontab，定时调用下python脚本</li>
+<li>使用celery功能，如”celery beat -A tasks.workers -l info”</li>
+</ul>
+</li>
+<li>使用celery爬取微博：celery会把触发事件插入到redis，celery开启工作线程执行爬取<ul>
+<li>“celery -A tasks.workers -l info”</li>
+</ul>
+</li>
+<li>工作线程把爬取的内容插入到数据库，目前使用的是mysql</li>
+</ul>
+</li>
+<li><p>在原来的基础上，加了两个服务</p>
+<ul>
+<li>爬虫前端服务：<ul>
+<li>提供微博的实时接口，如查询等功能，这些功能因为数据量太大，就直接转向微博</li>
+<li>定时触发事件功能</li>
+</ul>
+</li>
+<li>接口服务：<ul>
+<li>多种接入协议支持，如http，ws等</li>
+<li>转发微博的实时接口，对接到爬虫前端服务</li>
+<li>这层接口更加业务化，它从数据库组织数据，发送给应用端</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="注意的问题"><a href="#注意的问题" class="headerlink" title="注意的问题"></a>注意的问题</h2><ul>
+<li>WeiboSpider中需要注意的问题<ul>
+<li>数据库连接不支持多线程</li>
+<li>数据库连接长时间没有操作，会失去连接</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/06/30/manage-oneself/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1993,193 +2170,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/05/03/coder-tools/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lucus Gu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="知行合一">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/03/coder-tools/" itemprop="url">重装系统备忘</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-03T15:33:11+08:00">
-                2018-05-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/05/03/coder-tools/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/05/03/coder-tools/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>系统安装</li>
-</ol>
-<ul>
-<li>使用win10企业版，激活使用DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ</li>
-</ul>
-<ol start="2">
-<li>软件安装</li>
-</ol>
-<ul>
-<li><p>通用工具</p>
-<ul>
-<li>百度网盘 同步文件</li>
-<li>OneDrive 同步文件</li>
-<li>QQ拼音 输入法</li>
-<li>Chrome 浏览器，同步收藏夹等</li>
-<li>ShadowsocksR-4.6.1-win 科学上网</li>
-<li>腾讯桌面管理 桌面管理和快速搜索</li>
-<li>Colver 文件浏览器</li>
-<li>winrar 压缩解压工具</li>
-<li>notepad++ 文本工具</li>
-<li>有道笔记和有道翻译</li>
-</ul>
-</li>
-<li><p>沟通软件</p>
-<ul>
-<li>TIM</li>
-<li>微信</li>
-<li>钉钉</li>
-</ul>
-</li>
-<li><p>办公软件</p>
-<ul>
-<li>wps office</li>
-<li>xmind</li>
-<li>foxmail</li>
-</ul>
-</li>
-<li><p>开发辅助工具</p>
-<ul>
-<li>bcompare 对比工具</li>
-<li>cmder 命令行工具</li>
-<li>navicat for mysql mysql访问工具</li>
-<li>mRemoteNG 远程工具</li>
-</ul>
-</li>
-<li><p>开发语言和工具</p>
-<ul>
-<li>git 版本管理工具</li>
-<li>golang</li>
-<li>python 2.7</li>
-<li>cmake</li>
-<li>vscode + 插件</li>
-<li>vs2013 + VA + 其他插件</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2230,7 +2220,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="原因 设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块  交易费设置太低，旷工会根据交易费排序，选择交易费高的交易进行打包（老的节点可能会按时间顺序排序），所以会出现两种情况  一直在交易内存池，没有旷工选择打包 交易内存池慢了，或者超时了，被删除掉了    产生上面的这些行为，我们的节点（接受RPC的节点）是无法感知到的，且交易也不会回退，我们用RPC查找的时候，会永远在">
+<meta name="description" content="Ubuntu系统下手动安装PHP环境 安装php 12345678910111213141516171819apt-get update# 安装phpapt-get install php# 安装cgi以及启动器apt-get install php-cgiapt-get install spawn-fcgi(或者php-fpm，管理php-cgi的工具)# 安装一些库apt-get instal">
 <meta property="og:type" content="article">
-<meta property="og:title" content="比特币长时间不被确认的处理办法">
-<meta property="og:url" content="https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/index.html">
+<meta property="og:title" content="PHP环境部署">
+<meta property="og:url" content="https://mybestcool.github.io/2019/02/25/phpenv/index.html">
 <meta property="og:site_name" content="知行合一">
-<meta property="og:description" content="原因 设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块  交易费设置太低，旷工会根据交易费排序，选择交易费高的交易进行打包（老的节点可能会按时间顺序排序），所以会出现两种情况  一直在交易内存池，没有旷工选择打包 交易内存池慢了，或者超时了，被删除掉了    产生上面的这些行为，我们的节点（接受RPC的节点）是无法感知到的，且交易也不会回退，我们用RPC查找的时候，会永远在">
+<meta property="og:description" content="Ubuntu系统下手动安装PHP环境 安装php 12345678910111213141516171819apt-get update# 安装phpapt-get install php# 安装cgi以及启动器apt-get install php-cgiapt-get install spawn-fcgi(或者php-fpm，管理php-cgi的工具)# 安装一些库apt-get instal">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-14T13:01:17.000Z">
+<meta property="og:updated_time" content="2019-02-25T05:28:21.440Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="比特币长时间不被确认的处理办法">
-<meta name="twitter:description" content="原因 设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块  交易费设置太低，旷工会根据交易费排序，选择交易费高的交易进行打包（老的节点可能会按时间顺序排序），所以会出现两种情况  一直在交易内存池，没有旷工选择打包 交易内存池慢了，或者超时了，被删除掉了    产生上面的这些行为，我们的节点（接受RPC的节点）是无法感知到的，且交易也不会回退，我们用RPC查找的时候，会永远在">
+<meta name="twitter:title" content="PHP环境部署">
+<meta name="twitter:description" content="Ubuntu系统下手动安装PHP环境 安装php 12345678910111213141516171819apt-get update# 安装phpapt-get install php# 安装cgi以及启动器apt-get install php-cgiapt-get install spawn-fcgi(或者php-fpm，管理php-cgi的工具)# 安装一些库apt-get instal">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/"/>
+  <link rel="canonical" href="https://mybestcool.github.io/2019/02/25/phpenv/"/>
 
 
 
 
 
-  <title>比特币长时间不被确认的处理办法 | 知行合一</title>
+  <title>PHP环境部署 | 知行合一</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2019/02/25/phpenv/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lucus Gu">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">比特币长时间不被确认的处理办法</h1>
+          <h1 class="post-title" itemprop="name headline">PHP环境部署</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-14T21:00:18+08:00">
-                2018-08-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-25T13:27:01+08:00">
+                2019-02-25
               </time>
             
 
@@ -290,9 +290,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/14/bitcoin-unconfirmed/#comments" itemprop="discussionUrl">
+                <a href="/2019/02/25/phpenv/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/08/14/bitcoin-unconfirmed/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/02/25/phpenv/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -320,33 +320,35 @@
       
 
       
-        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><ol>
-<li><p>设置了LockTime，交易需要到设置高度或者设置时间才会被打包进入区块</p>
+        <h2 id="Ubuntu系统下手动安装PHP环境"><a href="#Ubuntu系统下手动安装PHP环境" class="headerlink" title="Ubuntu系统下手动安装PHP环境"></a>Ubuntu系统下手动安装PHP环境</h2><ul>
+<li><p>安装php</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装php</span></span><br><span class="line">apt-get install php</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装cgi以及启动器</span></span><br><span class="line">apt-get install php-cgi</span><br><span class="line">apt-get install spawn-fcgi(或者php-fpm，管理php-cgi的工具)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装一些库</span></span><br><span class="line">apt-get install php-curl</span><br><span class="line">apt-get install php-mbstring</span><br><span class="line">apt-get install php-gd </span><br><span class="line">apt-get install php-mcrypt</span><br><span class="line">apt-get install php-xml</span><br><span class="line">apt-get install php-mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动cgi</span></span><br><span class="line">spawn-fcgi -a 127.0.0.1 -p 9000 -C 10 -u www-data -f /usr/bin/php-cgi</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>交易费设置太低，旷工会根据交易费排序，选择交易费高的交易进行打包（老的节点可能会按时间顺序排序），所以会出现两种情况</p>
-<ul>
-<li>一直在交易内存池，没有旷工选择打包</li>
-<li>交易内存池慢了，或者超时了，被删除掉了</li>
+<li><p>安装nginx</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install nginx</span><br><span class="line"></span><br><span class="line">/etc/init.d/nginx restart</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装mysql</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install mysql-server</span><br><span class="line"></span><br><span class="line">/etc/init.d/mysql restart</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-</li>
-</ol>
-<p>产生上面的这些行为，我们的节点（接受RPC的节点）是无法感知到的，且交易也不会回退，我们用RPC查找的时候，会永远在交易内存池内。</p>
-<h2 id="如何处理"><a href="#如何处理" class="headerlink" title="如何处理"></a>如何处理</h2><ol>
-<li><p>针对1情况，就不要设置LockTime。如果需要设置，一定要核对好。</p>
-</li>
-<li><p>针对2情况，有以下几种办法</p>
-<ul>
-<li>重启自己的节点，<ul>
-<li>简单重启，它会重新广播交易，可能再次失败</li>
-<li>加-zapwallettxes参数，删除钱包的所有交易记录；加-rescan参数，重新扫描区块链以查找遗漏的钱包交易，获取交易前的UTXO。这个方法不一定能够成功，因为交易可能还在某些节点上。</li>
+<h2 id="PHP其他集成环境"><a href="#PHP其他集成环境" class="headerlink" title="PHP其他集成环境"></a>PHP其他集成环境</h2><h3 id="windows环境"><a href="#windows环境" class="headerlink" title="windows环境"></a>windows环境</h3><ul>
+<li>WAMP，简单易用</li>
+<li>phpStudy，专业好用</li>
+<li>UPUPW，专业好用*</li>
+<li>APMServ </li>
 </ul>
-</li>
-<li>在btc.com上查找交易是否存在，如果不存在，则用<a href="https://btc.com/tools/tx/publish，再次广播交易，可能再次失败；也可以用别家的矿池" target="_blank" rel="noopener">https://btc.com/tools/tx/publish，再次广播交易，可能再次失败；也可以用别家的矿池</a></li>
-<li>打开<a href="https://pushtx.btc.com/#/，提供一定的费用，让其矿池打包处理。最长需要4个小时才能进入区块。因为他家的矿池在4个小时内，挖到矿的概率是98%。可能费用比较高。" target="_blank" rel="noopener">https://pushtx.btc.com/#/，提供一定的费用，让其矿池打包处理。最长需要4个小时才能进入区块。因为他家的矿池在4个小时内，挖到矿的概率是98%。可能费用比较高。</a></li>
-<li>发送交易的时候，将交易设置成RBF模式(Replace by Fee)，允许用高费用交易来替代掉老的交易</li>
+<h3 id="linux环境"><a href="#linux环境" class="headerlink" title="linux环境"></a>linux环境</h3><ul>
+<li>LNMP 和 LAMP</li>
+<li>AppServ</li>
+<li>WDCP</li>
 </ul>
+<h3 id="其他工具包"><a href="#其他工具包" class="headerlink" title="其他工具包"></a>其他工具包</h3><ul>
+<li><p>OneinStack一键安装包，可以快速安装LNMP、LAMP、LNMT等环境，具体我们可以根据实际的安装进程组合，而且可以一键快速给网站部署Let’s Encrypt免费SSL证书。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget screen curl python <span class="comment">#for CentOS/Redhat</span></span><br><span class="line"><span class="comment"># apt-get -y install wget screen curl python #for Debian/Ubuntu</span></span><br><span class="line">wget http://mirrors.linuxeye.com/oneinstack-full.tar.gz</span><br><span class="line">tar xzf oneinstack-full.tar.gz</span><br><span class="line"><span class="built_in">cd</span> oneinstack</span><br><span class="line">screen -S oneinstack</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
+<li><p>宝塔</p>
+</li>
+</ul>
 
       
     </div>
@@ -371,8 +373,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/06/mingw-obs-pango/" rel="next" title="在MinGW64下编译obs-text-pango">
-                <i class="fa fa-chevron-left"></i> 在MinGW64下编译obs-text-pango
+              <a href="/2019/02/25/wxpaycert/" rel="next" title="微信支付证书生成">
+                <i class="fa fa-chevron-left"></i> 微信支付证书生成
               </a>
             
           </div>
@@ -380,10 +382,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/30/bitcoin-trade/" rel="prev" title="bitcoin交易网站实现">
-                bitcoin交易网站实现 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -523,7 +521,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原因"><span class="nav-number">1.</span> <span class="nav-text">原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何处理"><span class="nav-number">2.</span> <span class="nav-text">如何处理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu系统下手动安装PHP环境"><span class="nav-number">1.</span> <span class="nav-text">Ubuntu系统下手动安装PHP环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP其他集成环境"><span class="nav-number">2.</span> <span class="nav-text">PHP其他集成环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows环境"><span class="nav-number">2.1.</span> <span class="nav-text">windows环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux环境"><span class="nav-number">2.2.</span> <span class="nav-text">linux环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他工具包"><span class="nav-number">2.3.</span> <span class="nav-text">其他工具包</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -686,9 +684,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://mybestcool.github.io/2018/08/14/bitcoin-unconfirmed/';
-          this.page.identifier = '2018/08/14/bitcoin-unconfirmed/';
-          this.page.title = '比特币长时间不被确认的处理办法';
+          this.page.url = 'https://mybestcool.github.io/2019/02/25/phpenv/';
+          this.page.identifier = '2019/02/25/phpenv/';
+          this.page.title = 'PHP环境部署';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://https-mybestcool-github-io.disqus.com/embed.js';
