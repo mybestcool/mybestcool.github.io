@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="知行合一" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="AVS环境要求 PHP：建议版本5.6，虽然官方说7.0完全支持PHP7了，但是实际上并不是如此。所以如果不想踩坑，还是老老实实用5.6吧。 MYSQL Nginx/Apache 官方文档 Linux Server Apache Web Server  Support for AcceptPathInfo Support for MultiViews (or mod_rewrite which i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AdultVideoScript7.0搭建教程">
+<meta property="og:url" content="https://mybestcool.github.io/2019/03/05/avs7-deploy/index.html">
+<meta property="og:site_name" content="知行合一">
+<meta property="og:description" content="AVS环境要求 PHP：建议版本5.6，虽然官方说7.0完全支持PHP7了，但是实际上并不是如此。所以如果不想踩坑，还是老老实实用5.6吧。 MYSQL Nginx/Apache 官方文档 Linux Server Apache Web Server  Support for AcceptPathInfo Support for MultiViews (or mod_rewrite which i">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-05T06:10:26.853Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AdultVideoScript7.0搭建教程">
+<meta name="twitter:description" content="AVS环境要求 PHP：建议版本5.6，虽然官方说7.0完全支持PHP7了，但是实际上并不是如此。所以如果不想踩坑，还是老老实实用5.6吧。 MYSQL Nginx/Apache 官方文档 Linux Server Apache Web Server  Support for AcceptPathInfo Support for MultiViews (or mod_rewrite which i">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mybestcool.github.io/2019/03/05/avs7-deploy/"/>
+
+
+
+
+
+  <title>AdultVideoScript7.0搭建教程 | 知行合一</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知行合一</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">致良知</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2019/03/05/avs7-deploy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">AdultVideoScript7.0搭建教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T14:09:33+08:00">
+                2019-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/05/avs7-deploy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/03/05/avs7-deploy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="AVS环境要求"><a href="#AVS环境要求" class="headerlink" title="AVS环境要求"></a>AVS环境要求</h2><ul>
+<li>PHP：建议版本5.6，虽然官方说7.0完全支持PHP7了，但是实际上并不是如此。所以如果不想踩坑，还是老老实实用5.6吧。</li>
+<li>MYSQL</li>
+<li>Nginx/Apache</li>
+<li>官方文档<ul>
+<li>Linux Server</li>
+<li>Apache Web Server <ul>
+<li>Support for AcceptPathInfo</li>
+<li>Support for MultiViews (or mod_rewrite which is slower)</li>
+</ul>
+</li>
+<li>MySQL / MySQLi</li>
+<li>PHP 5.x / 7.x (mod_php/CGI) <ul>
+<li>Support for GD2 Library</li>
+<li>Support for MySQL / MySQLi</li>
+<li>Support for Curl</li>
+</ul>
+</li>
+<li>Recommended PHP Configuration<ul>
+<li>safe_mode off</li>
+<li>open_basedir off</li>
+<li>max_execution_time 7200</li>
+<li>max_input_time 7200</li>
+<li>memory_limit (with 1MB more then the maximum video upload size)</li>
+<li>post_max_size (maximum video upload size)</li>
+<li>upload_max_size (maximum video upload size)</li>
+<li>exec() should be allowed</li>
+</ul>
+</li>
+<li>PHP CLI 5.x (see above + register_argc_argv ON)</li>
+<li>FFmpeg (Recommended Version: 3+)</li>
+</ul>
+</li>
+</ul>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><ul>
+<li>一台干净的Ubuntu服务器</li>
+<li><p>安装宝塔</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -O install.sh http://download.bt.cn/install/install-ubuntu.sh &amp;&amp; sudo bash install.sh</span><br><span class="line"><span class="comment"># 完成后打开管理页面：http://ip:8888</span></span><br><span class="line"><span class="comment"># 安装AVS的环境：PHP5.6、Mysql、Nginx（建议使用）、phpmyadmin</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装视频插件ffmpeg，官方推荐3.x版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span></span><br><span class="line">wget https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-3.3.4-64bit-static.tar.xz</span><br><span class="line">tar -xJf ffmpeg-3.3.4-64bit-static.tar.xz</span><br><span class="line"><span class="built_in">cd</span> ffmpeg-3.3.4-64bit-static</span><br><span class="line">cp ffmpeg /usr/bin</span><br><span class="line">cp ffprobe /usr/bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载好<a href="https://lala.im/wp-content/uploads/2018/09/AVS7.0.zip" target="_blank" rel="noopener">AVS代码</a>，根据AVS环境文档配置</p>
+</li>
+</ul>
+<h2 id="安装网站"><a href="#安装网站" class="headerlink" title="安装网站"></a>安装网站</h2><ul>
+<li>在宝塔后台建立一个网站，点击网站=&gt;添加站点，按要求添加，其中建立数据库avs7，记录好相应的账号密码</li>
+<li><p>在此站点下增加伪动态配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">	if (!-f $request_filename)&#123;</span><br><span class="line">		set $rule_1 1$rule_1;</span><br><span class="line">	&#125;</span><br><span class="line">	if (!-d $request_filename)&#123;</span><br><span class="line">		set $rule_1 2$rule_1;</span><br><span class="line">	&#125;</span><br><span class="line">	if ($rule_1 = &quot;21&quot;)&#123;</span><br><span class="line">		rewrite /.* /loader.php last;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入avs的sql脚本sql/avs.sql</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line">mysql&gt;use avs7</span><br><span class="line">mysql&gt;<span class="built_in">source</span> sql/avs.sql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>源码修改，源码在upload目录，按以下要求修改</p>
+<ol>
+<li>Edit include/config.paths.php and set $config[‘BASE_URL’] to your site’s url.</li>
+<li>OPTIONAL: If you use a subdirectory for your installion set $config[‘RELATIVE’] to your subdirectory (eg: $config[‘RELATIVE’] = ‘/subdirectory’)!</li>
+<li>OPTIONAL: If you use a subdirectory for your installation edit loader.php and set $relative to your subdirectory (eg: $relative = ‘/subdirectory’)!</li>
+<li>Create a database. Edit include/config.db.php and set the database information (name, user and password).</li>
+<li>Import the sql dump from sql/avs.sql in your database (most likely using phpMyAdmin).</li>
+<li>Upload all files and folders from /upload to your server.</li>
+<li><p>Chmod following files and directories to 0777. You can also fix the file/directory permissions from the admin panel: Settings &gt; General &gt; System Check</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/include/config.local.php</span><br><span class="line">/cache/frontend</span><br><span class="line">/cache/backend</span><br><span class="line">/images/logo</span><br><span class="line">/images/notice_images</span><br><span class="line">/images/notice_images/thumbs</span><br><span class="line">/media/albums</span><br><span class="line">/media/categories/game</span><br><span class="line">/media/categories/album</span><br><span class="line">/media/categories/video</span><br><span class="line">/media/csv</span><br><span class="line">/media/games/swf</span><br><span class="line">/media/games/tmb</span><br><span class="line">/media/games/tmb/orig</span><br><span class="line">/media/photos</span><br><span class="line">/media/photos/tmb</span><br><span class="line">/media/player/logo</span><br><span class="line">/media/users</span><br><span class="line">/media/users/orig</span><br><span class="line">/media/videos/tmb</span><br><span class="line">/media/videos/vid</span><br><span class="line">/media/videos/h264</span><br><span class="line">/templates/backend/default/analytics/analytics.tpl </span><br><span class="line">/templates/emails</span><br><span class="line">/templates/emails/*.tpl</span><br><span class="line">/templates/frontend/(your_template)/static/*.tpl</span><br><span class="line">/tmp/albums</span><br><span class="line">/tmp/avatars</span><br><span class="line">/tmp/downloads</span><br><span class="line">/tmp/logs</span><br><span class="line">/tmp/sessions</span><br><span class="line">/tmp/thumbs</span><br><span class="line">/tmp/uploader</span><br><span class="line">/aembed.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Go to <a href="http://www.domain.com/siteadmin" target="_blank" rel="noopener">www.domain.com/siteadmin</a> (login using: admin/admin) and start configuring your website.</p>
+</li>
+<li>You can use the Google Video Sitemap generator using the link: <a href="http://www.yourdomain.com/sitemap.php" target="_blank" rel="noopener">http://www.yourdomain.com/sitemap.php</a></li>
+<li>Enable non-www to www redirection (domain.com to <a href="http://www.domain.com" target="_blank" rel="noopener">www.domain.com</a>) by editing the .htaccess file and replacing “domain.com” with your domain name.</li>
+</ol>
+</li>
+<li>访问站点<br>后台地址<a href="http://xx.com/siteadmin，用户名和密钥都是admin，进入后咱们访问Settings-General-System" target="_blank" rel="noopener">http://xx.com/siteadmin，用户名和密钥都是admin，进入后咱们访问Settings-General-System</a> Check，检查环境能否满意。</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>这个程序的模板默认会在前台调用一个Google的js，我们需要替换改成国内的地址，不然你的站点在国内打开会非常慢。<br>修复路径：templates/frontend/主题名/header.tpl，将里面的：<a href="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js改为：https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js" target="_blank" rel="noopener">https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js改为：https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js</a></li>
+<li>如果提示open_basedir有问题，那么注释掉网站目录下.user.ini中open_basedir</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/25/phpenv/" rel="next" title="PHP环境部署">
+                <i class="fa fa-chevron-left"></i> PHP环境部署
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/05/sendmail-deploy/" rel="prev" title="Centos7.5下安装sendmail">
+                Centos7.5下安装sendmail <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Lucus Gu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AVS环境要求"><span class="nav-number">1.</span> <span class="nav-text">AVS环境要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境配置"><span class="nav-number">2.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装网站"><span class="nav-number">3.</span> <span class="nav-text">安装网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lucus Gu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://https-mybestcool-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://mybestcool.github.io/2019/03/05/avs7-deploy/';
+          this.page.identifier = '2019/03/05/avs7-deploy/';
+          this.page.title = 'AdultVideoScript7.0搭建教程';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://https-mybestcool-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
