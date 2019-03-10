@@ -605,6 +605,17 @@
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
 <li>这个程序的模板默认会在前台调用一个Google的js，我们需要替换改成国内的地址，不然你的站点在国内打开会非常慢。<br>修复路径：templates/frontend/主题名/header.tpl，将里面的：<a href="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js改为：https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js" target="_blank" rel="noopener">https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js改为：https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js</a></li>
 <li>如果提示open_basedir有问题，那么注释掉网站目录下.user.ini中open_basedir</li>
+<li><p>修改classes/email.class.php:4，添加其他头依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">use PHPMailer\PHPMailer\PHPMailer;</span><br><span class="line">if ( !class_exists(&apos;PHPMailer&apos;) ) &#123;</span><br><span class="line">    require $config[&apos;BASE_DIR&apos;]. &apos;/include/phpmailer/PHPMailer.php&apos;;</span><br><span class="line">    require $config[&apos;BASE_DIR&apos;]. &apos;/include/phpmailer/SMTP.php&apos;;</span><br><span class="line">    require $config[&apos;BASE_DIR&apos;]. &apos;/include/phpmailer/Exception.php&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>主题模板会调用google的js脚本，需要将他们替换掉，主题目录templates/frontend/主题名，</p>
+<ul>
+<li>替换embed.tpl、enter.tpl、header.tpl、view.tpl中的”<a href="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js&quot;为&quot;https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js" target="_blank" rel="noopener">https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js&quot;为&quot;https://cdn.bootcss.com/jquery/1.11.1/jquery.min.js</a><br>“</li>
+<li>替换feedback.tpl、invite.tpl、<br>grep: img: Is a directory中的”<a href="https://www.google.com/recaptcha/api.js&quot;为&quot;https://www.recaptcha.net/recaptcha/api.js&quot;" target="_blank" rel="noopener">https://www.google.com/recaptcha/api.js&quot;为&quot;https://www.recaptcha.net/recaptcha/api.js&quot;</a></li>
+<li>替换modules/captcha/recaptchalib.php中的”<a href="https://www.google.com/recaptcha/api/siteverify&quot;为&quot;https://www.recaptcha.net/recaptcha/api/siteverify&quot;" target="_blank" rel="noopener">https://www.google.com/recaptcha/api/siteverify&quot;为&quot;https://www.recaptcha.net/recaptcha/api/siteverify&quot;</a></li>
+</ul>
+</li>
+<li>配置include/config.local.php的recaptcha_site_key和recaptcha_secret_key</li>
 </ul>
 
           
