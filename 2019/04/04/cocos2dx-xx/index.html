@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="区块链的一些概念区块链三要素 共享帐本 共识算法 工作量证明机制（PoW,Proof of Work） 股权证明机制（PoS，Proof of Stake） 委托股权证明机制（DPos，Delegated Proof of Stake） 瑞波共识机制(Ripple Consensus) 实用拜占庭容错算法（Practical Byzantine Fault Tolerance） 恒星共识协议(St">
+<meta name="description" content="Bug Android下异步加载文件的时候会崩溃，CCFileUtils-android.cpp:286123// Director::getInstance()-&amp;gt;getEventDispatcher()-&amp;gt;dispatchCustomEvent(EVENT_BEFORE_READ_FILE);// 这样修改还是有线程安全的风险，但不会崩溃了EngineDataManager::on">
 <meta property="og:type" content="article">
-<meta property="og:title" content="区块链概况">
-<meta property="og:url" content="https://mybestcool.github.io/2018/04/17/blockchain/index.html">
+<meta property="og:title" content="cocos2dx最近遇到的一些注意点">
+<meta property="og:url" content="https://mybestcool.github.io/2019/04/04/cocos2dx-xx/index.html">
 <meta property="og:site_name" content="知行合一">
-<meta property="og:description" content="区块链的一些概念区块链三要素 共享帐本 共识算法 工作量证明机制（PoW,Proof of Work） 股权证明机制（PoS，Proof of Stake） 委托股权证明机制（DPos，Delegated Proof of Stake） 瑞波共识机制(Ripple Consensus) 实用拜占庭容错算法（Practical Byzantine Fault Tolerance） 恒星共识协议(St">
+<meta property="og:description" content="Bug Android下异步加载文件的时候会崩溃，CCFileUtils-android.cpp:286123// Director::getInstance()-&amp;gt;getEventDispatcher()-&amp;gt;dispatchCustomEvent(EVENT_BEFORE_READ_FILE);// 这样修改还是有线程安全的风险，但不会崩溃了EngineDataManager::on">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-19T14:07:05.788Z">
+<meta property="og:updated_time" content="2019-04-04T06:37:54.213Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="区块链概况">
-<meta name="twitter:description" content="区块链的一些概念区块链三要素 共享帐本 共识算法 工作量证明机制（PoW,Proof of Work） 股权证明机制（PoS，Proof of Stake） 委托股权证明机制（DPos，Delegated Proof of Stake） 瑞波共识机制(Ripple Consensus) 实用拜占庭容错算法（Practical Byzantine Fault Tolerance） 恒星共识协议(St">
+<meta name="twitter:title" content="cocos2dx最近遇到的一些注意点">
+<meta name="twitter:description" content="Bug Android下异步加载文件的时候会崩溃，CCFileUtils-android.cpp:286123// Director::getInstance()-&amp;gt;getEventDispatcher()-&amp;gt;dispatchCustomEvent(EVENT_BEFORE_READ_FILE);// 这样修改还是有线程安全的风险，但不会崩溃了EngineDataManager::on">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://mybestcool.github.io/2018/04/17/blockchain/"/>
+  <link rel="canonical" href="https://mybestcool.github.io/2019/04/04/cocos2dx-xx/"/>
 
 
 
 
 
-  <title>区块链概况 | 知行合一</title>
+  <title>cocos2dx最近遇到的一些注意点 | 知行合一</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/04/17/blockchain/">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2019/04/04/cocos2dx-xx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lucus Gu">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">区块链概况</h1>
+          <h1 class="post-title" itemprop="name headline">cocos2dx最近遇到的一些注意点</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T22:24:38+08:00">
-                2018-04-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-04T14:33:56+08:00">
+                2019-04-04
               </time>
             
 
@@ -290,9 +290,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/04/17/blockchain/#comments" itemprop="discussionUrl">
+                <a href="/2019/04/04/cocos2dx-xx/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/17/blockchain/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2019/04/04/cocos2dx-xx/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -320,108 +320,24 @@
       
 
       
-        <h2 id="区块链的一些概念"><a href="#区块链的一些概念" class="headerlink" title="区块链的一些概念"></a>区块链的一些概念</h2><h3 id="区块链三要素"><a href="#区块链三要素" class="headerlink" title="区块链三要素"></a>区块链三要素</h3><ul>
-<li>共享帐本</li>
-<li>共识算法<ol>
-<li>工作量证明机制（PoW,Proof of Work）</li>
-<li>股权证明机制（PoS，Proof of Stake）</li>
-<li>委托股权证明机制（DPos，Delegated Proof of Stake）</li>
-<li>瑞波共识机制(Ripple Consensus)</li>
-<li>实用拜占庭容错算法（Practical Byzantine Fault Tolerance）</li>
-<li>恒星共识协议(Stellar Consensus Protocol)</li>
+        <h2 id="Bug"><a href="#Bug" class="headerlink" title="Bug"></a>Bug</h2><ol>
+<li>Android下异步加载文件的时候会崩溃，CCFileUtils-android.cpp:286<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Director::getInstance()-&gt;getEventDispatcher()-&gt;dispatchCustomEvent(EVENT_BEFORE_READ_FILE);</span></span><br><span class="line"><span class="comment">// 这样修改还是有线程安全的风险，但不会崩溃了</span></span><br><span class="line">EngineDataManager::onBeforeReadFile();</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ol>
+<li>cc.XMLHttpRequest 在ios下对”{}[]”进行了URL转义，会导致服务器无法识别（Java spring可以识别）</li>
+<li><p>打包资源如果需要修改资源后缀名，那么需要注意Android对assets目录下文件的压缩行为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* these formats are already compressed, or don't compress well */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span>* kNoCompressExt[] = &#123;</span><br><span class="line">    <span class="string">".jpg"</span>, <span class="string">".jpeg"</span>, <span class="string">".png"</span>, <span class="string">".gif"</span>,</span><br><span class="line">    <span class="string">".wav"</span>, <span class="string">".mp2"</span>, <span class="string">".mp3"</span>, <span class="string">".ogg"</span>, <span class="string">".aac"</span>,</span><br><span class="line">    <span class="string">".mpg"</span>, <span class="string">".mpeg"</span>, <span class="string">".mid"</span>, <span class="string">".midi"</span>, <span class="string">".smf"</span>, <span class="string">".jet"</span>,</span><br><span class="line">    <span class="string">".rtttl"</span>, <span class="string">".imy"</span>, <span class="string">".xmf"</span>, <span class="string">".mp4"</span>, <span class="string">".m4a"</span>,</span><br><span class="line">    <span class="string">".m4v"</span>, <span class="string">".3gp"</span>, <span class="string">".3gpp"</span>, <span class="string">".3g2"</span>, <span class="string">".3gpp2"</span>,</span><br><span class="line">    <span class="string">".amr"</span>, <span class="string">".awb"</span>, <span class="string">".wma"</span>, <span class="string">".wmv"</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </li>
-<li>P2P网络</li>
-</ul>
-<h3 id="区块链类型"><a href="#区块链类型" class="headerlink" title="区块链类型"></a>区块链类型</h3><ul>
-<li>公有链</li>
-<li>私有链</li>
-<li>联盟链</li>
-</ul>
-<h3 id="区块链应用方式"><a href="#区块链应用方式" class="headerlink" title="区块链应用方式"></a>区块链应用方式</h3><ul>
-<li>密码学货币（Crypto Currency）</li>
-<li>分布式账本（DTL，Distributed Ledger Technology）</li>
-<li>智能合约（Smart Contract）</li>
-</ul>
-<h2 id="第一代区块链技术"><a href="#第一代区块链技术" class="headerlink" title="第一代区块链技术"></a>第一代区块链技术</h2><ul>
-<li>bitcoin（比特币）– 推荐<ul>
-<li>功能：密码学货币、几乎没有智能合约</li>
-<li>类型：公有链</li>
-<li>共识算法：工作量证明机制</li>
-<li>开发语言：c++</li>
-<li>状态：目前应用度高、扩展性差</li>
-</ul>
+<li><p>打包资源如果需要修改资源后缀名，那么需要注意像骨骼动画等plist和图片是同一个名字，cocos对这些处理不同平台有不一样的表现</p>
 </li>
-</ul>
-<h2 id="第二代区块链技术"><a href="#第二代区块链技术" class="headerlink" title="第二代区块链技术"></a>第二代区块链技术</h2><ul>
-<li>bitshares（比特股）<ul>
-<li>开发者：BM</li>
-<li>功能：分布式账本，受限的智-能合约</li>
-<li>类型：主要是公有链</li>
-<li>共识算法：委托授权的权益证明机制</li>
-<li>开发语言：c++</li>
-<li>状态：没有形成核心团队</li>
-</ul>
+<li>打包资源如果需要修改资源后缀名，声音文件需要特别注意，cocos不是根据文件头判断当前文件是什么格式，而是通过后缀名</li>
+<li>在cocos内部，加载lua脚本，需要注意是否是重新加载<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 不会重新加载，需要对<span class="built_in">package</span>.<span class="built_in">loaded</span>、<span class="built_in">package</span>.<span class="built_in">preload</span>删除已经加载的模块</span><br><span class="line">engine-&gt;executeString(<span class="string">"require 'lobby.main'"</span>);</span><br><span class="line"># 会重新加载</span><br><span class="line">engine-&gt;executeString(<span class="string">"require 'lobby/main'"</span>);</span><br></pre></td></tr></table></figure>
 </li>
-<li>ripple（瑞波币）<ul>
-<li>功能：分布式账本，目前不支持智能合约</li>
-<li>类型：主要是公有链</li>
-<li>共识机制：瑞波共识机制</li>
-<li>开发语言：c++</li>
-<li>状态：致力于与银行合作</li>
-</ul>
-</li>
-<li>HyperLedger（超级账本）<ul>
-<li>功能：分布式账本、智能合约</li>
-<li>类型：主要是联盟链</li>
-<li>共识机制：实用拜占庭容错算法</li>
-<li>开发语言：go、python</li>
-<li>状态：致力于与金融行业</li>
-</ul>
-</li>
-<li>ethereum（以太坊）– 推荐<ul>
-<li>开发者：V神</li>
-<li>功能：分布式账本、智能合约</li>
-<li>类型：主要是公有链</li>
-<li>共识算法：工作量证明机制，以后改成权益证明机制</li>
-<li>开发语言：go</li>
-<li>状态：目前应用度高、有明确规划<ul>
-<li>myetherwallet 钱包：<a href="https://www.myetherwallet.com" target="_blank" rel="noopener">https://www.myetherwallet.com</a></li>
-<li>eth交易历史查询：<a href="https://etherscan.io/" target="_blank" rel="noopener">https://etherscan.io/</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="第三代区块链技术"><a href="#第三代区块链技术" class="headerlink" title="第三代区块链技术"></a>第三代区块链技术</h2><ul>
-<li>EOS – 推荐<ul>
-<li>开发者：BM</li>
-<li>类型：公有链</li>
-<li>共识算法：DPOS，百万TPS</li>
-<li>特点：<ul>
-<li>可以跨链、角色权限管理</li>
-<li>交易免费、EOS代币保值（DAPP的计算资源由其拥有的EOS代币量决定）</li>
-<li>开发dapp简易</li>
-</ul>
-</li>
-<li>状态<ul>
-<li>目前还没有开发完成，但已在以太坊发币</li>
-<li>EOS官网：<a href="http://eos.io" target="_blank" rel="noopener">http://eos.io</a></li>
-<li>EOS代币发行历史查看：<a href="http://eoschart.com/?lang=zh" target="_blank" rel="noopener">http://eoschart.com/?lang=zh</a></li>
-</ul>
-</li>
-<li>购买方式<ol>
-<li>在加密货币平台上，如OTCBTC上用支付宝购买一些ETH，100rmb左右</li>
-<li>使用chrome浏览器，安装MetaMask，并注册帐号</li>
-<li>将从OTCBTC平台上购买的货币转移到MetaMask帐号</li>
-<li>在EOS官网众筹EOS币，到第二天取出EOS币，并转移到MetaMask帐号</li>
 </ol>
-</li>
-</ul>
-</li>
-<li>IOTA</li>
-<li>Cardano</li>
-</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
+<li>网页引用js生效问题<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 不生效 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://cdn.bootcss.com/jquery/1.10.0/jquery.min.js"</span> /&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- 生效 --&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://cdn.bootcss.com/jquery/1.10.0/jquery.min.js"</span>&gt;</span><span class="undefined"> </span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
 
       
     </div>
@@ -446,8 +362,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/03/mongodbstudy/" rel="next" title="Mongodb学习总结">
-                <i class="fa fa-chevron-left"></i> Mongodb学习总结
+              <a href="/2019/03/05/sendmail-deploy/" rel="next" title="Centos7.5下安装sendmail">
+                <i class="fa fa-chevron-left"></i> Centos7.5下安装sendmail
               </a>
             
           </div>
@@ -455,10 +371,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/17/ethereum-wp/" rel="prev" title="以太坊白皮书学习记录">
-                以太坊白皮书学习记录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -598,7 +510,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#区块链的一些概念"><span class="nav-number">1.</span> <span class="nav-text">区块链的一些概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#区块链三要素"><span class="nav-number">1.1.</span> <span class="nav-text">区块链三要素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区块链类型"><span class="nav-number">1.2.</span> <span class="nav-text">区块链类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区块链应用方式"><span class="nav-number">1.3.</span> <span class="nav-text">区块链应用方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一代区块链技术"><span class="nav-number">2.</span> <span class="nav-text">第一代区块链技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二代区块链技术"><span class="nav-number">3.</span> <span class="nav-text">第二代区块链技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三代区块链技术"><span class="nav-number">4.</span> <span class="nav-text">第三代区块链技术</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bug"><span class="nav-number">1.</span> <span class="nav-text">Bug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">2.</span> <span class="nav-text">注意点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">3.</span> <span class="nav-text">其他</span></a></li></ol></div>
             
 
           </div>
@@ -761,9 +673,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://mybestcool.github.io/2018/04/17/blockchain/';
-          this.page.identifier = '2018/04/17/blockchain/';
-          this.page.title = '区块链概况';
+          this.page.url = 'https://mybestcool.github.io/2019/04/04/cocos2dx-xx/';
+          this.page.identifier = '2019/04/04/cocos2dx-xx/';
+          this.page.title = 'cocos2dx最近遇到的一些注意点';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://https-mybestcool-github-io.disqus.com/embed.js';
