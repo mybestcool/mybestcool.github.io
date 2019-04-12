@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="知行合一" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="android接入，参考文献 流程： 客户端向自己的服务端申请订单，服务端同步到微信服务端 客户端收到订单后，调起微信进行支付 等微信返回后，会通知客户端，然后根据结果向自己的服务端请求相关信息 同时服务端会接受微信服务端的支付成功失败通知，也可以向微信服务端查询支付情况   android的sdk已经升级过，从sdk变成了opensdk，下载wechat-sdk-android-without-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="游戏中微信支付的接入">
+<meta property="og:url" content="https://mybestcool.github.io/2019/04/12/weixinpay/index.html">
+<meta property="og:site_name" content="知行合一">
+<meta property="og:description" content="android接入，参考文献 流程： 客户端向自己的服务端申请订单，服务端同步到微信服务端 客户端收到订单后，调起微信进行支付 等微信返回后，会通知客户端，然后根据结果向自己的服务端请求相关信息 同时服务端会接受微信服务端的支付成功失败通知，也可以向微信服务端查询支付情况   android的sdk已经升级过，从sdk变成了opensdk，下载wechat-sdk-android-without-">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-12T07:56:04.072Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="游戏中微信支付的接入">
+<meta name="twitter:description" content="android接入，参考文献 流程： 客户端向自己的服务端申请订单，服务端同步到微信服务端 客户端收到订单后，调起微信进行支付 等微信返回后，会通知客户端，然后根据结果向自己的服务端请求相关信息 同时服务端会接受微信服务端的支付成功失败通知，也可以向微信服务端查询支付情况   android的sdk已经升级过，从sdk变成了opensdk，下载wechat-sdk-android-without-">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mybestcool.github.io/2019/04/12/weixinpay/"/>
+
+
+
+
+
+  <title>游戏中微信支付的接入 | 知行合一</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">知行合一</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">致良知</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2019/04/12/weixinpay/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">游戏中微信支付的接入</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-12T15:55:18+08:00">
+                2019-04-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/04/12/weixinpay/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/04/12/weixinpay/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="android接入，参考文献"><a href="#android接入，参考文献" class="headerlink" title="android接入，参考文献"></a>android接入，<a href="https://www.jianshu.com/p/f577ab65f731" target="_blank" rel="noopener">参考文献</a></h2><ul>
+<li>流程：<ol>
+<li>客户端向自己的服务端申请订单，服务端同步到微信服务端</li>
+<li>客户端收到订单后，调起微信进行支付</li>
+<li>等微信返回后，会通知客户端，然后根据结果向自己的服务端请求相关信息</li>
+<li>同时服务端会接受微信服务端的支付成功失败通知，也可以向微信服务端查询支付情况</li>
+</ol>
+</li>
+<li>android的sdk已经升级过，从sdk变成了opensdk，下载<a href="https://dl.bintray.com/wechat-sdk-team/maven/com/tencent/mm/opensdk/wechat-sdk-android-without-mta" target="_blank" rel="noopener">wechat-sdk-android-without-mta-x.x.xjar</a>或者<a href="https://dl.bintray.com/wechat-sdk-team/maven/com/tencent/mm/opensdk/wechat-sdk-android-with-mta" target="_blank" rel="noopener">wechat-sdk-android-with-mta-x.x.xjar</a></li>
+<li><p>引入微信支付依赖，android studio的build.gradle文件中，添加如下依赖即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">   compile &apos;com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置WXPayEntryActivity，从<a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1" target="_blank" rel="noopener">官网demo</a>中copy一个来即可，必须放到app包下新建一个wxapi包里面</p>
+</li>
+<li><p>AndroidManifest.xml中注册</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--wx pay所需权限--&gt;</span><br><span class="line">&lt;uses-permission   android:name=&quot;android.permission.INTERNET&quot; /&gt;</span><br><span class="line">&lt;uses-permission android:name=&quot;android.permission.MODIFY_AUDIO_SETTINGS&quot;/&gt;</span><br><span class="line">&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--wx pay--&gt;</span><br><span class="line">&lt;activity</span><br><span class="line">        android:name=&quot;.wxapi.WXPayEntryActivity&quot;</span><br><span class="line">        android:exported=&quot;true&quot;</span><br><span class="line">        android:launchMode=&quot;singleTop&quot;&gt;</span><br><span class="line">&lt;activity/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发送支付信息给服务端，自定义处理</p>
+</li>
+<li><p>跳转微信进行支付，java代码大致如下，需要注意的是需要运行到UI主线程，不然Toast.makeText等操作会崩溃</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">wxPay</span><span class="params">(<span class="keyword">final</span> String orderJson)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mAppActivity.runOnUiThread(<span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                JSONObject json = <span class="keyword">new</span> JSONObject(orderJson); </span><br><span class="line">                <span class="keyword">if</span>(<span class="keyword">null</span> != json)&#123;</span><br><span class="line">                    PayReq req = <span class="keyword">new</span> PayReq();</span><br><span class="line">                    req.appId			= APP_ID; <span class="comment">//json.getString("appid");</span></span><br><span class="line">                    req.partnerId		= json.optString(<span class="string">"partnerid"</span>);</span><br><span class="line">                    req.prepayId		= json.optString(<span class="string">"prepayid"</span>);</span><br><span class="line">                    req.nonceStr		= json.optString(<span class="string">"noncestr"</span>);</span><br><span class="line">                    req.timeStamp		= json.optString(<span class="string">"timestamp"</span>);</span><br><span class="line">                    req.packageValue	= json.optString(<span class="string">"package"</span>);</span><br><span class="line">                    req.sign			= json.optString(<span class="string">"sign"</span>);</span><br><span class="line">                    <span class="comment">//req.extData			= json.optString("extdata"); // optional</span></span><br><span class="line">                    Toast.makeText(mAppActivity, <span class="string">"正在打开微信"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    </span><br><span class="line">                    mWXAPI.sendReq(req);</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    Toast.makeText(mAppActivity, <span class="string">"生成订单失败"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">                Toast.makeText(mAppActivity, <span class="string">"支付失败"</span>+e.getMessage(), Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>微信客户端回调支付结果处理，微信会自动回调到继续IWXAPIEventHandler的WXPayEntryActivity::public void onResp(BaseResp resp)，如果在cocos上调用，同样要注意让回调运行在GLThread中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">onWXResp</span><span class="params">(BaseResp resp)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (resp <span class="keyword">instanceof</span> SendAuth.Resp) &#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (resp <span class="keyword">instanceof</span> SendMessageToWX.Resp) &#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// com.tencent.mm.opensdk.constants.ConstantsAPI;</span></span><br><span class="line">    <span class="comment">// resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (resp <span class="keyword">instanceof</span> PayResp) &#123;</span><br><span class="line">        <span class="keyword">final</span> PayResp payResp = (PayResp)resp;</span><br><span class="line">        <span class="keyword">if</span> (payResp.errCode == <span class="number">0</span>) &#123;</span><br><span class="line">            mAppActivity.runOnGLThread(<span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    onWXpaySuccess(<span class="string">"支付成功"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> String resultStatus;</span><br><span class="line">            <span class="keyword">if</span> (payResp.errCode == -<span class="number">2</span>) &#123;</span><br><span class="line">                resultStatus = <span class="string">"您取消了支付"</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resultStatus = <span class="string">"支付失败"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            mAppActivity.runOnGLThread(<span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    onWXpayFail(resultStatus);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="ios接入，参考文献"><a href="#ios接入，参考文献" class="headerlink" title="ios接入，参考文献"></a>ios接入，<a href="https://www.jianshu.com/p/8930b4496023" target="_blank" rel="noopener">参考文献</a></h2><ul>
+<li>接入流程跟android是一样的，区别的是，一般ios游戏为了上AppStore，一般不接带支付功能的sdk，所以用微信去除支付功能的sdk</li>
+<li><p>将解压的微信OpenSDK文件夹拷贝到项目文件夹下，并导入开发环境中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">libWeChatSDK.a</span><br><span class="line">WechatAuthSDK.h</span><br><span class="line">WXApi.h</span><br><span class="line">WXApiObject.h</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>并根据官方文档导入依赖库</p>
+</li>
+<li>添加URL Schemes, 点击项目名称,点击“Info”选项卡,在“URL Types”选项中,点击“+”, 在“URL Schemes”中输入微信的注册码</li>
+<li><p>使用URLScheme调起weixin</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">void wxPay(const std::string&amp; orderJson, const std::function&lt;void(bool, const std::string&amp;)&gt;&amp; callback)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> output = <span class="string">""</span>;</span><br><span class="line">    <span class="comment">// 隐藏微信地址</span></span><br><span class="line">    Base64Decode(<span class="string">"d2VpeGluOi8vYXBwL3d4NWI5YmZkZGFiNGZiZjQyNi9wYXkvPw=="</span>, &amp;output);</span><br><span class="line">    </span><br><span class="line">    rapidjson::Document document;</span><br><span class="line">    document.Parse(orderJson.c_str());</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> partnerid, prepayid, noncestr, timestamp, package, sign, extdata;</span><br><span class="line">    <span class="keyword">bool</span> bfirst = <span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ( document.HasMember(<span class="string">"extdata"</span>) ) &#123;</span><br><span class="line">        rapidjson::Value&amp; v = document[<span class="string">"extdata"</span>];</span><br><span class="line">        <span class="keyword">if</span> (v.IsString()) &#123;</span><br><span class="line">            extdata = v.GetString();</span><br><span class="line">            <span class="keyword">if</span> (!extdata.empty()) &#123;</span><br><span class="line">                output += <span class="string">"extData="</span> + extdata;</span><br><span class="line">                bfirst = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( document.HasMember(<span class="string">"noncestr"</span>) ) &#123;</span><br><span class="line">        rapidjson::Value&amp; v = document[<span class="string">"noncestr"</span>];</span><br><span class="line">        <span class="keyword">if</span> (v.IsString()) &#123;</span><br><span class="line">            noncestr = v.GetString();</span><br><span class="line">            <span class="keyword">if</span> (noncestr.empty()) &#123; callback(<span class="literal">false</span>, <span class="string">"支付失败"</span>); <span class="keyword">return</span>;&#125;</span><br><span class="line">            <span class="keyword">if</span> ( bfirst ) &#123;</span><br><span class="line">                bfirst = <span class="literal">false</span>;</span><br><span class="line">                output += <span class="string">"nonceStr="</span> + noncestr;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                output += <span class="string">"&amp;nonceStr="</span> + noncestr;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( document.HasMember(<span class="string">"package"</span>) ) &#123;</span><br><span class="line">        rapidjson::Value&amp; v = document[<span class="string">"package"</span>];</span><br><span class="line">        <span class="keyword">if</span> (v.IsString()) &#123;</span><br><span class="line">            package = v.GetString();</span><br><span class="line">            package = package.replace(package.find(<span class="string">"="</span>), <span class="number">1</span>, <span class="string">"\%\%3D"</span>);</span><br><span class="line">            <span class="keyword">if</span> (package.empty()) &#123; callback(<span class="literal">false</span>, <span class="string">"支付失败"</span>); <span class="keyword">return</span>;&#125;</span><br><span class="line">            output += <span class="string">"&amp;package="</span> + package;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( document.HasMember(<span class="string">"partnerid"</span>) ) &#123;</span><br><span class="line">        rapidjson::Value&amp; v = document[<span class="string">"partnerid"</span>];</span><br><span class="line">        <span class="keyword">if</span> (v.IsString()) &#123;</span><br><span class="line">            partnerid = v.GetString();</span><br><span class="line">            <span class="keyword">if</span> (partnerid.empty()) &#123; callback(<span class="literal">false</span>, <span class="string">"支付失败"</span>); <span class="keyword">return</span>;&#125;</span><br><span class="line">            output += <span class="string">"&amp;partnerId="</span> + partnerid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( document.HasMember(<span class="string">"prepayid"</span>) ) &#123;</span><br><span class="line">        rapidjson::Value&amp; v = document[<span class="string">"prepayid"</span>];</span><br><span class="line">        <span class="keyword">if</span> (v.IsString()) &#123;</span><br><span class="line">            prepayid = v.GetString();</span><br><span class="line">            <span class="keyword">if</span> (prepayid.empty()) &#123; callback(<span class="literal">false</span>, <span class="string">"支付失败"</span>); <span class="keyword">return</span>;&#125;</span><br><span class="line">            output += <span class="string">"&amp;prepayId="</span> + prepayid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( document.HasMember(<span class="string">"timestamp"</span>) ) &#123;</span><br><span class="line">        rapidjson::Value&amp; v = document[<span class="string">"timestamp"</span>];</span><br><span class="line">        <span class="keyword">if</span> (v.IsString()) &#123;</span><br><span class="line">            timestamp = v.GetString();</span><br><span class="line">            <span class="keyword">if</span> (timestamp.empty()) &#123; callback(<span class="literal">false</span>, <span class="string">"支付失败"</span>); <span class="keyword">return</span>;&#125;</span><br><span class="line">            output += <span class="string">"&amp;timeStamp="</span> + timestamp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( document.HasMember(<span class="string">"sign"</span>) ) &#123;</span><br><span class="line">        rapidjson::Value&amp; v = document[<span class="string">"sign"</span>];</span><br><span class="line">        <span class="keyword">if</span> (v.IsString()) &#123;</span><br><span class="line">            sign = v.GetString();</span><br><span class="line">            <span class="keyword">if</span> (sign.empty()) &#123; callback(<span class="literal">false</span>, <span class="string">"支付失败"</span>); <span class="keyword">return</span>;&#125;</span><br><span class="line">            output += <span class="string">"&amp;sign="</span> + sign;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    output += <span class="string">"&amp;signType=SHA1"</span>;</span><br><span class="line"></span><br><span class="line">    setWXpayCallback(callback);</span><br><span class="line">    NSString * pUrl = [NSString stringWithUTF8String:output.c_str()];</span><br><span class="line">    NSURL* url = [NSURL URLWithString:pUrl];</span><br><span class="line">    [[UIApplication sharedApplication] openURL:url];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>等待微信回调，头文件中App继承WXApiDelegate，sdk会回调到openURL，但并不会回调到onResp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url</span><br><span class="line">&#123;</span><br><span class="line">    return [WXApi handleOpenURL:url delegate:self];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// NOTE: 9.0以后使用新API接口</span><br><span class="line">- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary&lt;NSString*, id&gt; *)options</span><br><span class="line">&#123;</span><br><span class="line">    if ([url.absoluteString rangeOfString:APP_ID].length) &#123;</span><br><span class="line">        auto callback = getWXpayCallback();</span><br><span class="line">        if ( callback ) &#123;</span><br><span class="line">            // 微信支付，微信回调的时候回回传ret参数，这样来区分支付知否成功</span><br><span class="line">            NSArray *array = [url.absoluteString componentsSeparatedByString:@&quot;ret=&quot;];</span><br><span class="line">            NSInteger ret = [array.lastObject integerValue];</span><br><span class="line">            // 调起微信结果返回</span><br><span class="line">            // ret: 0成功支付 -2取消支付 -1其他原因</span><br><span class="line">            if ( ret == 0 ) &#123;</span><br><span class="line">                callback(true, &quot;支付成功&quot;);</span><br><span class="line">            &#125; else if ( ret==-2 ) &#123;</span><br><span class="line">                callback(false, &quot;您取消了支付&quot;);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                callback(false, &quot;支付失败&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            setWXpayCallback(nullptr);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    else &#123;</span><br><span class="line">        return [WXApi handleOpenURL:url delegate:self];</span><br><span class="line">    &#125;</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/04/cocos2dx-xx/" rel="next" title="cocos2dx最近遇到的一些注意点">
+                <i class="fa fa-chevron-left"></i> cocos2dx最近遇到的一些注意点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Lucus Gu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#android接入，参考文献"><span class="nav-number">1.</span> <span class="nav-text">android接入，参考文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ios接入，参考文献"><span class="nav-number">2.</span> <span class="nav-text">ios接入，参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lucus Gu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://https-mybestcool-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://mybestcool.github.io/2019/04/12/weixinpay/';
+          this.page.identifier = '2019/04/12/weixinpay/';
+          this.page.title = '游戏中微信支付的接入';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://https-mybestcool-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
