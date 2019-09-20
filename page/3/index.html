@@ -239,6 +239,220 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/06/04/ipfs-dev-config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lucus Gu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知行合一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/ipfs-dev-config/" itemprop="url">Ubuntu命令行设置ipfs开发环境</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T18:57:16+08:00">
+                2018-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/04/ipfs-dev-config/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/04/ipfs-dev-config/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="部署一台Ubuntu服务器"><a href="#部署一台Ubuntu服务器" class="headerlink" title="部署一台Ubuntu服务器"></a>部署一台Ubuntu服务器</h2><h2 id="设置科学上网，因为ipfs已被墙"><a href="#设置科学上网，因为ipfs已被墙" class="headerlink" title="设置科学上网，因为ipfs已被墙"></a>设置科学上网，因为ipfs已被墙</h2><h3 id="购买科学上网服务，SSR服务，如bosXXX和rixXXXX，得到一堆ssr服务地址"><a href="#购买科学上网服务，SSR服务，如bosXXX和rixXXXX，得到一堆ssr服务地址" class="headerlink" title="购买科学上网服务，SSR服务，如bosXXX和rixXXXX，得到一堆ssr服务地址"></a>购买科学上网服务，SSR服务，如bosXXX和rixXXXX，得到一堆ssr服务地址</h3><h3 id="部署Ubuntu-SSR客户端"><a href="#部署Ubuntu-SSR客户端" class="headerlink" title="部署Ubuntu SSR客户端"></a>部署Ubuntu SSR客户端</h3><ol>
+<li>下载ssr客户端</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://onlyless.github.io/ssr</span><br><span class="line">sudo mv ssr /usr/<span class="built_in">local</span>/bin</span><br><span class="line">sudo chmod 766 /usr/<span class="built_in">local</span>/bin/ssr</span><br><span class="line">ssr install</span><br><span class="line">ssr config</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>配置ssr地址</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"server"</span> : <span class="string">"your serverip"</span>,</span><br><span class="line">	<span class="attr">"server_port"</span> : yourport,</span><br><span class="line">	<span class="attr">"password"</span> : <span class="string">"your password"</span>,</span><br><span class="line">	<span class="attr">"method"</span> : <span class="string">"your method"</span>,</span><br><span class="line">	<span class="attr">"protocol"</span> : <span class="string">"your protocol"</span>,</span><br><span class="line">	<span class="attr">"obfs"</span> : <span class="string">"your obfs"</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>重启</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssr restart</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>配置开机启动， vim /etc/rc.local</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh -e</span><br><span class="line">#</span><br><span class="line"># rc.local</span><br><span class="line">#</span><br><span class="line"># This script is executed at the end of each multiuser runlevel.</span><br><span class="line"># Make sure that the script will &quot;exit 0&quot; on success or any other</span><br><span class="line"># value on error.</span><br><span class="line">#</span><br><span class="line"># In order to enable or disable this script just change the execution</span><br><span class="line"># bits.</span><br><span class="line">#</span><br><span class="line"># By default this script does nothing.</span><br><span class="line"></span><br><span class="line">sudo ssr start</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+<h3 id="安装Privoxy"><a href="#安装Privoxy" class="headerlink" title="安装Privoxy"></a>安装Privoxy</h3><ol>
+<li><p>因为ssr是sock5代理，不接受http/https流量，使用的时候需要将其转化成http/https流量</p>
+</li>
+<li><p>安装Privoxy</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install privoxy</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>配置Privoxy，打开其配置文件/etc/privoxy/config，修改以下几个地方</li>
+</ol>
+<ul>
+<li>找到4.1. listen-address，确认privoxy监听的端口号</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#  Example:</span><br><span class="line">#</span><br><span class="line">#      Suppose you are running Privoxy on a machine which has the</span><br><span class="line">#      address 192.168.0.1 on your local private network</span><br><span class="line">#      (192.168.0.0) and has another outside connection with a</span><br><span class="line">#      different address. You want it to serve requests from inside</span><br><span class="line">#      only:</span><br><span class="line">#</span><br><span class="line">#        listen-address  192.168.0.1:8118</span><br><span class="line">#</span><br><span class="line">#      Suppose you are running Privoxy on an IPv6-capable machine and</span><br><span class="line">#      you want it to listen on the IPv6 address of the loopback</span><br><span class="line">#      device:</span><br><span class="line">#</span><br><span class="line">#        listen-address [::1]:8118</span><br><span class="line">#</span><br><span class="line">listen-address  localhost:8118</span><br><span class="line">#</span><br><span class="line">#  4.2. toggle</span><br><span class="line">#  ============</span><br><span class="line">#</span><br><span class="line">#  Specifies:</span><br><span class="line">#</span><br><span class="line">#      Initial state of &quot;toggle&quot; status</span><br><span class="line">#</span><br><span class="line">#  Type of value:</span><br><span class="line">#</span><br><span class="line">#      1 or 0</span><br><span class="line">#</span><br><span class="line">#  Default value:</span><br></pre></td></tr></table></figure>
+<ul>
+<li>找到5.2. 设置sock5转发</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#      Unencrypted connections to systems in these address ranges</span><br><span class="line">#      will be as (un)secure as the local network is, but the</span><br><span class="line">#      alternative is that you can&apos;t reach the local network through</span><br><span class="line">#      Privoxy at all. Of course this may actually be desired and</span><br><span class="line">#      there is no reason to make these exceptions if you aren&apos;t sure</span><br><span class="line">#      you need them.</span><br><span class="line">#</span><br><span class="line">#      If you also want to be able to reach servers in your local</span><br><span class="line">#      network by using their names, you will need additional</span><br><span class="line">#      exceptions that look like this:</span><br><span class="line">#</span><br><span class="line">#       forward           localhost/     .</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line">forward-socks5 / 127.0.0.1:1080 .</span><br><span class="line">#  5.3. forwarded-connect-retries</span><br><span class="line">#  ===============================</span><br><span class="line">#</span><br><span class="line">#  Specifies:</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>重启Privoxy</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/privoxy restart</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>编写两个bash脚本，start_proxy.sh，stop_proxy.sh；用source start_proxy.sh/stop_proxy.sh 来开启和关闭代理</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># start_proxy.sh</span></span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="string">"127.0.0.1:8118"</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="string">"127.0.0.1:8118"</span></span><br><span class="line"></span><br><span class="line">git config --global http.proxy http://127.0.0.1:8118 <span class="comment"># 可以用sock5://127.0.0.1:1008</span></span><br><span class="line">git config --global https.proxy https://127.0.0.1:8118</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># stop_proxy.sh</span></span><br><span class="line"><span class="built_in">export</span> http_proxy=</span><br><span class="line"><span class="built_in">export</span> https_proxy=</span><br><span class="line"></span><br><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>开始代理，测试是否可以穿墙</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> start_proxy.sh</span><br><span class="line">curl https://www.google.com <span class="comment"># 测试</span></span><br></pre></td></tr></table></figure>
+<h2 id="安装开发工具"><a href="#安装开发工具" class="headerlink" title="安装开发工具"></a>安装开发工具</h2><ol>
+<li>安装工具 git</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install git</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装golang</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.google.com/go/go1.10.2.linux-amd64.tar.gz</span><br><span class="line">tar -C /usr/<span class="built_in">local</span> -xzf go1.10.2.linux-amd64.tar.gz</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/go/bin/go /usr/<span class="built_in">local</span>/go</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/go/bin/gofmt /usr/<span class="built_in">local</span>/gofmt</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/go/bin/godoc /usr/<span class="built_in">local</span>/godoc</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>创建一个golang工作目录，比如~/gopath，编辑.bashrc，在文件最后添加以下内容；确保.profile 会调用.bashrc</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> GOPATH=<span class="string">"<span class="variable">$HOME</span>/gopath"</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="string">"<span class="variable">$GOPATH</span>/bin:<span class="variable">$PATH</span>"</span></span><br></pre></td></tr></table></figure>
+<h2 id="下载编译源码"><a href="#下载编译源码" class="headerlink" title="下载编译源码"></a>下载编译源码</h2><ol>
+<li>下载源码。虽然已经翻墙，但也不能直接编译，原因是ipfs使用的包管理工具gx不支持http代理。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get -u -d -v github.com/ipfs/go-ipfs</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>编译ipfs包管理工具GX</p>
+<ol>
+<li><p>下载GX</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get -u -v -d github.com/whyrusleeping/gx</span><br><span class="line">go get -u -v -d github.com/whyrusleeping/gx-go</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改 github.com/ipfs/go-ipfs-api/shell.go</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewShell</span><span class="params">(url <span class="keyword">string</span>)</span> *<span class="title">Shell</span></span> &#123;</span><br><span class="line">	c := &amp;gohttp.Client&#123;</span><br><span class="line">		Transport: &amp;gohttp.Transport&#123;</span><br><span class="line">			Proxy: gohttp.ProxyFromEnvironment, <span class="comment">// 这里是添加的一行</span></span><br><span class="line">			DisableKeepAlives: <span class="literal">true</span>,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> NewShellWithClient(url, c)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译GX，编译完后可以在$(GOPATH)/bin目录找到gx和gx-go程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go install github.com/whyrusleeping/gx</span><br><span class="line">go install github.com/whyrusleeping/gx-go</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>用gx下载所有的依赖包</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gx install --global</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>进入go-ipfs目录，编译ipfs，编译完后可以在$(GOPATH)/bin目录找到ipfs程序</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/05/19/docker-build-devubuntu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2300,237 +2514,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mybestcool.github.io/2018/04/17/blockchain/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lucus Gu">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="知行合一">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/17/blockchain/" itemprop="url">区块链概况</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T22:24:38+08:00">
-                2018-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/04/17/blockchain/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/17/blockchain/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="区块链的一些概念"><a href="#区块链的一些概念" class="headerlink" title="区块链的一些概念"></a>区块链的一些概念</h2><h3 id="区块链三要素"><a href="#区块链三要素" class="headerlink" title="区块链三要素"></a>区块链三要素</h3><ul>
-<li>共享帐本</li>
-<li>共识算法<ol>
-<li>工作量证明机制（PoW,Proof of Work）</li>
-<li>股权证明机制（PoS，Proof of Stake）</li>
-<li>委托股权证明机制（DPos，Delegated Proof of Stake）</li>
-<li>瑞波共识机制(Ripple Consensus)</li>
-<li>实用拜占庭容错算法（Practical Byzantine Fault Tolerance）</li>
-<li>恒星共识协议(Stellar Consensus Protocol)</li>
-</ol>
-</li>
-<li>P2P网络</li>
-</ul>
-<h3 id="区块链类型"><a href="#区块链类型" class="headerlink" title="区块链类型"></a>区块链类型</h3><ul>
-<li>公有链</li>
-<li>私有链</li>
-<li>联盟链</li>
-</ul>
-<h3 id="区块链应用方式"><a href="#区块链应用方式" class="headerlink" title="区块链应用方式"></a>区块链应用方式</h3><ul>
-<li>密码学货币（Crypto Currency）</li>
-<li>分布式账本（DTL，Distributed Ledger Technology）</li>
-<li>智能合约（Smart Contract）</li>
-</ul>
-<h2 id="第一代区块链技术"><a href="#第一代区块链技术" class="headerlink" title="第一代区块链技术"></a>第一代区块链技术</h2><ul>
-<li>bitcoin（比特币）– 推荐<ul>
-<li>功能：密码学货币、几乎没有智能合约</li>
-<li>类型：公有链</li>
-<li>共识算法：工作量证明机制</li>
-<li>开发语言：c++</li>
-<li>状态：目前应用度高、扩展性差</li>
-</ul>
-</li>
-</ul>
-<h2 id="第二代区块链技术"><a href="#第二代区块链技术" class="headerlink" title="第二代区块链技术"></a>第二代区块链技术</h2><ul>
-<li>bitshares（比特股）<ul>
-<li>开发者：BM</li>
-<li>功能：分布式账本，受限的智-能合约</li>
-<li>类型：主要是公有链</li>
-<li>共识算法：委托授权的权益证明机制</li>
-<li>开发语言：c++</li>
-<li>状态：没有形成核心团队</li>
-</ul>
-</li>
-<li>ripple（瑞波币）<ul>
-<li>功能：分布式账本，目前不支持智能合约</li>
-<li>类型：主要是公有链</li>
-<li>共识机制：瑞波共识机制</li>
-<li>开发语言：c++</li>
-<li>状态：致力于与银行合作</li>
-</ul>
-</li>
-<li>HyperLedger（超级账本）<ul>
-<li>功能：分布式账本、智能合约</li>
-<li>类型：主要是联盟链</li>
-<li>共识机制：实用拜占庭容错算法</li>
-<li>开发语言：go、python</li>
-<li>状态：致力于与金融行业</li>
-</ul>
-</li>
-<li>ethereum（以太坊）– 推荐<ul>
-<li>开发者：V神</li>
-<li>功能：分布式账本、智能合约</li>
-<li>类型：主要是公有链</li>
-<li>共识算法：工作量证明机制，以后改成权益证明机制</li>
-<li>开发语言：go</li>
-<li>状态：目前应用度高、有明确规划<ul>
-<li>myetherwallet 钱包：<a href="https://www.myetherwallet.com" target="_blank" rel="noopener">https://www.myetherwallet.com</a></li>
-<li>eth交易历史查询：<a href="https://etherscan.io/" target="_blank" rel="noopener">https://etherscan.io/</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="第三代区块链技术"><a href="#第三代区块链技术" class="headerlink" title="第三代区块链技术"></a>第三代区块链技术</h2><ul>
-<li>EOS – 推荐<ul>
-<li>开发者：BM</li>
-<li>类型：公有链</li>
-<li>共识算法：DPOS，百万TPS</li>
-<li>特点：<ul>
-<li>可以跨链、角色权限管理</li>
-<li>交易免费、EOS代币保值（DAPP的计算资源由其拥有的EOS代币量决定）</li>
-<li>开发dapp简易</li>
-</ul>
-</li>
-<li>状态<ul>
-<li>目前还没有开发完成，但已在以太坊发币</li>
-<li>EOS官网：<a href="http://eos.io" target="_blank" rel="noopener">http://eos.io</a></li>
-<li>EOS代币发行历史查看：<a href="http://eoschart.com/?lang=zh" target="_blank" rel="noopener">http://eoschart.com/?lang=zh</a></li>
-</ul>
-</li>
-<li>购买方式<ol>
-<li>在加密货币平台上，如OTCBTC上用支付宝购买一些ETH，100rmb左右</li>
-<li>使用chrome浏览器，安装MetaMask，并注册帐号</li>
-<li>将从OTCBTC平台上购买的货币转移到MetaMask帐号</li>
-<li>在EOS官网众筹EOS币，到第二天取出EOS币，并转移到MetaMask帐号</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>IOTA</li>
-<li>Cardano</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2581,7 +2564,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2594,7 +2577,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
